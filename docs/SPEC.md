@@ -1,0 +1,173 @@
+# Forever Market Ledger: Spec
+
+A phone-first companion app for **World of Warcraft: Forever** (launched 2026-11-04). It tells one character what to farm, where, when and why, how materials prices are likely to move today, and what to buy, sell or hold. Everything is personalized to a character's class, level, faction, professions, gold budget and zone reach.
+
+This document is the hand-off from the prototype built in chat (Nov 18, 2026) to the agent pipeline. It describes what exists, the rules and data it runs on, the assumptions to revisit, and the work ahead.
+
+---
+
+## 1. Goals and non-goals
+
+**Goals**
+- Personalized, actionable suggestions for a single character, readable on a phone in under a minute.
+- Works with **no AI calls** for core features. Claude is optional (one "Ask Claude" button).
+- Market data comes from the player's own sources: manual prices now, an in-game addon and/or the Blizzard Game Data API later.
+- Realistic for the character: suggestions must fit their gold, level and reachable zones.
+
+**Non-goals**
+- Scraping third-party sites (Booty Bay Broker, Timesaver.gg). Tried and dropped: pagination, anti-bot blocks, terms risk, token cost per refresh.
+- Market manipulation advice: no buyouts, resets or cornering supply. Flips/resells stay small.
+- Per-refresh Claude calls for data.
+
+---
+
+## 2. Current state (prototype)
+
+`app/index.html`: one self-contained HTML file (~900 lines: CSS, data and JS inline). It was hosted as a claude.ai artifact, which provided:
+- `db` capability: per-user private document store (characters and prices sync across devices).
+- `sample` capability: the optional "Ask Claude" button.
+
+Both are optional at runtime. `window.claude` is absent outside claude.ai, so the app falls back to `localStorage` and the button reports Claude as unavailable. **Standalone hosting works today, minus sync** (see task T1).
+
+### Screens (bottom tabs)
+| Tab | What it shows |
+|---|---|
+| Today | **Conditions now** (only conditions that move this character's materials, one line each: effect + what to do), **Do this** (farm / list / hold / buy / train suggestions), **Your materials today** (% shift vs a normal day), optional Ask Claude plan |
+| Farm | Ranked zones with expandable **When / Where / Why** dossiers; per-gathering-profession node lists (skill color, zones, today's shift, gold/hr if priced); **Where to skin now** for skinners |
+| Prices | Manually entered prices with List now / Hold until… advice; search to add prices for any catalogued material |
+| Professions | Per profession: skill bar, training-cap warnings, current bracket's materials marked **Farm it** (with zones, incl. mine-and-smelt) or **Buy** (cheapest window this week) |
+| Session | 30 / 60 / 120 min plan: AH step, gathering loop with expected yield, profession skill-ups |
+
+Character sheet (header chip): name, class, level, region (US/EU), faction, Skyborne flag, AH gold budget (blank = level-based estimate), zone reach (+0..+5 levels), profession skills.
+
+---
+
+## 3. Architecture of the prototype (code sections in `app/index.html`)
+
+| Section | Responsibility |
+|---|---|
+| Reference data | `CLASSES`, `PROFS`, `GATHER` (node → skill req), `ZONES` (level range, faction, herbs, ores, flags), `STONE_OF`, `LEATHER_TIERS`, `SKIN_SPECIAL`, budget estimate, `reachZones`, `whereGather` |
+| Consumables / houses | `CONSUMABLES` (name, min level, class tag), `CONS_TAGS`, `HOUSES` (AH cut: faction 5%, neutral Blackwater 15%) |
+| Storage | `Store`: claude.ai `db` when available, `localStorage` cache always |
+| Materials catalog | `MATS` / `MAT`: ~135 materials with category and tier (1–6 by level bracket) |
+| Conditions engine | `RULES`, `ctxAt`, `shiftAt`, `windows` (best/worst 3-hour slots over the next N hours) |
+| Prices | `recordPrice`, `estimate` (see 4.2) |
+| Character helpers | `RANKS` (training caps), `PATHS` (crafting material brackets), `SMELT`, `GATHER_RATE`, `canGather`, `rankBlock` |
+| Suggestions | `gatherOptions`, `bestFarm`, `sellAdvice`, `needsFor`, `todaySuggestions`, `sessionPlan` |
+| Skinning spots | `SKIN_SPOTS`, `skinReq`, `skinPlan`, `skinSpots`, `skinLine` |
+| Zone dossiers | `continentOf`, `DENSITY`, `zoneDossier` (When/Where/Why) |
+| Rendering / sheets / actions / boot | Views `vToday`, `vFarm`, `vPrices`, `vSkills`, `vPlan`; sheets for materials and characters |
+
+---
+
+## 4. Rules
+
+### 4.1 Conditions engine (rule-based price shifts)
+Each rule: `when(ctx)` → applies; `hit(material, ctx)` → `{p: percent, why}`; `act` → what to do. Multipliers combine and clamp to 0.6–1.6.
+
+| Rule | When | Affects | Shift |
+|---|---|---|---|
+| Leveling front | always | tier = front tier / +1 / −1 / ≤−2 | +12% / +6% / −4% / −12% |
+| Endgame demand | day ≥ 21 | tier 6 | +10% |
+| Weekend | Fri 17:00 – Sun | raw materials | −7% |
+| Midweek | Tue–Thu | raw materials | +4% |
+| Raid reset prep | Mon 17:00 – Tue, day ≥ 14 | consumables, tier 6 | +10% |
+| Greenhouse supply | day ≥ 30 | herbs | −3% |
+| Prime time (sell mode) | 18:00–23:00 | all | +3% |
+| Quiet hours (buy mode) | 03:00–10:00 | all | −3% |
+
+`frontLevel(t) = min(60, 8 + 52·(1 − e^(−days/25)))`: estimate of where most players are leveling.
+
+### 4.2 Price estimate from manual entries
+Each entry is de-conditioned: `base_i = price_i / shift(t_i)`. Base = median of `base_i`. Estimate now = `base × shift(now)`. Old prices stay useful.
+Sell advice: hold if the best 3-hour window in the next 7 days beats now by > 5%, otherwise list now.
+
+### 4.3 Farming
+- Zone reachable if faction-appropriate (or contested), `zone.min ≤ level + reach`, and (Skyborne zone ⇒ Skyborne character).
+- Node gatherable if `skill ≥ req` and present in a reachable zone. Skinning tiers use beast-level ranges (Light 1–27, Medium 15–36, Heavy 25–46, Thick 35–63, Rugged 43–63) and require `tier.lo ≤ level + reach`.
+- Skill color (Classic): orange `< req+25`, yellow `< req+50`, green `< req+100`, grey beyond.
+- Skinning skill for beast level L: `L ≤ 10 → 1`, `L ≤ 20 → (L−10)·10`, else `5·L`. Beasts considered up to `level + 3`.
+- Zone score = Σ(skill-up weight·3 + log price·1.5 + today's shift) + skinning-spot bonus (orange +6 / yellow +3 / green +1; all mapped spots locked −4).
+- Gold/hr guide: herbs 35 nodes × 2.3, skins 25 × 1.5, ore 20 × 2.5 per hour, after AH cut.
+
+### 4.4 Budget and safety
+- Budget = entered gold, else estimate by level (L<10: 50s, <20: 4g, <30: 20g, <40: 60g, <50: 150g, <60: 300g, 60: 600g).
+- Buy suggestions stay within budget. The Claude prompt forbids manipulation and items over budget.
+
+---
+
+## 5. Data and sources
+
+| Data | Source | Confidence |
+|---|---|---|
+| Herb skill reqs, best zones per bracket, node counts | Wowhead (Forever) via kami-labs.fr Herbalism guide (checked Oct–Nov 2026) | Good |
+| Ore skill reqs, zones, node counts; Heavy Thorium (Hyjal, 300) | kami-labs.fr Mining guide (Wowhead Forever, ForeverChanges, ForeverDB); warcraft.wiki.gg "Forever mining techniques" | Good |
+| Skinning mechanics same as Classic | warcraft.wiki.gg "Forever skinning techniques" | Good |
+| Skinning spots (beasts, levels, subzones) | rankedboost.com Forever Skinning guide (**original-game spawns**, may differ in Forever) | Medium |
+| Leather beast-level ranges | Classic data (legacy-wow) | Medium |
+| New zones: Zephras Isle 1–12 (Skyborne start), Riverglades 35–45 contested, Shen'dralas 40–53 (sources conflict), Mount Hyjal 60 | warcraft.wiki.gg, icy-veins, exputer, skycoach | Good for levels; **nodes for Riverglades/Shen'dralas are guesses** (`est:true`) |
+| Crafting material paths (`PATHS`) | Classic leveling routes | Medium. Forever changed some recipe ranges (e.g. Leatherworking recipes grey ~25 points earlier) |
+| AH cut 5% faction / 15% neutral | conquestcapped.com (game client check, Nov 13 2026) | Good |
+| Condition percentages, raid reset day, leveling-front curve | **Author's rules of thumb** | Low; calibrate with real data |
+
+---
+
+## 6. Assumptions to revisit
+1. Raid reset is Tuesday for US realms (EU likely Wednesday; not handled).
+2. Leveling-front curve (τ = 25 days) is a guess.
+3. All condition percentages are heuristics.
+4. Skinning/herb/ore spots are Classic spawns; Forever changed Copper, Tin, Silver, Gold and Truesilver veins and may change others.
+5. Forever's new herbs (Wilted Peacebloom, Stunted Silverleaf, three endgame herbs) are not catalogued.
+6. Gather rates per hour are rough.
+7. Times use the device's local clock, not server time.
+
+---
+
+## 7. Backlog
+Each task has acceptance criteria. Suggested order: T1 → T2 → T3 → T4, then data tasks in parallel.
+
+**T1. Standalone mode** (GitHub Pages)
+- Hide the Ask Claude card when `window.claude` is absent.
+- Export / Import characters and prices as JSON (copy/paste box; file picker as a bonus, since it is blocked inside the claude.ai viewer).
+- ✅ App loads from `https://<user>.github.io/forever-market-ledger/` with no console errors; data survives reload; export → clear → import round-trips exactly.
+
+**T2. Split into modules and add tests**
+- `src/data/*` (zones, gather, skin spots, consumables, paths), `src/engine/*` (conditions, estimate, farm, skinning, suggestions), `src/ui/*`.
+- Unit tests for: `skinReq`, `skinPlan`, `whereGather`, `reachZones`, `shiftAt` (weekend/midweek/raid), `estimate` de-conditioning, `flip`/sell windows, `sessionPlan` allocation.
+- Visual check: Playwright screenshots at 412px wide for every tab (regression: the "Conditions now" squeeze bug).
+- ✅ Tests green in CI; built output is still a static site.
+
+**T3. Blizzard API price pipeline**
+- GitHub Actions hourly cron: OAuth client-credentials token → `dynamic-forever-{us,eu}` → `/data/wow/ruleset/{id}/auctions/` (trailing slash required) → each house `/data/wow/ruleset/{id}/auctions/{houseId}` → reduce to per-item `{min, p25, median, qty, listings}` → append to `data/prices/{region}/{house}/{yyyy-mm}.json`; roll hourly to daily after 7 days.
+- Item names via `static-forever-{region}` once, cached in `data/items.json`.
+- Secrets: `BNET_CLIENT_ID`, `BNET_CLIENT_SECRET` in repo secrets.
+- App reads these files; manual prices remain as overrides.
+- ✅ After 24h, the app shows real current prices and a 24-point history for tracked materials; conditions engine can be validated against observed weekday/weekend swings.
+
+**T4. Calibrate the conditions engine**
+- Use 2+ weeks of T3 data to fit weekday/hour/raid-reset effects per category and tier; replace hand percentages; keep the rule structure.
+- ✅ Each rule's percentage cites the measured effect and sample size.
+
+**T5. Lightweight in-game addon**
+- Records the player's own AH scans (and optionally bag contents) to SavedVariables; a small export string the app can paste in.
+- ✅ A scan in game becomes prices in the app with one paste.
+
+**T6. Data completeness**
+- Forever new herbs and their zones; Riverglades / Shen'dralas / Hyjal nodes and skinnable beasts (remove `est:true` when confirmed).
+- Skinning spots for Redridge, Stonetalon, Duskwood, Badlands, Swamp of Sorrows, Felwood, Silithus.
+- Herb and ore subzone hotspots (RankedBoost lists "most spots" per zone and bracket).
+- Forever crafting recipe ranges for `PATHS`.
+- ✅ Each new datum has a source in a comment or `docs/SOURCES.md`.
+
+**T7. Server time and region**
+- Use realm time zone and region-specific raid reset (US Tue / EU Wed).
+
+---
+
+## 8. Open questions (good `grill-me` material)
+1. Is sync across devices needed in the standalone version? (Options: none, a GitHub Gist, a tiny backend.)
+2. Faction house only, or also Blackwater (neutral, 15% cut) for buy/sell advice?
+3. Should the Blizzard pipeline track all items or only the catalogued materials (~135)? Storage vs usefulness.
+4. Addon scope: AH scans only, or also bags/bank and gathered-node logging (which would also fix the node data)?
+5. Does the app stay single-character focused, or compare characters (e.g. which alt should farm)?
+6. Keep the Ask Claude button at all once the rules are calibrated?
