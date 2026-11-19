@@ -4,7 +4,7 @@ Read `docs/SPEC.md` first. It describes the app, its rules, data sources, assump
 
 ## Ground rules
 - Core features must work with **no AI calls**. Claude is optional (the Ask Claude button).
-- No scraping third-party price sites. Price data comes from manual entry, the player's own addon, or the Blizzard Game Data API.
+- No scraping third-party price sites. Price data comes from manual entry, the player's own addon, or the Blizzard Game Data API. Booty Bay Broker's terms forbid automated collection: never script or browser-automate it. The one exception was T0, a one-time backfill through Forever AH's documented public API within its stated limits (see `docs/SOURCES.md`); ask before using any other site's API.
 - No market-manipulation advice (buyouts, resets, cornering). Suggestions must fit the character's budget, level and reachable zones.
 - Every new game datum (zones, nodes, beasts, recipe ranges) needs a source in a comment or `docs/SOURCES.md`. Mark guesses explicitly (e.g. `est: true`).
 - Mobile first: check every screen at 412px wide. A past bug squeezed a title to one letter per line in a two-column row.

@@ -1,0 +1,1224 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T00:34:43.016Z",
+  "name": "Vision Dust",
+  "forever_name": "Vision Dust",
+  "item_id": 11137,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T00:25:08Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-13T17:00:00Z",
+        "min_unit": 900,
+        "p10_unit": 999,
+        "median_unit": 1131,
+        "mean_unit": 1371,
+        "quantity": 9320,
+        "listings": 670
+      },
+      {
+        "ts": "2026-11-13T18:00:00Z",
+        "min_unit": 899,
+        "p10_unit": 995,
+        "median_unit": 1136,
+        "mean_unit": 1360,
+        "quantity": 9228,
+        "listings": 704
+      },
+      {
+        "ts": "2026-11-13T20:00:00Z",
+        "min_unit": 898,
+        "p10_unit": 994,
+        "median_unit": 1131,
+        "mean_unit": 1320,
+        "quantity": 11887,
+        "listings": 854
+      },
+      {
+        "ts": "2026-11-13T21:00:00Z",
+        "min_unit": 897,
+        "p10_unit": 997,
+        "median_unit": 1131,
+        "mean_unit": 1326,
+        "quantity": 11268,
+        "listings": 844
+      },
+      {
+        "ts": "2026-11-13T22:00:00Z",
+        "min_unit": 897,
+        "p10_unit": 995,
+        "median_unit": 1143,
+        "mean_unit": 1344,
+        "quantity": 10115,
+        "listings": 783
+      },
+      {
+        "ts": "2026-11-13T23:00:00Z",
+        "min_unit": 898,
+        "p10_unit": 998,
+        "median_unit": 1175,
+        "mean_unit": 1422,
+        "quantity": 9489,
+        "listings": 732
+      },
+      {
+        "ts": "2026-11-14T00:00:00Z",
+        "min_unit": 899,
+        "p10_unit": 980,
+        "median_unit": 1131,
+        "mean_unit": 1377,
+        "quantity": 9827,
+        "listings": 749
+      },
+      {
+        "ts": "2026-11-14T01:00:00Z",
+        "min_unit": 899,
+        "p10_unit": 995,
+        "median_unit": 1144,
+        "mean_unit": 1429,
+        "quantity": 8470,
+        "listings": 666
+      },
+      {
+        "ts": "2026-11-14T02:00:00Z",
+        "min_unit": 938,
+        "p10_unit": 1047,
+        "median_unit": 1141,
+        "mean_unit": 1438,
+        "quantity": 8168,
+        "listings": 660
+      },
+      {
+        "ts": "2026-11-14T03:00:00Z",
+        "min_unit": 850,
+        "p10_unit": 980,
+        "median_unit": 1117,
+        "mean_unit": 1287,
+        "quantity": 8314,
+        "listings": 638
+      },
+      {
+        "ts": "2026-11-14T04:00:00Z",
+        "min_unit": 940,
+        "p10_unit": 966,
+        "median_unit": 1108,
+        "mean_unit": 1288,
+        "quantity": 7717,
+        "listings": 615
+      },
+      {
+        "ts": "2026-11-14T05:00:00Z",
+        "min_unit": 836,
+        "p10_unit": 999,
+        "median_unit": 1131,
+        "mean_unit": 1271,
+        "quantity": 7576,
+        "listings": 662
+      },
+      {
+        "ts": "2026-11-14T06:00:00Z",
+        "min_unit": 949,
+        "p10_unit": 989,
+        "median_unit": 1108,
+        "mean_unit": 1230,
+        "quantity": 8489,
+        "listings": 674
+      },
+      {
+        "ts": "2026-11-14T07:00:00Z",
+        "min_unit": 890,
+        "p10_unit": 989,
+        "median_unit": 1089,
+        "mean_unit": 1131,
+        "quantity": 8478,
+        "listings": 656
+      },
+      {
+        "ts": "2026-11-14T08:00:00Z",
+        "min_unit": 949,
+        "p10_unit": 989,
+        "median_unit": 1088,
+        "mean_unit": 1124,
+        "quantity": 8974,
+        "listings": 654
+      },
+      {
+        "ts": "2026-11-14T09:00:00Z",
+        "min_unit": 949,
+        "p10_unit": 989,
+        "median_unit": 1098,
+        "mean_unit": 1140,
+        "quantity": 7396,
+        "listings": 580
+      },
+      {
+        "ts": "2026-11-14T10:00:00Z",
+        "min_unit": 944,
+        "p10_unit": 983,
+        "median_unit": 1090,
+        "mean_unit": 1126,
+        "quantity": 7289,
+        "listings": 612
+      },
+      {
+        "ts": "2026-11-14T11:00:00Z",
+        "min_unit": 944,
+        "p10_unit": 985,
+        "median_unit": 1049,
+        "mean_unit": 1116,
+        "quantity": 6466,
+        "listings": 501
+      },
+      {
+        "ts": "2026-11-14T12:00:00Z",
+        "min_unit": 900,
+        "p10_unit": 983,
+        "median_unit": 1025,
+        "mean_unit": 1137,
+        "quantity": 7533,
+        "listings": 500
+      },
+      {
+        "ts": "2026-11-14T13:00:00Z",
+        "min_unit": 880,
+        "p10_unit": 983,
+        "median_unit": 1020,
+        "mean_unit": 1115,
+        "quantity": 8482,
+        "listings": 588
+      },
+      {
+        "ts": "2026-11-14T14:00:00Z",
+        "min_unit": 949,
+        "p10_unit": 983,
+        "median_unit": 1019,
+        "mean_unit": 1212,
+        "quantity": 7506,
+        "listings": 511
+      },
+      {
+        "ts": "2026-11-14T15:00:00Z",
+        "min_unit": 890,
+        "p10_unit": 969,
+        "median_unit": 1019,
+        "mean_unit": 1223,
+        "quantity": 7859,
+        "listings": 532
+      },
+      {
+        "ts": "2026-11-14T16:00:00Z",
+        "min_unit": 100,
+        "p10_unit": 963,
+        "median_unit": 1000,
+        "mean_unit": 1286,
+        "quantity": 7568,
+        "listings": 499
+      },
+      {
+        "ts": "2026-11-14T17:00:00Z",
+        "min_unit": 940,
+        "p10_unit": 981,
+        "median_unit": 1018,
+        "mean_unit": 1475,
+        "quantity": 6350,
+        "listings": 448
+      },
+      {
+        "ts": "2026-11-14T18:00:00Z",
+        "min_unit": 940,
+        "p10_unit": 980,
+        "median_unit": 1020,
+        "mean_unit": 1587,
+        "quantity": 5474,
+        "listings": 389
+      },
+      {
+        "ts": "2026-11-14T19:00:00Z",
+        "min_unit": 768,
+        "p10_unit": 983,
+        "median_unit": 1021,
+        "mean_unit": 1622,
+        "quantity": 6418,
+        "listings": 426
+      },
+      {
+        "ts": "2026-11-14T20:00:00Z",
+        "min_unit": 914,
+        "p10_unit": 969,
+        "median_unit": 1040,
+        "mean_unit": 1801,
+        "quantity": 5913,
+        "listings": 404
+      },
+      {
+        "ts": "2026-11-14T21:00:00Z",
+        "min_unit": 900,
+        "p10_unit": 952,
+        "median_unit": 1000,
+        "mean_unit": 1589,
+        "quantity": 7300,
+        "listings": 467
+      },
+      {
+        "ts": "2026-11-14T22:00:00Z",
+        "min_unit": 900,
+        "p10_unit": 969,
+        "median_unit": 1000,
+        "mean_unit": 1840,
+        "quantity": 7150,
+        "listings": 482
+      },
+      {
+        "ts": "2026-11-14T23:00:00Z",
+        "min_unit": 899,
+        "p10_unit": 923,
+        "median_unit": 1018,
+        "mean_unit": 1910,
+        "quantity": 7380,
+        "listings": 515
+      },
+      {
+        "ts": "2026-11-15T00:00:00Z",
+        "min_unit": 898,
+        "p10_unit": 909,
+        "median_unit": 1050,
+        "mean_unit": 1668,
+        "quantity": 7292,
+        "listings": 535
+      },
+      {
+        "ts": "2026-11-15T01:00:00Z",
+        "min_unit": 850,
+        "p10_unit": 921,
+        "median_unit": 1021,
+        "mean_unit": 1510,
+        "quantity": 9652,
+        "listings": 626
+      },
+      {
+        "ts": "2026-11-15T02:00:00Z",
+        "min_unit": 760,
+        "p10_unit": 799,
+        "median_unit": 996,
+        "mean_unit": 1426,
+        "quantity": 10821,
+        "listings": 682
+      },
+      {
+        "ts": "2026-11-15T03:00:00Z",
+        "min_unit": 798,
+        "p10_unit": 858,
+        "median_unit": 1018,
+        "mean_unit": 1538,
+        "quantity": 8000,
+        "listings": 613
+      },
+      {
+        "ts": "2026-11-15T04:00:00Z",
+        "min_unit": 799,
+        "p10_unit": 957,
+        "median_unit": 1020,
+        "mean_unit": 1600,
+        "quantity": 7219,
+        "listings": 622
+      },
+      {
+        "ts": "2026-11-15T05:00:00Z",
+        "min_unit": 869,
+        "p10_unit": 958,
+        "median_unit": 1098,
+        "mean_unit": 2471,
+        "quantity": 6506,
+        "listings": 614
+      },
+      {
+        "ts": "2026-11-15T06:00:00Z",
+        "min_unit": 900,
+        "p10_unit": 983,
+        "median_unit": 1490,
+        "mean_unit": 2403,
+        "quantity": 8346,
+        "listings": 675
+      },
+      {
+        "ts": "2026-11-15T07:00:00Z",
+        "min_unit": 900,
+        "p10_unit": 1010,
+        "median_unit": 1485,
+        "mean_unit": 2150,
+        "quantity": 12135,
+        "listings": 912
+      },
+      {
+        "ts": "2026-11-15T08:00:00Z",
+        "min_unit": 900,
+        "p10_unit": 989,
+        "median_unit": 1380,
+        "mean_unit": 2033,
+        "quantity": 12445,
+        "listings": 928
+      },
+      {
+        "ts": "2026-11-15T09:00:00Z",
+        "min_unit": 899,
+        "p10_unit": 1000,
+        "median_unit": 1399,
+        "mean_unit": 2078,
+        "quantity": 11577,
+        "listings": 824
+      },
+      {
+        "ts": "2026-11-15T10:00:00Z",
+        "min_unit": 771,
+        "p10_unit": 979,
+        "median_unit": 1297,
+        "mean_unit": 1921,
+        "quantity": 13450,
+        "listings": 855
+      },
+      {
+        "ts": "2026-11-15T11:00:00Z",
+        "min_unit": 900,
+        "p10_unit": 948,
+        "median_unit": 1244,
+        "mean_unit": 1836,
+        "quantity": 15097,
+        "listings": 910
+      },
+      {
+        "ts": "2026-11-15T12:00:00Z",
+        "min_unit": 900,
+        "p10_unit": 970,
+        "median_unit": 1222,
+        "mean_unit": 1812,
+        "quantity": 14874,
+        "listings": 903
+      },
+      {
+        "ts": "2026-11-15T13:00:00Z",
+        "min_unit": 850,
+        "p10_unit": 970,
+        "median_unit": 1222,
+        "mean_unit": 1456,
+        "quantity": 13104,
+        "listings": 894
+      },
+      {
+        "ts": "2026-11-15T14:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 949,
+        "median_unit": 1200,
+        "mean_unit": 1434,
+        "quantity": 11801,
+        "listings": 807
+      },
+      {
+        "ts": "2026-11-15T15:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 945,
+        "median_unit": 1095,
+        "mean_unit": 1312,
+        "quantity": 11772,
+        "listings": 771
+      },
+      {
+        "ts": "2026-11-15T16:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 930,
+        "median_unit": 1048,
+        "mean_unit": 1307,
+        "quantity": 11628,
+        "listings": 754
+      },
+      {
+        "ts": "2026-11-15T17:00:00Z",
+        "min_unit": 700,
+        "p10_unit": 900,
+        "median_unit": 1000,
+        "mean_unit": 1308,
+        "quantity": 10536,
+        "listings": 697
+      },
+      {
+        "ts": "2026-11-15T18:00:00Z",
+        "min_unit": 690,
+        "p10_unit": 899,
+        "median_unit": 991,
+        "mean_unit": 1293,
+        "quantity": 10942,
+        "listings": 740
+      },
+      {
+        "ts": "2026-11-15T19:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 947,
+        "median_unit": 1048,
+        "mean_unit": 1331,
+        "quantity": 8870,
+        "listings": 632
+      },
+      {
+        "ts": "2026-11-15T20:00:00Z",
+        "min_unit": 749,
+        "p10_unit": 930,
+        "median_unit": 1048,
+        "mean_unit": 1330,
+        "quantity": 8714,
+        "listings": 610
+      },
+      {
+        "ts": "2026-11-15T21:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 929,
+        "median_unit": 990,
+        "mean_unit": 1283,
+        "quantity": 9836,
+        "listings": 630
+      },
+      {
+        "ts": "2026-11-15T22:00:00Z",
+        "min_unit": 746,
+        "p10_unit": 899,
+        "median_unit": 991,
+        "mean_unit": 1264,
+        "quantity": 9398,
+        "listings": 621
+      },
+      {
+        "ts": "2026-11-15T23:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 930,
+        "median_unit": 1244,
+        "mean_unit": 1376,
+        "quantity": 6826,
+        "listings": 498
+      },
+      {
+        "ts": "2026-11-16T00:00:00Z",
+        "min_unit": 888,
+        "p10_unit": 968,
+        "median_unit": 1250,
+        "mean_unit": 1334,
+        "quantity": 11068,
+        "listings": 671
+      },
+      {
+        "ts": "2026-11-16T01:00:00Z",
+        "min_unit": 899,
+        "p10_unit": 924,
+        "median_unit": 1168,
+        "mean_unit": 1272,
+        "quantity": 13541,
+        "listings": 783
+      },
+      {
+        "ts": "2026-11-16T02:00:00Z",
+        "min_unit": 898,
+        "p10_unit": 924,
+        "median_unit": 1150,
+        "mean_unit": 1252,
+        "quantity": 13308,
+        "listings": 801
+      },
+      {
+        "ts": "2026-11-16T03:00:00Z",
+        "min_unit": 866,
+        "p10_unit": 923,
+        "median_unit": 1095,
+        "mean_unit": 1241,
+        "quantity": 11302,
+        "listings": 776
+      },
+      {
+        "ts": "2026-11-16T04:00:00Z",
+        "min_unit": 885,
+        "p10_unit": 923,
+        "median_unit": 1121,
+        "mean_unit": 1248,
+        "quantity": 12571,
+        "listings": 836
+      },
+      {
+        "ts": "2026-11-16T05:00:00Z",
+        "min_unit": 840,
+        "p10_unit": 980,
+        "median_unit": 1120,
+        "mean_unit": 1240,
+        "quantity": 12979,
+        "listings": 852
+      },
+      {
+        "ts": "2026-11-16T06:00:00Z",
+        "min_unit": 942,
+        "p10_unit": 968,
+        "median_unit": 1095,
+        "mean_unit": 1225,
+        "quantity": 13416,
+        "listings": 849
+      },
+      {
+        "ts": "2026-11-16T07:00:00Z",
+        "min_unit": 935,
+        "p10_unit": 949,
+        "median_unit": 1095,
+        "mean_unit": 1209,
+        "quantity": 13883,
+        "listings": 831
+      },
+      {
+        "ts": "2026-11-16T08:00:00Z",
+        "min_unit": 922,
+        "p10_unit": 968,
+        "median_unit": 1065,
+        "mean_unit": 1204,
+        "quantity": 11527,
+        "listings": 721
+      },
+      {
+        "ts": "2026-11-16T09:00:00Z",
+        "min_unit": 915,
+        "p10_unit": 943,
+        "median_unit": 1026,
+        "mean_unit": 1184,
+        "quantity": 10729,
+        "listings": 674
+      },
+      {
+        "ts": "2026-11-16T10:00:00Z",
+        "min_unit": 815,
+        "p10_unit": 943,
+        "median_unit": 1025,
+        "mean_unit": 1166,
+        "quantity": 10748,
+        "listings": 663
+      },
+      {
+        "ts": "2026-11-16T11:00:00Z",
+        "min_unit": 875,
+        "p10_unit": 921,
+        "median_unit": 1024,
+        "mean_unit": 1172,
+        "quantity": 9640,
+        "listings": 620
+      },
+      {
+        "ts": "2026-11-16T12:00:00Z",
+        "min_unit": 895,
+        "p10_unit": 934,
+        "median_unit": 1025,
+        "mean_unit": 1171,
+        "quantity": 8405,
+        "listings": 554
+      },
+      {
+        "ts": "2026-11-16T13:00:00Z",
+        "min_unit": 851,
+        "p10_unit": 895,
+        "median_unit": 1019,
+        "mean_unit": 1132,
+        "quantity": 9697,
+        "listings": 573
+      },
+      {
+        "ts": "2026-11-16T14:00:00Z",
+        "min_unit": 895,
+        "p10_unit": 909,
+        "median_unit": 1026,
+        "mean_unit": 1118,
+        "quantity": 8844,
+        "listings": 520
+      },
+      {
+        "ts": "2026-11-16T15:00:00Z",
+        "min_unit": 850,
+        "p10_unit": 915,
+        "median_unit": 999,
+        "mean_unit": 1094,
+        "quantity": 8000,
+        "listings": 523
+      },
+      {
+        "ts": "2026-11-16T16:00:00Z",
+        "min_unit": 850,
+        "p10_unit": 900,
+        "median_unit": 988,
+        "mean_unit": 1095,
+        "quantity": 9864,
+        "listings": 559
+      },
+      {
+        "ts": "2026-11-16T17:00:00Z",
+        "min_unit": 867,
+        "p10_unit": 900,
+        "median_unit": 975,
+        "mean_unit": 1080,
+        "quantity": 10842,
+        "listings": 650
+      },
+      {
+        "ts": "2026-11-16T18:00:00Z",
+        "min_unit": 880,
+        "p10_unit": 940,
+        "median_unit": 969,
+        "mean_unit": 1076,
+        "quantity": 10586,
+        "listings": 647
+      },
+      {
+        "ts": "2026-11-16T19:00:00Z",
+        "min_unit": 866,
+        "p10_unit": 900,
+        "median_unit": 975,
+        "mean_unit": 1079,
+        "quantity": 9450,
+        "listings": 648
+      },
+      {
+        "ts": "2026-11-16T20:00:00Z",
+        "min_unit": 885,
+        "p10_unit": 900,
+        "median_unit": 990,
+        "mean_unit": 1107,
+        "quantity": 8441,
+        "listings": 566
+      },
+      {
+        "ts": "2026-11-16T21:00:00Z",
+        "min_unit": 888,
+        "p10_unit": 937,
+        "median_unit": 987,
+        "mean_unit": 1109,
+        "quantity": 8895,
+        "listings": 615
+      },
+      {
+        "ts": "2026-11-16T22:00:00Z",
+        "min_unit": 860,
+        "p10_unit": 888,
+        "median_unit": 988,
+        "mean_unit": 1110,
+        "quantity": 8387,
+        "listings": 591
+      },
+      {
+        "ts": "2026-11-16T23:00:00Z",
+        "min_unit": 800,
+        "p10_unit": 874,
+        "median_unit": 969,
+        "mean_unit": 1081,
+        "quantity": 9381,
+        "listings": 677
+      },
+      {
+        "ts": "2026-11-17T00:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 870,
+        "median_unit": 965,
+        "mean_unit": 1076,
+        "quantity": 9153,
+        "listings": 664
+      },
+      {
+        "ts": "2026-11-17T01:00:00Z",
+        "min_unit": 850,
+        "p10_unit": 875,
+        "median_unit": 987,
+        "mean_unit": 1095,
+        "quantity": 8246,
+        "listings": 611
+      },
+      {
+        "ts": "2026-11-17T02:00:00Z",
+        "min_unit": 873,
+        "p10_unit": 888,
+        "median_unit": 965,
+        "mean_unit": 1104,
+        "quantity": 8598,
+        "listings": 578
+      },
+      {
+        "ts": "2026-11-17T03:00:00Z",
+        "min_unit": 773,
+        "p10_unit": 888,
+        "median_unit": 967,
+        "mean_unit": 1097,
+        "quantity": 9682,
+        "listings": 613
+      },
+      {
+        "ts": "2026-11-17T04:00:00Z",
+        "min_unit": 844,
+        "p10_unit": 884,
+        "median_unit": 968,
+        "mean_unit": 1077,
+        "quantity": 9928,
+        "listings": 604
+      },
+      {
+        "ts": "2026-11-17T05:00:00Z",
+        "min_unit": 868,
+        "p10_unit": 875,
+        "median_unit": 950,
+        "mean_unit": 1046,
+        "quantity": 11426,
+        "listings": 653
+      },
+      {
+        "ts": "2026-11-17T06:00:00Z",
+        "min_unit": 850,
+        "p10_unit": 868,
+        "median_unit": 950,
+        "mean_unit": 1157,
+        "quantity": 10142,
+        "listings": 559
+      },
+      {
+        "ts": "2026-11-17T07:00:00Z",
+        "min_unit": 845,
+        "p10_unit": 887,
+        "median_unit": 950,
+        "mean_unit": 1262,
+        "quantity": 10457,
+        "listings": 670
+      },
+      {
+        "ts": "2026-11-17T08:00:00Z",
+        "min_unit": 865,
+        "p10_unit": 913,
+        "median_unit": 968,
+        "mean_unit": 1373,
+        "quantity": 9083,
+        "listings": 658
+      },
+      {
+        "ts": "2026-11-17T09:00:00Z",
+        "min_unit": 830,
+        "p10_unit": 920,
+        "median_unit": 968,
+        "mean_unit": 1400,
+        "quantity": 8630,
+        "listings": 621
+      },
+      {
+        "ts": "2026-11-17T10:00:00Z",
+        "min_unit": 800,
+        "p10_unit": 925,
+        "median_unit": 968,
+        "mean_unit": 1368,
+        "quantity": 8434,
+        "listings": 575
+      },
+      {
+        "ts": "2026-11-17T11:00:00Z",
+        "min_unit": 800,
+        "p10_unit": 920,
+        "median_unit": 967,
+        "mean_unit": 1364,
+        "quantity": 8049,
+        "listings": 551
+      },
+      {
+        "ts": "2026-11-17T12:00:00Z",
+        "min_unit": 800,
+        "p10_unit": 900,
+        "median_unit": 950,
+        "mean_unit": 1355,
+        "quantity": 8238,
+        "listings": 537
+      },
+      {
+        "ts": "2026-11-17T13:00:00Z",
+        "min_unit": 881,
+        "p10_unit": 900,
+        "median_unit": 946,
+        "mean_unit": 1299,
+        "quantity": 9109,
+        "listings": 564
+      },
+      {
+        "ts": "2026-11-17T14:00:00Z",
+        "min_unit": 799,
+        "p10_unit": 885,
+        "median_unit": 939,
+        "mean_unit": 1216,
+        "quantity": 9056,
+        "listings": 531
+      },
+      {
+        "ts": "2026-11-17T16:00:00Z",
+        "min_unit": 797,
+        "p10_unit": 846,
+        "median_unit": 930,
+        "mean_unit": 1054,
+        "quantity": 12707,
+        "listings": 634
+      },
+      {
+        "ts": "2026-11-17T17:00:00Z",
+        "min_unit": 797,
+        "p10_unit": 848,
+        "median_unit": 933,
+        "mean_unit": 1098,
+        "quantity": 10692,
+        "listings": 543
+      },
+      {
+        "ts": "2026-11-17T18:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 846,
+        "median_unit": 933,
+        "mean_unit": 1071,
+        "quantity": 11822,
+        "listings": 661
+      },
+      {
+        "ts": "2026-11-17T19:00:00Z",
+        "min_unit": 795,
+        "p10_unit": 846,
+        "median_unit": 933,
+        "mean_unit": 1077,
+        "quantity": 9920,
+        "listings": 589
+      },
+      {
+        "ts": "2026-11-17T20:00:00Z",
+        "min_unit": 795,
+        "p10_unit": 885,
+        "median_unit": 930,
+        "mean_unit": 1119,
+        "quantity": 9682,
+        "listings": 655
+      },
+      {
+        "ts": "2026-11-17T21:00:00Z",
+        "min_unit": 798,
+        "p10_unit": 848,
+        "median_unit": 925,
+        "mean_unit": 1102,
+        "quantity": 10168,
+        "listings": 676
+      },
+      {
+        "ts": "2026-11-17T22:00:00Z",
+        "min_unit": 797,
+        "p10_unit": 860,
+        "median_unit": 938,
+        "mean_unit": 1181,
+        "quantity": 7867,
+        "listings": 506
+      },
+      {
+        "ts": "2026-11-17T23:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 891,
+        "median_unit": 1445,
+        "mean_unit": 1548,
+        "quantity": 9025,
+        "listings": 597
+      },
+      {
+        "ts": "2026-11-18T00:00:00Z",
+        "min_unit": 799,
+        "p10_unit": 925,
+        "median_unit": 1261,
+        "mean_unit": 1436,
+        "quantity": 14646,
+        "listings": 846
+      },
+      {
+        "ts": "2026-11-18T01:00:00Z",
+        "min_unit": 798,
+        "p10_unit": 925,
+        "median_unit": 1245,
+        "mean_unit": 1486,
+        "quantity": 13704,
+        "listings": 859
+      },
+      {
+        "ts": "2026-11-18T02:00:00Z",
+        "min_unit": 799,
+        "p10_unit": 950,
+        "median_unit": 1280,
+        "mean_unit": 1541,
+        "quantity": 15784,
+        "listings": 1019
+      },
+      {
+        "ts": "2026-11-18T03:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 990,
+        "median_unit": 1268,
+        "mean_unit": 1491,
+        "quantity": 16334,
+        "listings": 1040
+      },
+      {
+        "ts": "2026-11-18T04:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 970,
+        "median_unit": 1199,
+        "mean_unit": 1425,
+        "quantity": 16463,
+        "listings": 1115
+      },
+      {
+        "ts": "2026-11-18T05:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 962,
+        "median_unit": 1155,
+        "mean_unit": 1388,
+        "quantity": 18279,
+        "listings": 1200
+      },
+      {
+        "ts": "2026-11-18T06:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 961,
+        "median_unit": 1199,
+        "mean_unit": 1420,
+        "quantity": 19047,
+        "listings": 1287
+      },
+      {
+        "ts": "2026-11-18T07:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 969,
+        "median_unit": 1188,
+        "mean_unit": 1383,
+        "quantity": 18333,
+        "listings": 1232
+      },
+      {
+        "ts": "2026-11-18T08:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 967,
+        "median_unit": 1165,
+        "mean_unit": 1346,
+        "quantity": 18023,
+        "listings": 1131
+      },
+      {
+        "ts": "2026-11-18T09:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 958,
+        "median_unit": 1101,
+        "mean_unit": 1311,
+        "quantity": 18735,
+        "listings": 1123
+      },
+      {
+        "ts": "2026-11-18T10:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 949,
+        "median_unit": 1089,
+        "mean_unit": 1294,
+        "quantity": 17573,
+        "listings": 957
+      },
+      {
+        "ts": "2026-11-18T11:00:00Z",
+        "min_unit": 216,
+        "p10_unit": 948,
+        "median_unit": 1063,
+        "mean_unit": 1284,
+        "quantity": 15798,
+        "listings": 884
+      },
+      {
+        "ts": "2026-11-18T12:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 929,
+        "median_unit": 1088,
+        "mean_unit": 1290,
+        "quantity": 14906,
+        "listings": 843
+      },
+      {
+        "ts": "2026-11-18T13:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 914,
+        "median_unit": 1129,
+        "mean_unit": 1312,
+        "quantity": 12900,
+        "listings": 700
+      },
+      {
+        "ts": "2026-11-18T14:00:00Z",
+        "min_unit": 719,
+        "p10_unit": 924,
+        "median_unit": 1100,
+        "mean_unit": 1264,
+        "quantity": 13611,
+        "listings": 695
+      },
+      {
+        "ts": "2026-11-18T15:00:00Z",
+        "min_unit": 714,
+        "p10_unit": 923,
+        "median_unit": 1096,
+        "mean_unit": 1246,
+        "quantity": 14477,
+        "listings": 739
+      },
+      {
+        "ts": "2026-11-18T16:00:00Z",
+        "min_unit": 714,
+        "p10_unit": 910,
+        "median_unit": 1050,
+        "mean_unit": 1254,
+        "quantity": 12743,
+        "listings": 709
+      },
+      {
+        "ts": "2026-11-18T17:00:00Z",
+        "min_unit": 700,
+        "p10_unit": 921,
+        "median_unit": 1020,
+        "mean_unit": 1237,
+        "quantity": 12614,
+        "listings": 685
+      },
+      {
+        "ts": "2026-11-18T18:00:00Z",
+        "min_unit": 714,
+        "p10_unit": 919,
+        "median_unit": 1018,
+        "mean_unit": 1217,
+        "quantity": 14309,
+        "listings": 774
+      },
+      {
+        "ts": "2026-11-18T19:00:00Z",
+        "min_unit": 714,
+        "p10_unit": 899,
+        "median_unit": 1016,
+        "mean_unit": 1205,
+        "quantity": 14129,
+        "listings": 739
+      },
+      {
+        "ts": "2026-11-18T20:00:00Z",
+        "min_unit": 714,
+        "p10_unit": 899,
+        "median_unit": 1015,
+        "mean_unit": 1273,
+        "quantity": 14686,
+        "listings": 747
+      },
+      {
+        "ts": "2026-11-18T21:00:00Z",
+        "min_unit": 714,
+        "p10_unit": 899,
+        "median_unit": 1017,
+        "mean_unit": 1327,
+        "quantity": 15576,
+        "listings": 791
+      },
+      {
+        "ts": "2026-11-18T22:00:00Z",
+        "min_unit": 714,
+        "p10_unit": 895,
+        "median_unit": 1014,
+        "mean_unit": 1319,
+        "quantity": 15274,
+        "listings": 830
+      },
+      {
+        "ts": "2026-11-18T23:00:00Z",
+        "min_unit": 713,
+        "p10_unit": 899,
+        "median_unit": 1014,
+        "mean_unit": 1281,
+        "quantity": 13908,
+        "listings": 741
+      },
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 848,
+        "p10_unit": 890,
+        "median_unit": 1005,
+        "mean_unit": 1381,
+        "quantity": 16998,
+        "listings": 766
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-13T00:00:00Z",
+        "min_unit": 897,
+        "p10_unit": 996,
+        "median_unit": 1141,
+        "mean_unit": 1357,
+        "quantity": 10218,
+        "listings": 765
+      },
+      {
+        "ts": "2026-11-14T00:00:00Z",
+        "min_unit": 100,
+        "p10_unit": 980,
+        "median_unit": 1062,
+        "mean_unit": 1365,
+        "quantity": 7587,
+        "listings": 560
+      },
+      {
+        "ts": "2026-11-15T00:00:00Z",
+        "min_unit": 690,
+        "p10_unit": 938,
+        "median_unit": 1150,
+        "mean_unit": 1631,
+        "quantity": 10452,
+        "listings": 723
+      },
+      {
+        "ts": "2026-11-16T00:00:00Z",
+        "min_unit": 800,
+        "p10_unit": 926,
+        "median_unit": 1048,
+        "mean_unit": 1167,
+        "quantity": 10646,
+        "listings": 675
+      },
+      {
+        "ts": "2026-11-17T00:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 881,
+        "median_unit": 973,
+        "mean_unit": 1197,
+        "quantity": 9570,
+        "listings": 602
+      },
+      {
+        "ts": "2026-11-18T00:00:00Z",
+        "min_unit": 216,
+        "p10_unit": 934,
+        "median_unit": 1116,
+        "mean_unit": 1335,
+        "quantity": 15494,
+        "listings": 904
+      },
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 848,
+        "p10_unit": 890,
+        "median_unit": 1005,
+        "mean_unit": 1381,
+        "quantity": 16998,
+        "listings": 766
+      }
+    ]
+  }
+}

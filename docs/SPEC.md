@@ -15,7 +15,7 @@ This document is the hand-off from the prototype built in chat (Nov 18, 2026) to
 - Realistic for the character: suggestions must fit their gold, level and reachable zones.
 
 **Non-goals**
-- Scraping third-party sites (Booty Bay Broker, Timesaver.gg). Tried and dropped: pagination, anti-bot blocks, terms risk, token cost per refresh.
+- Scraping third-party sites (Booty Bay Broker, Timesaver.gg). Tried and dropped: pagination, anti-bot blocks, terms risk, token cost per refresh. Booty Bay Broker's Terms of Service (v1.22, Nov 15 2026, section 4) forbid automated collection outright. A site's own documented public API used within its stated limits is not scraping (see T0).
 - Market manipulation advice: no buyouts, resets or cornering supply. Flips/resells stay small.
 - Per-refresh Claude calls for data.
 
@@ -124,7 +124,13 @@ Sell advice: hold if the best 3-hour window in the next 7 days beats now by > 5%
 ---
 
 ## 7. Backlog
-Each task has acceptance criteria. Suggested order: T1 → T2 → T3 → T4, then data tasks in parallel.
+Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → T4, then data tasks in parallel.
+
+**T0. One-time price history backfill** (done Nov 18, 2026)
+- `scripts/backfill-forever-ah.mjs` pulled hourly and daily history for the catalogued materials from Forever AH's free public API (US, "All Auction Houses" view, ~1 request/second as the API asks). Raw files in `data/backfill/forever-ah/`, each tagged `source: "forever-ah"`.
+- Coverage: all 136 catalogued materials; daily from Nov 13, 2026, hourly from Nov 13 17:00 UTC (126 hours to Nov 19 00:00). Nov 4–12 is not available from any source that permits collection; T4 treats launch week as missing.
+- Forever renamed four catalogued elixirs (same item IDs): Lion's Strength → Elixir of Minor Strength (2454), Ogre's Strength → Elixir of Ogre Strength (3391), Giants → Elixir of Greater Strength (9206), Superior Defense → Elixir of Greater Defense (13445). Fix the catalog names in T6.
+- After T3 exists, convert these files to T3's format so T4 has history from Nov 13.
 
 **T1. Standalone mode** (GitHub Pages)
 - Hide the Ask Claude card when `window.claude` is absent.
