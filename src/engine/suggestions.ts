@@ -12,6 +12,7 @@ import { skinPlan } from "./skinning";
 import { andList, pct, plainMoney, whenTxt } from "./util";
 import type { Character, Items } from "./types";
 import { apiRow, homeSeries, type Market } from "./market";
+import { processAdviceFrom } from "./process";
 
 export type SugCtx = { now: number; items: Items; toggles: Toggles; market?: Market | null };
 const apiCtx=(c: Character,x: SugCtx)=>({market:x.market??null,character:c});
@@ -58,13 +59,17 @@ export function bestFarm(c: Character,x: SugCtx): { top: any; list: any[]; opts:
 }
 
 
-export function sellAdvice(c: Character,x: SugCtx): any[]{
-  const tg=x.toggles;const res=[];
-  // what you priced, plus what you gather that has an API price (what you're likely holding)
+// What the character holds: what you priced, plus what you gather that has an API price
+export function heldNames(c: Character,x: SugCtx): string[]{
   const series=homeSeries(c);
   const gathered=x.market&&series?gatherOptions(c,x).map(o=>o.name).filter(n=>apiRow(n,series,x.market as Market)):[];
-  const names=[...new Set([...Object.values(x.items).map(i=>i.name),...gathered])];
-  for(const n of names){const m=MAT[n]||{name:n,cat:"Other",tier:3};const e=estimate(n,x.items,tg,x.now,apiCtx(c,x));if(!e)continue;
+  return [...new Set([...Object.values(x.items).map(i=>i.name),...gathered])];
+}
+// Process or sell (T8): the best route worth processing for each material held
+export function processAdvice(c: Character,x: SugCtx){return processAdviceFrom(heldNames(c,x),c,x)}
+export function sellAdvice(c: Character,x: SugCtx): any[]{
+  const tg=x.toggles;const res=[];
+  for(const n of heldNames(c,x)){const m=MAT[n]||{name:n,cat:"Other",tier:3};const e=estimate(n,x.items,tg,x.now,apiCtx(c,x));if(!e)continue;
     const w=windows(m,tg,"sell",168,x.now);const gain=w.best.s/w.now-1;
     res.push({name:n,est:e,now:w.now,best:w.best,gain,action:gain>0.05?"hold":"list"});}
   return res.sort((a,b)=>b.gain-a.gain);
