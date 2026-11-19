@@ -264,6 +264,8 @@ function ago(t){const m=Math.round((Date.now()-t)/60000);if(m<60)return m+"m ago
 function toast(msg){const t=$("#toast");t.textContent=msg;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",3200)}
 const median=a=>{const b=a.filter(x=>x!=null&&isFinite(x)).sort((x,y)=>x-y);if(!b.length)return null;const m=b.length>>1;return b.length%2?b[m]:(b[m-1]+b[m])/2};
 const uid8=()=>Math.random().toString(36).slice(2,10);
+// True only inside claude.ai, where the optional Ask Claude call and private sync exist
+const inClaude=()=>!!(window.claude&&typeof window.claude.use==="function");
 
 /* ============ Storage: private per-viewer db, local cache as fallback ============ */
 const Store={db:null,uid:null,mode:"local",q:{},
@@ -708,11 +710,11 @@ function vToday(c){
     <h2>Your materials today</h2>
     <p class="small muted" style="margin:0">How today's conditions push prices for what you gather or need, compared with a normal day.</p>
     <div class="list">${shifts.map(x=>`<button class="item" type="button" data-mat="${esc(x.n)}"><span class="nm">${esc(x.n)}</span><span class="right"><span class="pill ${x.s.mult>1?"good":"bad"}">${pct(x.s.mult-1)}</span>${x.e?`<span class="small muted">≈ ${plainMoney(x.e.now)}</span>`:""}</span><span class="meta small muted">${esc(x.s.why.map(w=>w.why).join("; "))}</span></button>`).join("")||'<div class="empty">No notable shifts for your materials right now.</div>'}</div>
-  </section>
+  </section>${inClaude()?`
   <section class="card">
     <div class="row between"><h2>Written plan</h2><button class="btn small" type="button" data-act="brief">Ask Claude</button></div>
     <div id="briefOut" class="out small muted">${S.brief?esc(S.brief):"Optional. One short Claude call that turns the suggestions above into a plan. Everything else on this page uses no Claude."}</div>
-  </section>`;
+  </section>`:""}`;
 }
 
 function vFarm(c){
@@ -884,7 +886,25 @@ function sheetChars(){
       <span class="right"><span class="btns"><button class="btn small ${c.id===S.state.activeId?"primary":""}" type="button" data-act="useChar" data-id="${esc(c.id)}">${c.id===S.state.activeId?"Active":"Use"}</button><button class="btn small" type="button" data-act="editChar" data-id="${esc(c.id)}">Edit</button></span></span>
       <span class="meta small muted">Level ${c.level} ${esc(c.cls)} · ${esc(c.faction)} · ${c.profs.map(p=>esc(p.name)+" "+p.skill).join(", ")||"no professions"}</span></div>`).join("")}</div>
     <button class="btn primary" type="button" data-act="editChar" data-id="new">Add character</button>
-    <p class="small muted" style="margin:0">${Store.mode==="db"?"Saved privately to your account, so it follows you across devices.":"Saved on this device only. Sign in to claude.ai to sync across devices."}</p>`);
+    <p class="small muted" style="margin:0">${Store.mode==="db"?"Saved privately to your account, so it follows you across devices.":inClaude()?"Saved on this device only. Sign in to claude.ai to sync across devices.":"Saved on this device only. Use Backup below to move it to another device."}</p>
+    <h3>Backup</h3>
+    <p class="small muted" style="margin:0">Export copies your characters and prices as text you can keep or paste into the app on another device.</p>
+    <div class="btns"><button class="btn" type="button" data-act="exportData">Export</button></div>
+    <div id="bkExport" hidden>
+      <textarea id="bkOut" readonly aria-label="Backup text"></textarea>
+      <div class="btns" style="margin-top:8px"><button class="btn primary" type="button" data-act="copyBackup">Copy</button></div>
+      <p id="bkMsg" class="small muted" style="margin:6px 0 0"></p>
+    </div>`);
+}
+function showExport(){
+  const box=$("#bkExport"),out=$("#bkOut");if(!box||!out)return;
+  out.value=JSON.stringify(buildBackup(S.state,S.items,Date.now()),null,1);
+  box.hidden=false;$("#bkMsg").textContent="";
+}
+async function copyBackup(){
+  const out=$("#bkOut"),msg=$("#bkMsg");if(!out)return;
+  try{await navigator.clipboard.writeText(out.value);msg.textContent="Copied. Paste it somewhere safe, or into Import on your other device."}
+  catch(e){out.focus();out.select();msg.textContent="Copy is blocked here. The text is selected: copy it by hand (Ctrl+C, or long-press on a phone)."}
 }
 
 
@@ -915,6 +935,8 @@ document.addEventListener("click",e=>{
   else if(a==="mins"){S.mins=+el.dataset.m;render()}
   else if(a==="clearPrices"){deletePrices(el.dataset.name).then(()=>{closeSheet();render();toast("Prices deleted")})}
   else if(a==="editChar")sheetChar(el.dataset.id);
+  else if(a==="exportData")showExport();
+  else if(a==="copyBackup")copyBackup();
   else if(a==="useChar"){S.state.activeId=el.dataset.id;S.brief=null;saveState();closeSheet();render()}
   else if(a==="delChar"){S.state.characters=S.state.characters.filter(c=>c.id!==el.dataset.id);S.state.activeId=S.state.characters[0].id;saveState();closeSheet();render()}
 });
