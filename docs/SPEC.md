@@ -167,6 +167,11 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 
 **T4. Calibrate the conditions engine**
 - Use 2+ weeks of T3 data to fit weekday/hour/raid-reset effects per category and tier; replace hand percentages; keep the rule structure.
+- **Consideration for planning: snapshot sampling bias** (raised Nov 19, 2026 from an outside analysis; settle it in the grill, don't treat it as decided). The hourly series describe standing listings, not sales. Cheap listings sell fast and expensive ones linger, so hourly snapshots over-sample slow, expensive listings, and anything read as "what sells" from them is biased high (the analysis's example: true mean 100 seen as about 106.5 hourly, about 102.9 at 15 minutes). Blizzard refreshes each house about hourly (around :25), so sampling faster isn't an option.
+  - Today's prices (p10 of current listings) measure what a buyer sees now, which is intended; the bias matters for T4's fitted effects.
+  - Treating every hourly row as an observation weights each listing by how long it lived; a daily rollup that takes medians of hourly rows does exactly this. A slow, overpriced stack then shapes every hour it sits there, and fitted weekday/hour effects describe listings rather than sales.
+  - A possible correction: track commodity listing IDs between snapshots (the pipeline drops them today) to see which listings vanish and at what price, estimate the sell rate per price band, and reweight observations by 1/(chance of being seen) (Horvitz–Thompson), capping extreme weights. Disappearances also include cancellations, expiries and relists, so treat them as an approximate sale signal (for example, gone well before `time_left` runs out).
+  - Questions for the grill: is a listings-based calibration good enough for the rules' purpose (relative weekday/hour swings), or does T4 need sale estimates? If it does, does tracking listing IDs belong in T4 or in a pipeline step before it, and what does it cost in storage on the `prices` branch?
 - ✅ Each rule's percentage cites the measured effect and sample size.
 
 **T5. Lightweight in-game addon**
