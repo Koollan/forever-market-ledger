@@ -3,6 +3,7 @@ import { CLASSES, PROFS, CONS_TAGS } from "../data/classes";
 import { GATHER, SMELT, GATHER_RATE } from "../data/gathering";
 import { ZONES, ZONE, STONE_OF, LEATHER_TIERS, SKIN_SPECIAL, KALIMDOR, DENSITY } from "../data/zones";
 import { CONSUMABLES, HOUSES } from "../data/consumables";
+import { RULESETS, rulesetOf } from "../data/rulesets";
 import { RANKS, PATHS } from "../data/professions";
 import { SKIN_SPOTS } from "../data/skinSpots";
 import { LAUNCH, MATS, MAT, RAW, CONSUME, FA_HERBS, tierOfLevel, zoneTier } from "../data/materials";
@@ -53,7 +54,7 @@ export function sheetMat(name){
     <div class="row between"><h2>${esc(name)}</h2><button class="btn small" type="button" data-act="close">Close</button></div>
     <div class="btns"><span class="pill">${esc(m.cat)} · tier ${m.tier}</span>${g?`<span class="pill good">You can ${g.smelt?"mine and smelt":"gather"} it</span>`:""}</div>
     <div class="stat">
-      <div><b>${a?plainMoney(a.price):e?plainMoney(e.now):"—"}</b><span>${a?`${a.source==="api"?"API":"You"} · ${ago(a.at)}`:"estimate now"}</span></div>
+      <div><b>${a?plainMoney(a.price):e?plainMoney(e.now):"—"}</b><span>${a?`${a.source==="api"?`API${rulesetOf(c.ruleset)?" "+esc(rulesetOf(c.ruleset).name):""}`:"You"} · ${ago(a.at)}`:"estimate now"}</span></div>
       <div><b>${pct(s.mult-1)}</b><span>today vs normal</span></div>
       <div><b>${it?.hist?.length||0}</b><span>prices entered</span></div>
     </div>
@@ -93,6 +94,8 @@ export function sheetChar(id){
       </div>
       <label for="cReg">Region<select id="cReg"><option value="us" ${(c.region||"us")==="us"?"selected":""}>US</option><option value="eu" ${c.region==="eu"?"selected":""}>EU</option></select></label>
       <label for="cFac">Faction<select id="cFac"><option ${c.faction==="Horde"?"selected":""}>Horde</option><option ${c.faction==="Alliance"?"selected":""}>Alliance</option></select></label>
+      <label for="cRule">Ruleset<select id="cRule"><option value="" ${rulesetOf(c.ruleset)?"":"selected"}>Not set (all rulesets pooled)</option>${RULESETS.map(r=>`<option value="${r.key}" ${c.ruleset===r.key?"selected":""}>${esc(r.name)}</option>`).join("")}</select></label>
+      <p class="small muted" style="margin:0">Each ruleset has its own auction houses, so prices come from yours. Which house belongs to which ruleset is still an estimate.</p>
       <div class="grid2">
         <label for="cGold">Gold you can spend on the AH<input id="cGold" type="number" min="0" step="0.01" inputmode="decimal" placeholder="e.g. ${(estBudget(c.level)/10000).toFixed(0)} (typical)" value="${c.gold!=null?+(c.gold/10000).toFixed(2):""}"></label>
         <label for="cStretch">Zone reach<select id="cStretch">${[0,1,2,3,4,5].map(n=>`<option value="${n}" ${(c.stretch??2)===n?"selected":""}>${n?`up to +${n} levels`:"at my level only"}</option>`).join("")}</select></label>
@@ -106,7 +109,7 @@ export function sheetChar(id){
     </form>`);
   $("#charForm").addEventListener("submit",e=>{
     e.preventDefault();
-    const nc={id:id==="new"||c.example?uid8():c.id,name:$("#cName").value.trim()||"Unnamed",cls:$("#cCls").value,level:Math.max(1,Math.min(60,+$("#cLvl").value||1)),faction:$("#cFac").value,region:$("#cReg").value,skyborne:$("#cSky").checked,
+    const nc={id:id==="new"||c.example?uid8():c.id,name:$("#cName").value.trim()||"Unnamed",cls:$("#cCls").value,level:Math.max(1,Math.min(60,+$("#cLvl").value||1)),faction:$("#cFac").value,region:$("#cReg").value,ruleset:rulesetOf($("#cRule").value)?.key,skyborne:$("#cSky").checked,
       gold:$("#cGold").value===""?null:Math.round(Math.max(0,+$("#cGold").value)*10000),stretch:+$("#cStretch").value,
       profs:[...document.querySelectorAll<HTMLInputElement>("[data-prof]")].filter(i=>i.value!=="").map(i=>({name:i.dataset.prof,skill:Math.max(0,Math.min(300,+i.value))}))};
     const list=S.state.characters.filter(x=>!x.example&&x.id!==c.id);
@@ -119,7 +122,7 @@ export function sheetChars(){
     <div class="row between"><h2>Characters</h2><button class="btn small" type="button" data-act="close">Close</button></div>
     <div class="list">${S.state.characters.map(c=>`<div class="item"><span class="nm"><i class="dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${CLASSES[c.cls]?.c}"></i> ${esc(c.name)}</span>
       <span class="right"><span class="btns"><button class="btn small ${c.id===S.state.activeId?"primary":""}" type="button" data-act="useChar" data-id="${esc(c.id)}">${c.id===S.state.activeId?"Active":"Use"}</button><button class="btn small" type="button" data-act="editChar" data-id="${esc(c.id)}">Edit</button></span></span>
-      <span class="meta small muted">Level ${c.level} ${esc(c.cls)} · ${esc(c.faction)} · ${c.profs.map(p=>esc(p.name)+" "+p.skill).join(", ")||"no professions"}</span></div>`).join("")}</div>
+      <span class="meta small muted">Level ${c.level} ${esc(c.cls)} · ${esc(c.faction)}${rulesetOf(c.ruleset)?` · ${esc(rulesetOf(c.ruleset).name)}`:""} · ${c.profs.map(p=>esc(p.name)+" "+p.skill).join(", ")||"no professions"}</span></div>`).join("")}</div>
     <button class="btn primary" type="button" data-act="editChar" data-id="new">Add character</button>
     <p class="small muted" style="margin:0">Saved on this device only. Use Backup below to move it to another device.</p>
     <h3>Backup</h3>

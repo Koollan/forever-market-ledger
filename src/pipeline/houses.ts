@@ -1,16 +1,9 @@
-// US WoW Forever auction houses (ruleset 2) and the four series the pipeline stores.
+// US WoW Forever auction houses (read through ruleset 2) and the series the pipeline stores.
 // Source: Blizzard's house index (/data/wow/ruleset/2/auctions/, read by the T3 probe on Nov 19, 2026)
 // and Forever AH's /v1/houses; see docs/SOURCES.md. House 122 does not exist.
 
 export type SeriesId = "alliance" | "horde" | "blackwater" | "all";
 export const SERIES_IDS: SeriesId[] = ["alliance", "horde", "blackwater", "all"];
-
-// T10: one stored series per house, kept beside the pooled ones. Rulesets (PvE, PvP, RP, RP-PvP) have
-// separate auction houses (owner, Nov 19, 2026), so the faction series above pool several markets.
-// Which house belongs to which ruleset is not confirmed yet; storing every house keeps that history.
-export type HouseSeriesId = `house-${number}`;
-export const houseSeries = (house: number): HouseSeriesId => `house-${house}`;
-export type StoredSeries = SeriesId | HouseSeriesId;
 
 const alliance = [110, 111, 112, 119, 123];
 const horde = [113, 114, 115, 120, 124];
@@ -22,6 +15,19 @@ export const SERIES: Record<SeriesId, number[]> = {
   blackwater,
   all: [...alliance, ...horde, ...blackwater].sort((a, b) => a - b),
 };
+
+// T10: one stored series per house, kept beside the pooled ones. Rulesets (PvE, PvP, RP, RP-PvP) have
+// separate auction houses (owner, Nov 19, 2026), so the faction series above pool several markets.
+// Which house belongs to which ruleset is not confirmed yet; storing every house keeps that history.
+export type HouseSeriesId = `house-${number}`;
+export const houseSeries = (house: number): HouseSeriesId => `house-${house}`;
+export type StoredSeries = SeriesId | HouseSeriesId;
+export const HOUSE_SERIES: HouseSeriesId[] = [...SERIES.all].map(houseSeries);
+
+// The houses a stored series pools: a faction series' houses, or the one house of a house series
+export function housesOf(series: StoredSeries): number[] {
+  return series.startsWith("house-") ? [Number(series.slice(6))] : SERIES[series as SeriesId] ?? [];
+}
 
 // Compare Blizzard's house index (/data/wow/ruleset/2/auctions/) with the fixed house list, so a run can
 // flag a house Blizzard added or dropped instead of silently missing it.
