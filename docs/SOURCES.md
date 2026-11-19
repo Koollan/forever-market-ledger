@@ -25,3 +25,22 @@ Not yet checked: Azeroth Auctions, wowfah.com, AHledger, TheWoWDB, Forever Maste
 ## Game data
 
 See `docs/SPEC.md` section 5 until each source moves here.
+
+## Recipes (T9, process or sell)
+
+Read Nov 18, 2026 (public guide and database pages, read by hand; nothing automated). Most Forever guides say they are based on the beta. `src/data/recipes.ts` cites each entry; full notes in `planning/process-or-sell/research/recipes.md`.
+
+| Data | Source | Confidence |
+|---|---|---|
+| Smelting skills and skill-up colors; Bronze makes 2; Dark Iron takes 8 ore | [warcraft.wiki.gg: Forever mining techniques](https://warcraft.wiki.gg/wiki/Forever_mining_techniques) | Good |
+| 1 ore → 1 bar, 1 + 1 bars → Bronze | Classic | `est` |
+| Steel Bar takes 1 Coal; Coal costs 5s | [metabot.gg: Coal](https://metabot.gg/en/wow-forever/items/coal) (vendor data marked Classic) | Medium, `est` price |
+| Dark Iron at the Black Forge, Blackrock Depths minimum level 52 | Classic | `est` |
+| Transmute: Arcanite (Thorium Bar + Arcane Crystal, Alchemy 275, sold by Alchemist Pestlezugg) | [wow.gg: Forever alchemy](https://wow.gg/professions/forever/alchemy) | Good |
+| Arcanite cooldown "once every 2 days" | [Wowpedia: Transmute: Arcanite](https://wowpedia.fandom.com/wiki/Transmute:_Arcanite) (48 h in Classic Era, removed in 2.4.0) | `est` for Forever |
+| Mana potion and elixir skills, reagents, recipe sources | [wow.gg: Forever alchemy](https://wow.gg/professions/forever/alchemy), cross-checked with [wow-professions: Forever alchemy](https://www.wow-professions.com/forever/alchemy-leveling-guide) | Good; one potion per craft `est`; Elixir of Fortitude reagents `est` |
+| Leather conversion skills (Medium 75, Heavy 125, Thick 175, Rugged 225), trainer | [warcraft.wiki.gg: Forever leatherworking patterns](https://warcraft.wiki.gg/wiki/Forever_leatherworking_patterns) | Good |
+| Medium = 4 Light, Heavy = 5 Medium | Wowhead Forever spells [20648](https://www.wowhead.com/forever/spell=20648), [20649](https://www.wowhead.com/forever/spell=20649) | Good |
+| Thick = 6 Heavy, Rugged = 6 Thick | Classic | `est` |
+| Vial prices per unit: Empty 4c, Leaded 40c, Crystal 5s (stack of 5 ÷ 5) | outof.games Forever items [3371](https://outof.games/forever/item/3371-empty-vial/), [3372](https://outof.games/forever/item/3372-leaded-vial/), [8925](https://outof.games/forever/item/8925-crystal-vial/); stacks of 5 per [warcrafttavern](https://www.warcrafttavern.com/forever/guides/alchemy/) | Good |
+| Healing potions moved to First Aid (left out: counts conflict between [kami-labs](https://kami-labs.fr/en/guide-secourisme-wow-forever/) and [wow.gg](https://wow.gg/professions/forever/first-aid)) | [icy-veins](https://www.icy-veins.com/wow-forever/news/healing-potions-now-crafted-by-first-aid-in-wow-forever/) | Out of v1 (T6) |

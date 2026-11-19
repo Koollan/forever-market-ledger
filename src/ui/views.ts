@@ -23,15 +23,19 @@ import { asOf } from "../engine/market";
 import { asOfText } from "./prices";
 import { ensurePrices } from "./live";
 import { apiRow, homeSeries } from "../engine/market";
+import { processAdvice } from "./state";
+import { verbOf } from "../engine/process";
 
 // API prices for what this character gathers or needs (T3); nothing without API data
-function vMarket(c,relevant,sa){
+// Process or sell (T9): "Smelt first +18%" when processing a held material clearly beats selling it raw
+const procPill=x=>x?`<span class="pill acc">${esc(verbOf(x))} first${x.gain!=null?" "+pct(x.gain):""}</span>`:"";
+function vMarket(c,relevant,sa,pa){
   const series=homeSeries(c);if(!series||!S.market)return "";
   const names=[...relevant].filter(n=>apiRow(n,series,S.market)).sort();if(!names.length)return "";
   return `<section class="card market">
     <h2>Market</h2>
     <p class="small muted" style="margin:0">Prices at your ${series==="alliance"?"Alliance":"Horde"} auction house, from Blizzard's auction data each hour: what the cheapest tenth of listings ask.</p>
-    <div class="list">${names.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">${e.source==="api"?"API":"you"} · ${ago(e.last.t)}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}</span></button>`}).join("")}</div>
+    <div class="list">${names.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">${e.source==="api"?"API":"you"} · ${ago(e.last.t)}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}${procPill(pa[n])}</span></button>`}).join("")}</div>
   </section>`;
 }
 
@@ -67,7 +71,7 @@ export function render(){
   $("#view").innerHTML=banners(c)+({today:vToday,farm:vFarm,prices:vPrices,skills:vSkills,plan:vPlan}[S.tab])(c);
   $("#view").scrollTop=0;
 }
-export const KIND_PILL={Farm:"acc",Sell:"good",Hold:"warn",Buy:"acc",Level:"bad",Train:"warn",Tip:""};
+export const KIND_PILL={Process:"good",Farm:"acc",Sell:"good",Hold:"warn",Buy:"acc",Level:"bad",Train:"warn",Tip:""};
 
 export function vToday(c){
   const tg=S.state.toggles;const ctx=ctxAt(Date.now(),tg);
@@ -145,13 +149,14 @@ export function vPrices(c){
   const relevant=new Set([...gatherOptions(c).map(o=>o.name),...needsFor(c).map(n=>n.name)]);
   const pool=MATS.filter(m=>!tracked.includes(m.name)&&(q?m.name.toLowerCase().includes(q):relevant.has(m.name)));
   const sa=Object.fromEntries(sellAdvice(c).map(x=>[x.name,x]));
+  const pa=Object.fromEntries(processAdvice(c).map(x=>[x.name,x]));
   return lanes("prices",lane(`
   <section class="card">
     <h2>Your prices</h2>
     <p class="small muted" style="margin:0">Type in a price whenever you see one in game. The app removes the conditions at the time you saw it and re-applies today's, so old prices stay useful.</p>
-    <div class="list">${tracked.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">${e.source==="api"?`API ${ago(e.last.t)} · yours ${ago(lastPrice(n).t)}`:`seen ${ago(e.last.t)}`}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}<span class="pill">${itemFor(n).hist.length} price${itemFor(n).hist.length===1?"":"s"}</span></span></button>`}).join("")||'<div class="empty">No prices yet. Pick a material below to add one.</div>'}</div>
+    <div class="list">${tracked.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">${e.source==="api"?`API ${ago(e.last.t)} · yours ${ago(lastPrice(n).t)}`:`seen ${ago(e.last.t)}`}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}${procPill(pa[n])}<span class="pill">${itemFor(n).hist.length} price${itemFor(n).hist.length===1?"":"s"}</span></span></button>`}).join("")||'<div class="empty">No prices yet. Pick a material below to add one.</div>'}</div>
   </section>
-  ${vMarket(c,relevant,sa)}`)+`
+  ${vMarket(c,relevant,sa,pa)}`)+`
   <section class="card">
     <input id="matQ" placeholder="Find a material" value="${esc(S.q)}" aria-label="Find a material">
     <h3>${q?"Matches":"Relevant to you"}</h3>

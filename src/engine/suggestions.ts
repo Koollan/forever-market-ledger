@@ -12,6 +12,7 @@ import { skinPlan } from "./skinning";
 import { andList, pct, plainMoney, whenTxt } from "./util";
 import type { Character, Items } from "./types";
 import { apiRow, homeSeries, type Market } from "./market";
+import { processAdviceFrom, routeLabel, routeShort, routeNotes } from "./process";
 
 export type SugCtx = { now: number; items: Items; toggles: Toggles; market?: Market | null };
 const apiCtx=(c: Character,x: SugCtx)=>({market:x.market??null,character:c});
@@ -58,13 +59,17 @@ export function bestFarm(c: Character,x: SugCtx): { top: any; list: any[]; opts:
 }
 
 
-export function sellAdvice(c: Character,x: SugCtx): any[]{
-  const tg=x.toggles;const res=[];
-  // what you priced, plus what you gather that has an API price (what you're likely holding)
+// What the character holds: what you priced, plus what you gather that has an API price
+export function heldNames(c: Character,x: SugCtx): string[]{
   const series=homeSeries(c);
   const gathered=x.market&&series?gatherOptions(c,x).map(o=>o.name).filter(n=>apiRow(n,series,x.market as Market)):[];
-  const names=[...new Set([...Object.values(x.items).map(i=>i.name),...gathered])];
-  for(const n of names){const m=MAT[n]||{name:n,cat:"Other",tier:3};const e=estimate(n,x.items,tg,x.now,apiCtx(c,x));if(!e)continue;
+  return [...new Set([...Object.values(x.items).map(i=>i.name),...gathered])];
+}
+// Process or sell (T9): the best route worth processing for each material held
+export function processAdvice(c: Character,x: SugCtx){return processAdviceFrom(heldNames(c,x),c,x)}
+export function sellAdvice(c: Character,x: SugCtx): any[]{
+  const tg=x.toggles;const res=[];
+  for(const n of heldNames(c,x)){const m=MAT[n]||{name:n,cat:"Other",tier:3};const e=estimate(n,x.items,tg,x.now,apiCtx(c,x));if(!e)continue;
     const w=windows(m,tg,"sell",168,x.now);const gain=w.best.s/w.now-1;
     res.push({name:n,est:e,now:w.now,best:w.best,gain,action:gain>0.05?"hold":"list"});}
   return res.sort((a,b)=>b.gain-a.gain);
@@ -75,9 +80,15 @@ export function todaySuggestions(c: Character,x: SugCtx): Suggestion[]{
   if(f&&f.top){const it=f.top.items.slice().sort((a: any,b: any)=>b.skillUp-a.skillUp||((b.est?.now||0)-(a.est?.now||0))).slice(0,3);
     const ups=it.filter((x: any)=>x.skillUp).map((x: any)=>x.name);
     s.push({kind:"Farm",title:`Gather in ${zl(f.top.zone)}`,body:`${it.map((x: any)=>x.name).join(", ")}${ups.length?`. ${andList(ups)} still give${ups.length===1?"s":""} skill-ups`:""}.${ctx.weekend?" Weekend prices for raw materials run low, so hold what you gather until Tuesday to Thursday.":""}`});}
-  const sa=sellAdvice(c,x);const listNow=sa.filter(x=>x.action==="list").slice(0,3),hold=sa.filter(x=>x.action==="hold").slice(0,2);
+  // Materials worth processing first leave the List now / Hold cards: the Process card covers them (T9)
+  const procIns=new Set(processAdvice(c,x).flatMap(a=>a.ins.map(i=>i[0])));
+  const sa=sellAdvice(c,x).filter(a=>!procIns.has(a.name));const listNow=sa.filter(x=>x.action==="list").slice(0,3),hold=sa.filter(x=>x.action==="hold").slice(0,2);
   if(listNow.length)s.push({kind:"Sell",title:"List now",body:listNow.map(x=>`${x.name} at about ${plainMoney(x.est.now)}`).join(", ")+". Conditions won't get meaningfully better this week."});
   if(hold.length)s.push({kind:"Hold",title:"Hold for a better window",body:hold.map(x=>`${x.name}: ${pct(x.gain)} at ${whenTxt(x.best.t,x.now)}`).join("; ")+"."});
+  // Process or sell (T9): up to two routes worth processing (one per route, though several held inputs share it)
+  const seen=new Set<string>();const proc=processAdvice(c,x).filter(a=>!seen.has(routeLabel(a))&&seen.add(routeLabel(a))).slice(0,2);
+  if(proc.length)s.push({kind:"Process",title:"Process before you sell",body:proc.map(a=>{const nt=routeNotes(a,false);
+    return `${routeShort(a)}: ${a.gain!=null?pct(a.gain)+", ":""}about ${plainMoney(a.diff)} more a craft${nt.length?` (${nt.join(", ")})`:""}`}).join("; ")+". Prices are after the auction house cut and vendor reagents."});
   const needs=needsFor(c).filter(n=>!n.farm);
   if(needs.length){const n=needs[0];const m=MAT[n.name]||{name:n.name,cat:"Other",tier:3};const w=windows(m,tg,"buy",168,x.now);
     s.push({kind:"Buy",title:`Buy ${n.name} for ${n.prof}`,body:`You can't gather it in your zones yet. ${w.best.s<w.now-0.02?`Cheapest window this week: ${whenTxt(w.best.t,x.now)} (${pct(w.best.s/w.now-1)} vs now).`:"Now is as good as any time this week."} Keep it within your ${plainMoney(budgetOf(c))} budget.`});}
