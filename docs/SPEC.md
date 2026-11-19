@@ -167,10 +167,25 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 
 **T4. Calibrate the conditions engine**
 - Use 2+ weeks of T3 data to fit weekday/hour/raid-reset effects per category and tier; replace hand percentages; keep the rule structure.
+- **Consideration for planning: snapshot sampling bias** (raised Nov 19, 2026 from an outside analysis; settle it in the grill, don't treat it as decided). The hourly series describe standing listings, not sales. Cheap listings sell fast and expensive ones linger, so hourly snapshots over-sample slow, expensive listings, and anything read as "what sells" from them is biased high (the analysis's example: true mean 100 seen as about 106.5 hourly, about 102.9 at 15 minutes). Blizzard refreshes each house about hourly (around :25), so sampling faster isn't an option.
+  - Today's prices (p10 of current listings) measure what a buyer sees now, which is intended; the bias matters for T4's fitted effects.
+  - Treating every hourly row as an observation weights each listing by how long it lived; a daily rollup that takes medians of hourly rows does exactly this. A slow, overpriced stack then shapes every hour it sits there, and fitted weekday/hour effects describe listings rather than sales.
+  - A possible correction: track commodity listing IDs between snapshots (the pipeline drops them today) to see which listings vanish and at what price, estimate the sell rate per price band, and reweight observations by 1/(chance of being seen) (Horvitz–Thompson), capping extreme weights. Disappearances also include cancellations, expiries and relists, so treat them as an approximate sale signal (for example, gone well before `time_left` runs out).
+  - Questions for the grill: is a listings-based calibration good enough for the rules' purpose (relative weekday/hour swings), or does T4 need sale estimates? If it does, does tracking listing IDs belong in T4 or in a pipeline step before it, and what does it cost in storage on the `prices` branch?
+  - **Suggested calibration method: a short burst of the owner's own in-game scans** (raised Nov 19, 2026). Hourly data never sees listings that sell between snapshots, so the sell rate per price band needs a few sessions of tighter scans: about 2–3 hours each at the shortest scan interval the client allows (roughly 15 minutes), one at a busy time (weekday evening) and one at a quiet time, repeated once a few weeks later to check for drift. The reweighting then applies to the hourly Blizzard data with no further scanning. Own scans are allowed under the ground rules. Caveats:
+    - Scans must keep one row per listing (item, unit price, quantity, seller, time left, scan time). Per-item summaries (min, market value) can't show disappearances.
+    - The client never reports sales; a listing gone since the last scan may have sold, expired, or been cancelled or relisted. The Blizzard data has the same limit.
+    - Forever's beta client writes addon SavedVariables at logout but may not read them back, so the next session can overwrite them: copy the file after each session.
+    - Scans cover one ruleset and faction house (see T10); quieter rulesets may clear more slowly.
+    - **Tool choice:** first try an existing addon. Auction House DataBase (AHDB) has a WoW Forever edition. Five-minute check: one scan, log out, open `WTF/Account/<name>/SavedVariables/` and look for per-listing rows with a scan timestamp. If they're there, use it for the calibration; if only summaries, use T5's scanner instead (and move that part of T5 earlier).
 - ✅ Each rule's percentage cites the measured effect and sample size.
 
 **T5. Lightweight in-game addon**
 - Records the player's own AH scans (and optionally bag contents) to SavedVariables; a small export string the app can paste in.
+- **Consideration for planning (Nov 19, 2026):** build T5 as the one bespoke scanner rather than a separate calibration tool, so later T4 recalibration and price pasting share it.
+  - Store one row per listing in the shape the pipeline already uses (item ID, unit price, quantity, time left, scan time), for the catalogued materials only; no UI beyond a scan button and the export.
+  - A calibration mode: repeat scans at the shortest allowed interval for a set period (see T4's sampling-bias note).
+  - The scanning code is small; the cost is in-game testing, which neither Claude can do, and Forever's addon quirks (SavedVariables not read back, APIs not yet confirmed on the new client). Plan for the owner to run each test build in game.
 - ✅ A scan in game becomes prices in the app with one paste.
 
 **T6. Data completeness**
