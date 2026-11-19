@@ -1,0 +1,14 @@
+// The UI builds HTML in template strings; it is checked for names, imports and types,
+// but allows implicit any and loose null checks. Engine and data stay fully strict (tsconfig.json).
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "strictNullChecks": false
+  },
+  "include": [
+    "src/ui",
+    "src/main.ts",
+    "src/vite-env.d.ts"
+  ]
+}

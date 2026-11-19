@@ -80,11 +80,6 @@ export function backupData(b: Backup): { state: AppState; items: Items } {
   }));
 }
 
-/** Saved price records the incoming data doesn't have (deleted from claude.ai storage on import). */
-export function staleKeys(oldItems: Record<string, unknown> | null | undefined, newItems: Record<string, unknown>): string[] {
-  return Object.keys(oldItems || {}).filter((k) => !Object.hasOwn(newItems, k));
-}
-
 export function buildBackup(state: AppState, items: Items, now: number): Backup {
   return JSON.parse(JSON.stringify({
     app: BACKUP_APP, version: BACKUP_VERSION, exportedAt: now,

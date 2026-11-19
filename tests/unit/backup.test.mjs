@@ -1,6 +1,6 @@
 import { test } from "vitest";
 import assert from "node:assert/strict";
-import { validateBackup, buildBackup, backupData, staleKeys } from "../../src/engine/backup.ts";
+import { validateBackup, buildBackup, backupData } from "../../src/engine/backup.ts";
 
 
 
@@ -146,11 +146,4 @@ test("importing a backup gives exactly its characters, active character, switche
   const d = backupData(backup);
   assert.deepEqual(d.state, { characters: [rogue, hunter], activeId: "h1", toggles: {} });
   assert.deepEqual(d.items, items());
-});
-
-test("after an import, saved prices the backup doesn't have are the ones to delete", () => {
-  const old = { "item~peacebloom": {}, "item~iron-ore": {}, "item~runecloth": {} };
-  const incoming = { "item~peacebloom": {}, "item~medium-leather": {} };
-  assert.deepEqual(staleKeys(old, incoming), ["item~iron-ore", "item~runecloth"]);
-  assert.deepEqual(staleKeys({}, incoming), []);
 });
