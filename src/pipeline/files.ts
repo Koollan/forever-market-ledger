@@ -51,10 +51,10 @@ export function mergeHourly(file: HourlyFile | null, point: Point, meta: Meta): 
 }
 
 export type DailySource = Source | "mixed";
-export type DailyRow = { ts: string; src: DailySource; n: number; items: Record<number, FileRow | null> };
+export type DailyRow = { ts: string; src: DailySource; n: number | null; items: Record<number, FileRow | null> };
 export type DailyFile = Header & {
   month: string; // UTC month, yyyy-mm
-  ts: string[]; src: DailySource[]; n: number[];
+  ts: string[]; src: DailySource[]; n: (number | null)[]; // n null = hours unknown (Forever AH daily point)
   items: Record<number, (FileRow | null)[]>;
 };
 
