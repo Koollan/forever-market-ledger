@@ -7,13 +7,14 @@ export default defineConfig({
   reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : "list",
   use: {
     ...devices["Desktop Chrome"],
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: "http://127.0.0.1:4173/forever-market-ledger/",
     viewport: { width: 412, height: 900 },
     timezoneId: "America/New_York",
   },
   webServer: {
-    command: "npm run serve:legacy -- --host 127.0.0.1",
-    url: "http://127.0.0.1:4173",
+    // Tests run against the production build, served the way Pages serves it
+    command: "npm run build && npm run preview",
+    url: "http://127.0.0.1:4173/forever-market-ledger/",
     reuseExistingServer: !process.env.CI,
   },
 });

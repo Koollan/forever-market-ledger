@@ -1,14 +1,13 @@
-// Loads the single-file app's non-UI code into a Node context so tests can call its functions.
-// Runs the inline script up to the Rendering section, with minimal browser stubs.
+// Loads the app script's non-UI code (src/legacy.ts) into a Node context so tests can call its functions.
+// Runs the script up to the Rendering section, with minimal browser stubs.
 import fs from "node:fs";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 
-const APP = fileURLToPath(new URL("../app/index.html", import.meta.url));
+const APP = fileURLToPath(new URL("../src/legacy.ts", import.meta.url));
 
 export function loadApp(names) {
-  const html = fs.readFileSync(APP, "utf8");
-  const js = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+  const js = fs.readFileSync(APP, "utf8");
   const cut = js.indexOf("/* ============ Rendering");
   const ctx = {
     window: {},

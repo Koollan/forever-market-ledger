@@ -7,7 +7,7 @@
 - [x] Step 3: Import with confirm and replace; ship T1 (T1)
 - [x] Step 4: Project tooling and CI around the unchanged app (T2)
 - [x] Step 5: Record and lock the baseline (T2)
-- [ ] Step 6: Serve the app from a Vite build of the legacy script (T2)
+- [x] Step 6: Serve the app from a Vite build of the legacy script (T2)
 - [ ] Step 7: Move the data tables into `src/data` (T2)
 - [ ] Step 8: Pure conditions and estimate engine (T2)
 - [ ] Step 9: Pure farm, skinning, dossier and character engine (T2)

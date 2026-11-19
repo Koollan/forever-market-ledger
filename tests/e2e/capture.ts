@@ -15,7 +15,7 @@ export async function capture(page: Page, c: RefCharacter, iso: string) {
   await page.addInitScript((seed) => {
     localStorage.setItem("fml-cache", JSON.stringify(seed));
   }, seedFor(c));
-  await page.goto("/index.html");
+  await page.goto("./");
 
   const text: Record<string, string> = {};
   for (const tab of TABS) {

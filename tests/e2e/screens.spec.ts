@@ -12,7 +12,7 @@ for (const scheme of ["light", "dark"] as const) {
       test(`${tab} tab fits a 412px phone`, async ({ page }, info) => {
         const errors: string[] = [];
         page.on("pageerror", (e) => errors.push(e.message));
-        await page.goto("/index.html");
+        await page.goto("./");
         await page.locator(`nav [data-tab="${tab}"]`).click();
         await expect(page.locator(`nav [data-tab="${tab}"]`)).toHaveAttribute("aria-current", "page");
 
