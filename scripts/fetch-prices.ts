@@ -13,6 +13,9 @@
 //          <dir>/<region>/{latest.json, <series>/hourly/<day>.json, <series>/daily/<month>.json} and
 //          rebuilds that day's and the previous day's daily rows. If no house's snapshot moved since
 //          latest.json, nothing is written. --dry prints the summary and sample rows instead.
+//   import merges Forever AH backfill files (--from <dir>, repeatable; later folders win) into the `all`
+//          series under --out: one Forever AH point per hour (a Blizzard hour is never replaced), and
+//          Forever AH's own daily point for days with no Blizzard hours. Safe to repeat. No network.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -21,8 +24,9 @@ import { SERIES, SERIES_IDS } from "../src/pipeline/houses.ts";
 import { listingsFrom } from "../src/pipeline/reduce.ts";
 import { pool, type HouseListings, type SeriesPoint } from "../src/pipeline/series.ts";
 import { changed, pointHour } from "../src/pipeline/snapshot.ts";
-import { buildLatest, formatFile, mergeDaily, mergeHourly, rollDay, type DailyFile, type HourlyFile, type Latest, type Point } from "../src/pipeline/files.ts";
+import { buildLatest, dayRow, formatFile, mergeDaily, mergeHourly, type DailyFile, type DailyRow, type HourlyFile, type Latest, type Point } from "../src/pipeline/files.ts";
 import type { SeriesId } from "../src/pipeline/houses.ts";
+import { convertT0, type T0File } from "../src/pipeline/convert-t0.ts";
 
 const REGION = "us";
 const API = `https://${REGION}.api.blizzard.com`;
@@ -32,6 +36,10 @@ const PROBE_HOUSES = [110, 112]; // a busy Alliance house, and one reported to o
 const DELAY_MS = 1000;
 
 type Auction = { id?: number; item?: { id?: number }; buyout?: number; bid?: number; unit_price?: number; quantity?: number; time_left?: string };
+
+function args(name: string): string[] {
+  return process.argv.flatMap((a, i) => (a === `--${name}` && process.argv[i + 1] ? [process.argv[i + 1]] : []));
+}
 
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
@@ -154,9 +162,12 @@ async function readHouse(house: number, source: { fixtures?: string; token?: str
 function readJson<T>(file: string): T | null {
   return fs.existsSync(file) ? (JSON.parse(fs.readFileSync(file, "utf8")) as T) : null;
 }
+// Writes only when the text changed, so a repeated run or import leaves files (and git) untouched
 function writeFile(file: string, data: object) {
+  const text = formatFile(data);
+  if (fs.existsSync(file) && fs.readFileSync(file, "utf8") === text) return;
   fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, formatFile(data));
+  fs.writeFileSync(file, text);
 }
 const dayBefore = (date: string) => new Date(Date.parse(`${date}T00:00:00Z`) - 864e5).toISOString().slice(0, 10);
 
@@ -170,8 +181,10 @@ function writeSeries(out: string, series: SeriesId, point: Point) {
   for (const d of [dayBefore(date), date]) {
     const hourly = readJson<HourlyFile>(hourlyPath(d));
     if (!hourly) continue;
+    const row = dayRow(hourly, null);
+    if (!row) continue; // a Forever-AH-only day keeps Forever AH's daily point
     const dailyPath = path.join(dir, "daily", `${d.slice(0, 7)}.json`);
-    writeFile(dailyPath, mergeDaily(readJson<DailyFile>(dailyPath), rollDay(hourly), meta));
+    writeFile(dailyPath, mergeDaily(readJson<DailyFile>(dailyPath), row, meta));
   }
 }
 
@@ -216,7 +229,36 @@ async function run() {
   console.log(summary);
 }
 
+function importT0() {
+  const from = args("from"), out = arg("out");
+  if (!from.length || !out) { console.error("import needs --from <dir> (repeatable) and --out <dir>"); process.exit(2); }
+  const files = from.flatMap((dir) => fs.readdirSync(dir).filter((f) => /^\d+\.json$/.test(f)).sort()
+    .map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")) as T0File));
+  const { points, daily } = convertT0(files);
+  const meta = { region: REGION, series: "all" as const };
+  const dir = path.join(out, REGION, "all");
+  const hourlyPath = (d: string) => path.join(dir, "hourly", `${d}.json`);
+
+  const byDay = new Map<string, Point[]>();
+  for (const p of points) byDay.set(p.ts.slice(0, 10), [...(byDay.get(p.ts.slice(0, 10)) ?? []), p]);
+  for (const [date, ps] of byDay) {
+    const merged = ps.reduce<HourlyFile | null>((f, p) => mergeHourly(f, p, meta), readJson<HourlyFile>(hourlyPath(date)));
+    if (merged) writeFile(hourlyPath(date), merged);
+  }
+
+  const provider = new Map<string, DailyRow>(daily.map((r) => [r.ts.slice(0, 10), r]));
+  const days = [...new Set([...byDay.keys(), ...provider.keys()])].sort();
+  for (const date of days) {
+    const row = dayRow(readJson<HourlyFile>(hourlyPath(date)), provider.get(date) ?? null);
+    if (!row) continue;
+    const dailyPath = path.join(dir, "daily", `${date.slice(0, 7)}.json`);
+    writeFile(dailyPath, mergeDaily(readJson<DailyFile>(dailyPath), row, meta));
+  }
+  console.log(`imported ${files.length} files: ${points.length} hours, ${daily.length} daily points, ${days[0]} to ${days.at(-1)}`);
+}
+
 const mode = arg("mode");
 if (mode === "probe") await probe();
 else if (mode === "run") await run();
-else { console.error(`Unknown or missing --mode (${mode ?? "none"}). Available now: probe, run`); process.exit(2); }
+else if (mode === "import") importT0();
+else { console.error(`Unknown or missing --mode (${mode ?? "none"}). Available: probe, run, import`); process.exit(2); }

@@ -1,7 +1,7 @@
 // The price pipeline's files: snapshot hours, hourly merge, daily roll-up, latest (no network)
 import { describe, expect, it } from "vitest";
 import { changed, pointHour } from "../../src/pipeline/snapshot.ts";
-import { buildLatest, mergeDaily, mergeHourly, rollDay, type HourlyFile, type Point } from "../../src/pipeline/files.ts";
+import { buildLatest, dayRow, mergeDaily, mergeHourly, rollDay, type HourlyFile, type Point } from "../../src/pipeline/files.ts";
 
 describe("pointHour", () => {
   it("is the newest house snapshot, floored to the hour, in UTC", () => {
@@ -156,5 +156,28 @@ describe("buildLatest", () => {
         all: { houses: 15, items: { 2447: [1, 2, 3, 4, 5, 6] } },
       },
     });
+  });
+});
+
+describe("dayRow", () => {
+  const base = { v: 1 as const, region: "us", series: "all" as const, date: "2026-11-13", fields: ["min", "p10", "p25", "median", "qty", "listings"] };
+  const fahOnly: HourlyFile = { ...base, ts: ["2026-11-13T17:00:00Z"], src: ["fah"], houses: [null], items: { 2447: [[20, 35, null, 85, 14175, 833]] } };
+  const withBnet: HourlyFile = { ...base, ts: ["2026-11-13T17:00:00Z", "2026-11-13T18:00:00Z"], src: ["fah", "bnet"], houses: [null, 15],
+    items: { 2447: [[20, 35, null, 85, 14175, 833], [22, 37, 50, 87, 14000, 800]] } };
+  const provider = { ts: "2026-11-13T00:00:00Z", src: "fah" as const, n: null, items: { 2447: [18, 39, null, 82, 14308, 842] } };
+
+  it("keeps Forever AH's own daily point for a day with only Forever AH hours", () => {
+    expect(dayRow(fahOnly, provider)).toEqual(provider);
+  });
+
+  it("rolls up a day that has any Blizzard hours, even if Forever AH gave a daily point", () => {
+    // min 20; medians of 35/37 = 36, p25 only 50, 85/87 = 86; qty mean 14087.5 → 14088; listings 816.5 → 817
+    expect(dayRow(withBnet, provider)).toEqual({ ts: "2026-11-13T00:00:00Z", src: "mixed", n: 2, items: { 2447: [20, 36, 50, 86, 14088, 817] } });
+  });
+
+  it("never rebuilds a Forever-AH-only day from its hours, and is null with nothing to go on", () => {
+    expect(dayRow(fahOnly, null)).toBeNull();
+    expect(dayRow(null, null)).toBeNull();
+    expect(dayRow(null, provider)).toEqual(provider);
   });
 });

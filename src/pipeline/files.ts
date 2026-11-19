@@ -82,6 +82,14 @@ export function rollDay(file: HourlyFile): DailyRow {
   return { ts: `${file.date}T00:00:00Z`, src, n: file.ts.length, items };
 }
 
+// Which daily row a day keeps. A day with any Blizzard hours is rolled up from its hours. A day with only
+// Forever AH hours keeps Forever AH's own daily point (Nov 13's hours start at 17:00, so the provider's
+// point covers more of the day); such a day is never rebuilt from its hours. null = leave the day alone.
+export function dayRow(hourly: HourlyFile | null, provider: DailyRow | null): DailyRow | null {
+  if (hourly && hourly.src.includes("bnet")) return rollDay(hourly);
+  return provider;
+}
+
 // Insert a day into its month file, or replace that day.
 export function mergeDaily(file: DailyFile | null, row: DailyRow, meta: Meta): DailyFile {
   const month = row.ts.slice(0, 7);
