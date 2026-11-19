@@ -7,40 +7,17 @@ import { CONSUMABLES, HOUSES } from "./data/consumables";
 import { RANKS, PATHS } from "./data/professions";
 import { SKIN_SPOTS } from "./data/skinSpots";
 import { LAUNCH, MATS, MAT, RAW, CONSUME, FA_HERBS, tierOfLevel, zoneTier } from "./data/materials";
-import { keyOf, plainMoney, median, andList, pct } from "./engine/util";
+import { keyOf, plainMoney, median, andList, pct, whenTxt as whenTxtAt } from "./engine/util";
 import { esc, money } from "./ui/format";
 import { frontLevel, ctxAt, RULES, shiftAt, windows as windowsAt } from "./engine/conditions";
 import { estimate as estimateAt } from "./engine/estimate";
+import { zl, estBudget, budgetOf, reachZones, whereGather } from "./engine/farm";
+import { profOf, canGather, needsFor, rankBlock, houseOf, cutFor, skillColor, perHour as perHourOf } from "./engine/character";
+import { skinReq, skinPlan, skinSpots, skinLine } from "./engine/skinning";
+import { continentOf, zoneDossier as zoneDossierAt } from "./engine/dossier";
 import { validateBackup, buildBackup, backupData, staleKeys } from "./engine/backup";
 "use strict";
 /* ============ Reference data (Classic-era rules used by WoW Forever) ============ */
-const zl=n=>ZONE[n]?.est?n+" (est.)":n; // new Forever zones whose nodes aren't charted yet
-/* Typical spendable gold by level when the player hasn't entered their own (copper) */
-function estBudget(l){return l<10?5000:l<20?40000:l<30?200000:l<40?600000:l<50?1500000:l<60?3000000:6000000}
-function budgetOf(c){return c.gold!=null&&c.gold>=0?c.gold:estBudget(c.level)}
-function reachZones(c){const f=c.faction==="Alliance"?"A":"H";const s=c.stretch??2;return ZONES.filter(z=>(z.f==="C"||z.f===f)&&z.min<=c.level+s&&(!z.skyborne||c.skyborne))}
-/* Where can this character gather an item? -> {zones:[names], unlock:level|null} */
-function whereGather(name,prof,c){
-  const zs=reachZones(c),f=c.faction==="Alliance"?"A":"H",s=c.stretch??2;
-  const all=ZONES.filter(z=>(z.f==="C"||z.f===f)&&(!z.skyborne||c.skyborne));
-  let has;
-  if(prof==="Herbalism")has=z=>z.herbs.includes(name);
-  else if(prof==="Mining"){const ore=STONE_OF[name]||name;has=z=>z.ores.includes(ore)}
-  else if(prof==="Skinning"){
-    if(SKIN_SPECIAL[name])has=z=>SKIN_SPECIAL[name].includes(z.name);
-    else{const tier=name==="Ruined Leather Scraps"?LEATHER_TIERS[0]:LEATHER_TIERS.find(t=>name.startsWith(t[0]+" "));
-      if(!tier)return{zones:[],unlock:null};
-      // a mob tier is reachable if the zone overlaps it and those mobs are within the character's kill range
-      has=z=>z.min<=tier[2]&&z.max>=tier[1]&&tier[1]<=c.level+s;
-      const inZone=z=>z.min<=tier[2]&&z.max>=tier[1];
-      const ok=zs.filter(has).map(z=>z.name);
-      const lv=all.filter(inZone).map(z=>Math.max(z.min,tier[1]));
-      return{zones:ok,unlock:ok.length?null:(lv.length?Math.max(1,Math.min(...lv)-s):null)};}
-  } else return{zones:[],unlock:null};
-  const ok=zs.filter(has).map(z=>z.name);
-  const lock=all.filter(has).map(z=>prof==="Skinning"&&!SKIN_SPECIAL[name]?Math.max(z.min,(LEATHER_TIERS.find(t=>name.startsWith(t[0]+" "))||[0,1])[1]):z.min);
-  return{zones:ok,unlock:ok.length?null:(lock.length?Math.max(1,Math.min(...lock)-s):null)};
-}
 /* A flip only counts if it fits the budget, has real margin and won't need to corner the market */
 /* ============ Helpers ============ */
 const $=s=>document.querySelector(s);
@@ -87,9 +64,10 @@ function readLocal(){try{return JSON.parse(localStorage.getItem("fml-cache")||"n
 /* ============ Conditions engine and estimates (src/engine) ============ */
 // Old signatures read the clock and app state here, so behavior is unchanged while call sites move
 const windows=(m,toggles,mode,hours)=>windowsAt(m,toggles,mode,hours,Date.now());
+const whenTxt=t=>whenTxtAt(t,Date.now());
+const perHour=o=>perHourOf(o,char());
+const zoneDossier=(c,Zr)=>zoneDossierAt(c,Zr,Date.now(),S.state.toggles);
 const estimate=(name,when)=>estimateAt(name,S.items,S.state.toggles,when||Date.now());
-const whenTxt=t=>{const d=new Date(t);const diff=(t-Date.now())/36e5;if(diff<1.5)return"now";
-  return d.toLocaleString(undefined,{weekday:"short",hour:"numeric"})};
 
 /* ============ Prices you enter ============ */
 function itemFor(name){return S.items[keyOf(name)]||null}
@@ -102,22 +80,6 @@ async function recordPrice(name,copper){
 async function deletePrices(name){const key=keyOf(name);delete S.items[key];cacheLocal();await Store.remove(key)}
 
 /* ============ Character helpers ============ */
-function profOf(c,n){return c.profs.find(p=>p.name===n)}
-function canGather(c,name){ // can this character gather it in their zones at their skill?
-  const m=MAT[name];if(m&&m.gather){const p=profOf(c,m.gather);if(!p||p.skill<m.req)return null;const w=whereGather(name,m.gather,c);return w.zones.length?{prof:m.gather,zones:w.zones}:null}
-  const ores=SMELT[name];if(ores){const p=profOf(c,"Mining");if(!p)return null;
-    const ok=ores.every(o=>MAT[o]&&p.skill>=MAT[o].req&&whereGather(o,"Mining",c).zones.length);return ok?{prof:"Mining",zones:whereGather(ores[0],"Mining",c).zones,smelt:ores}:null}
-  return null;
-}
-function rankBlock(c,p){
-  const r=RANKS.find(x=>p.skill<x.cap)||RANKS[3];
-  const next=RANKS[RANKS.indexOf(r)+1];
-  if(p.skill>=r.cap-5&&next){
-    if(c.level<next.lvl)return{msg:`You'll hit the ${r.cap} cap soon. ${next.name} training needs level ${next.lvl} (you're ${c.level}).`,blocked:true};
-    return{msg:`Train ${next.name} soon: you're near the ${r.cap} cap.`};
-  }
-  return null;
-}
 
 /* ============ Suggestions (pre-written, filled from rules) ============ */
 function gatherOptions(c){
@@ -154,68 +116,7 @@ function bestFarm(c){
 
 
 /* ============ Skinning spots: beasts, levels and subzones (Classic spawns via RankedBoost; Forever may differ) ============ */
-const skinReq=l=>l<=10?1:l<=20?(l-10)*10:l*5; // Classic: skill needed to skin a beast of level l
-function skinPlan(c,sp){ // how this spot works for this character, or null if it doesn't
-  const p=profOf(c,"Skinning");if(!p)return null;const reach=c.level+3;
-  if(sp.min>reach)return null; // beasts too strong to farm
-  const top=Math.min(sp.max,reach);
-  let best=null;for(let l=top;l>=sp.min;l--){if(skinReq(l)<=p.skill){best=l;break}}
-  if(best==null)return{sp,lockedAt:skinReq(sp.min),col:["locked","c-gray"]};
-  const col=skillColor(p.skill,skinReq(best));
-  return{sp,lvl:best,col,lo:sp.min,hi:top,score:(col[0]==="orange"?3:col[0]==="yellow"?2:col[0]==="green"?1:0)*100+best};
-}
-function skinSpots(c){
-  const zs=new Set(reachZones(c).map(z=>z.name));
-  return SKIN_SPOTS.filter(sp=>zs.has(sp.zone)).map(sp=>skinPlan(c,sp)).filter(x=>x&&!x.lockedAt).sort((a,b)=>b.score-a.score);
-}
-const skinLine=x=>`Skin ${x.sp.beasts} (about level ${x.lo}–${x.hi}) around ${andList(x.sp.spots)} for ${x.sp.leather} Leather. ${x.col[0]==="gray"?"No skill-ups for you here.":x.col[0]==="green"?"A few skill-ups left.":"Good skill-ups for you."}`;
 /* ============ Zone dossiers: when, where and why, per character ============ */
-const continentOf=n=>n==="Zephras Isle"?"Skywall (Skyborne start)":KALIMDOR.has(n)?"Kalimdor":"Eastern Kingdoms";
-function zoneDossier(c,Zr){
-  const z=ZONE[Zr.zone];const tg=S.state.toggles;const ctx=ctxAt(Date.now(),tg);
-  const when=[],where=[],why=[];
-  // WHEN
-  if(c.level<z.min)when.push(`Stretch zone: it starts at level ${z.min} and you're ${c.level}. Mobs will be tougher than you, so stick to the edges.`);
-  else if(c.level<=z.max)when.push(`Now. Level ${z.min}–${z.max} fits you, so you can quest here while you gather.`);
-  else when.push(`You've outleveled it (${z.min}–${z.max}), so mobs mostly ignore you and loops are fast.`);
-  const ups=Zr.items.filter(o=>o.skillUp);
-  if(ups.length){for(const pn of [...new Set(ups.map(o=>o.prof))]){const u=ups.filter(o=>o.prof===pn);const lim=Math.max(...u.map(o=>o.req+50));const p=profOf(c,pn);
-    when.push(`${pn} skill-ups from ${andList(u.map(o=>o.name))} until about ${lim} (you're at ${p.skill}).`)}}
-  else when.push("Nothing here gives skill-ups any more, so it's purely for gold.");
-  const crowded=z.min<=ctx.front+3&&z.max>=ctx.front-3;
-  if(crowded)when.push(`Busy right now: most players are leveling around ${Math.round(ctx.front)}. Go early morning or on weekdays for untouched nodes.`);
-  else if(z.max<ctx.front-8)when.push("Quiet: most players have moved past this zone, so nodes stay up. Any time works.");
-  else when.push(ctx.weekend?"Weekends bring more farmers; weekday evenings are calmer.":"Normal traffic; any time works.");
-  const priced=Zr.items.filter(o=>o.est);
-  if(priced.length){const best=priced.map(o=>({o,w:windows(MAT[o.name],tg,"sell",168)})).sort((a,b)=>b.w.best.s/b.w.now-a.w.best.s/a.w.now)[0];
-    const g=best.w.best.s/best.w.now-1;
-    when.push(g>0.05?`Sell what you gather at ${whenTxt(best.w.best.t)} (${best.o.name} ${pct(g)} vs now).`:"Sell when you're back: prices won't improve much this week.");}
-  // WHERE
-  where.push(`${continentOf(z.name)}${z.f==="C"?", contested territory: watch for the other faction on PvP realms":", your faction's territory"}.`);
-  const hd=DENSITY.herb[z.name],od=DENSITY.ore[z.name];
-  const dens=[];if(hd&&Zr.items.some(o=>o.prof==="Herbalism"))dens.push(`≈${hd} herb nodes`);if(od&&Zr.items.some(o=>o.prof==="Mining"))dens.push(`≈${od} ore nodes`);
-  if(dens.length)where.push(`Dense: ${dens.join(" and ")} in its best bracket, among the top zones in Wowhead's Forever data.`);
-  if(z.est)where.push("New Forever zone: its nodes aren't charted yet, so this list is a best guess for its level.");
-  if(profOf(c,"Skinning")){
-    const sp=SKIN_SPOTS.filter(x=>x.zone===z.name).map(x=>skinPlan(c,x)).filter(Boolean);
-    const ok=sp.filter(x=>!x.lockedAt).sort((a,b)=>b.score-a.score);
-    if(ok.length)where.push(skinLine(ok[0]));
-    else if(sp.length)where.push(`Skinning: the main beasts here (${sp[0].sp.beasts}) need about ${sp[0].lockedAt} skill.`);
-    else if(Zr.items.some(o=>o.prof==="Skinning"))where.push(`Skinnable beasts here run about level ${z.min}–${z.max}. No mapped hotspots for this zone, so skin what you kill on your route.`);
-  }
-  // WHY
-  if(ups.length)why.push(`${ups.length} node type${ups.length===1?"":"s"} still give skill-ups.`);
-  const profsHere=[...new Set(Zr.items.map(o=>o.prof))];
-  if(profsHere.length>1)why.push(`Both your gathering professions work here (${andList(profsHere)}), so nothing you pass is wasted.`);
-  const needs=needsFor(c).filter(n=>Zr.items.some(o=>o.name===n.name||(SMELT[n.name]||[]).includes(o.name)));
-  if(needs.length)why.push(`Feeds your ${andList([...new Set(needs.map(n=>n.prof))])}: ${andList([...new Set(needs.map(n=>n.name))])}.`);
-  if(priced.length){const top=priced.sort((a,b)=>b.est.now-a.est.now)[0];const ph=perHour(top);
-    why.push(`${top.name} is worth about ${plainMoney(top.est.now)} each today${ph?`, roughly ${plainMoney(ph)} an hour if you gathered only that`:""}.`);}
-  else why.push("Add prices for what grows here to see what it's worth.");
-  const up=Zr.items.filter(o=>o.shift>1.03).map(o=>o.name);if(up.length)why.push(`Today's conditions push ${andList(up)} up.`);
-  return{when,where,why};
-}
-function perHour(o){const r=GATHER_RATE[o.prof];if(!r||!o.est)return null;const cut=cutFor(houseOf(char()));return Math.round(r.nodes*r.yield*o.est.now*(1-cut))}
 function sellAdvice(c){
   const tg=S.state.toggles;const res=[];
   const names=[...new Set(Object.values(S.items).map(i=>i.name))];
@@ -223,14 +124,6 @@ function sellAdvice(c){
     const w=windows(m,tg,"sell",168);const gain=w.best.s/w.now-1;
     res.push({name:n,est:e,now:w.now,best:w.best,gain,action:gain>0.05?"hold":"list"});}
   return res.sort((a,b)=>b.gain-a.gain);
-}
-function needsFor(c){ // materials for profession skill-ups in the current bracket
-  const out=[];
-  for(const p of c.profs){const path=PATHS[p.name];if(!path)continue;
-    const b=path.find(x=>p.skill>=x[0]&&p.skill<x[1])||path[path.length-1];
-    const nb=path[path.indexOf(b)+1];
-    for(const n of b[2])out.push({prof:p.name,name:n,bracket:b,next:nb,farm:canGather(c,n)});}
-  return out;
 }
 function todaySuggestions(c){
   const tg=S.state.toggles;const s=[];const ctx=ctxAt(Date.now(),tg);
@@ -267,9 +160,6 @@ function sessionPlan(c,mins){
   return steps;
 }
 
-function houseOf(c){return c.faction==="Alliance"?"Alliance":"Horde"}
-function cutFor(house){return (HOUSES[house]||HOUSES.Horde).cut}
-function skillColor(skill,req){if(skill<req)return["locked","c-gray"];const d=skill-req;if(d<25)return["orange","c-orange"];if(d<50)return["yellow","c-yellow"];if(d<100)return["green","c-green"];return["gray","c-gray"]}
 
 /* ============ Backup: export and import (src/engine/backup.ts) ============ */
 
