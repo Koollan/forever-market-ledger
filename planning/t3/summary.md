@@ -8,7 +8,8 @@ Planned Nov 18, 2026 with the `/pdd` workflow, after a `/grill-me` session that 
 - `research/blizzard-api.md`: endpoints, namespaces, auth, rate limits, house IDs by faction, GitHub Actions facts, with sources
 - `research/existing-data.md`: the T0 file shape, the app's price code, test and CI setup
 - `design/detailed-design.md`: standalone design
-- `implementation/plan.md`: 10 steps with checklist
+- `implementation/plan.md`: 10 steps with checklist (all done)
+- `handoff.md`: where things stand after T3 shipped, how to run it, what comes next
 
 ## Design in brief
 - An hourly GitHub Actions job (`prices.yml`, minute :40) reads all 15 US houses (`dynamic-forever-us`, ruleset 2), keeps the 136 catalogued materials, and stores `min, p10, p25, median, qty, listings` for four series: Alliance, Horde, Blackwater, All.

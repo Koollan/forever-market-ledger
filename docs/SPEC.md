@@ -151,7 +151,7 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 - Visual check: Playwright screenshots at 412px wide for every tab (regression: the "Conditions now" squeeze bug).
 - ✅ Tests green in CI; built output is still a static site.
 
-**T3. Blizzard API price pipeline** (PR A merged Nov 19, 2026 as #3; PR B ready; design and plan in `planning/t3/`, decisions from the grill on Nov 18, 2026)
+**T3. Blizzard API price pipeline** (done Nov 19, 2026: PR A #3, PR B #4; design and plan in `planning/t3/`, decisions from the grill on Nov 18, 2026)
 - Two PRs: **A** (`t3/pipeline`, steps 1–5) starts hourly collection; **B** (`t3/app`, steps 6–10) makes the app use it.
 - `.github/workflows/prices.yml`, hourly at :40 UTC: client-credentials token → `dynamic-forever-us`, ruleset 2 → each of the 15 houses' `/data/wow/ruleset/2/auctions/{houseId}/commodities` (materials are commodities) → per item `[min, p10, p25, median, qty, listings]`, quantity-weighted, pooled into four series: `alliance`, `horde`, `blackwater`, `all`.
 - Stored on the orphan `prices` branch (not `main`): `us/latest.json`, `us/{series}/hourly/{yyyy-mm-dd}.json`, `us/{series}/daily/{yyyy-mm}.json`, columnar and tagged by source. Hourly data is kept (T4 needs per-hour effects), not rolled up after 7 days; the branch history is squashed monthly. US only for now.
