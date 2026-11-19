@@ -59,6 +59,8 @@ Character sheet (header chip): name, class, level, region (US/EU), faction, Skyb
 | `src/engine/dossier.ts` | `continentOf`, `zoneDossier` (When/Where/Why) |
 | `src/engine/suggestions.ts` | `gatherOptions`, `bestFarm`, `sellAdvice`, `todaySuggestions`, `sessionPlan`; each takes `{now, items, toggles}` |
 | `src/engine/backup.ts` | `buildBackup`, `validateBackup`, `backupData` (T1) |
+| `src/engine/market.ts` | T3 API prices: `homeSeries`, `activePrice` (your price wins while newer than the API hour and under 24 h old), `history` (hourly p10), `blackwaterHint`, `asOf` (stale past 3 h); `estimate` takes an optional API context |
+| `src/data/items.ts` | `ITEM_ID`: catalog name → item ID, from `data/items.json` |
 | `src/pipeline/*` | T3 price pipeline, pure: Battle.net requests (`http`), houses and series, listings → stats (`reduce`, `series`), snapshot hours, the `prices` branch files (`files`), T0 conversion. Run by `scripts/fetch-prices.ts` (modes `probe`, `run`, `import`) |
 | `src/ui/*`, `src/main.ts` | State and `localStorage`, the five tabs, sheets (material, characters, Backup), events, boot |
 
