@@ -46,6 +46,15 @@ describe("price cache", () => {
     expect(readCache(fakeStorage())).toBeNull();
     expect(readCache({ getItem: () => { throw new Error("blocked"); }, setItem: () => {} })).toBeNull();
   });
+
+  it("checks a cached copy like a fresh one: a bad latest.json is dropped, bad hourly files are left out", () => {
+    const bad = (c: object) => fakeStorage({ [PRICES_KEY]: JSON.stringify(c) });
+    const good = { v: 1, fetchedAt: now, region: "us", series: "horde", latest, hourly: [day("2026-11-19")] };
+    expect(readCache(bad({ ...good, latest: { v: 1 } }))).toBeNull();
+    const c = readCache(bad({ ...good, hourly: [day("2026-11-19"), null, { v: 1, date: "2026-11-20" }, "x"] }));
+    expect(c?.hourly.map((f) => f.date)).toEqual(["2026-11-19"]);
+    expect(readCache(bad({ ...good, hourly: "nope" }))?.hourly).toEqual([]);
+  });
 });
 
 describe("loadPrices", () => {

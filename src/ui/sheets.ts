@@ -24,8 +24,9 @@ import { sparkPath } from "./spark";
 
 /* ============ Sheets ============ */
 export function openSheet(html){$("#sheetPanel").innerHTML=html;$("#sheet").classList.add("open");$("#sheetPanel").scrollTop=0}
-export function closeSheet(){$("#sheet").classList.remove("open")}
+export function closeSheet(){$("#sheet").classList.remove("open");S.openMat=null}
 export function sheetMat(name){
+  S.openMat=name;
   const c=char();const m=MAT[name]||{name,cat:"Other",tier:3};const tg=S.state.toggles;
   // API prices (T3): the active price and where it came from, the home series' last 24 hours, Blackwater
   const now=Date.now(),api={market:S.market,character:c};const e=estimateAt(name,S.items,tg,now,api);

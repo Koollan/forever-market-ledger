@@ -157,7 +157,7 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 - Stored on the orphan `prices` branch (not `main`): `us/latest.json`, `us/{series}/hourly/{yyyy-mm-dd}.json`, `us/{series}/daily/{yyyy-mm}.json`, columnar and tagged by source. Hourly data is kept (T4 needs per-hour effects), not rolled up after 7 days; the branch history is squashed monthly. US only for now.
 - Item IDs from `data/items.json` (recorded by T0); no static item API calls.
 - Secrets: `BNET_CLIENT_ID`, `BNET_CLIENT_SECRET` in repo secrets (added Nov 19, 2026).
-- App (PR B) fetches the files at runtime and caches them in `fml-prices`; `p10` of the home faction's series is the price; a manual price wins while newer than the API's and under 24 h old. Sell advice covers your priced materials plus what you gather that has an API price; farm zone values use API prices too. EU characters stay on manual prices.
+- App (PR B) fetches the files at runtime and caches them in `fml-prices`; `p10` of the home faction's series is the price; a manual price wins while newer than the API's snapshot and under 24 h old; API prices more than 24 h old no longer drive prices or advice. Sell advice covers your priced materials plus what you gather that has an API price; farm zone values use API prices too. EU characters stay on manual prices.
 - ✅ After 24h, the app shows real current prices and a 24-point history for tracked materials; conditions engine can be validated against observed weekday/weekend swings.
 
 **T4. Calibrate the conditions engine**

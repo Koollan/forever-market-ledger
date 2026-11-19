@@ -52,11 +52,13 @@ describe("activePrice", () => {
     expect(activePrice("Peacebloom", { items: manual(["2026-11-20T14:30:00Z", 50]), market: api, character: horde, now })?.source).toBe("api");
   });
 
-  it("goes back to the API when your price is more than 24 h old, even if the API is older still", () => {
-    const old = market(latest("2026-11-19T09:00:00Z", { horde: [20, 32, 40, 60, 100, 10] }));
-    const r = activePrice("Peacebloom", { items: manual(["2026-11-19T10:00:00Z", 50]), market: old, character: horde, now });
-    expect(r?.source).toBe("api");
-    expect(r?.stale).toBe(true); // the API hour is more than 3 h old
+  it("goes back to the API when your price is more than 24 h old", () => {
+    const fresh = market(latest("2026-11-20T15:00:00Z", { horde: [20, 32, 40, 60, 100, 10] }));
+    // your price is newer than the API hour, but 25 h old by tomorrow 16:40
+    const r = activePrice("Peacebloom", { items: manual(["2026-11-20T15:30:00Z", 50]), market: fresh, character: horde, now: at("2026-11-21T16:40:00Z") });
+    expect(r).toBeNull(); // and the API hour is over a day old too, so the estimate from your prices applies
+    const later = market(latest("2026-11-21T16:00:00Z", { horde: [20, 32, 40, 60, 100, 10] }));
+    expect(activePrice("Peacebloom", { items: manual(["2026-11-20T15:30:00Z", 50]), market: later, character: horde, now: at("2026-11-21T16:40:00Z") })?.source).toBe("api");
   });
 
   it("is null without an API value, so the estimate from your own prices applies as before", () => {
@@ -112,6 +114,11 @@ describe("history", () => {
     expect(history("Peacebloom", "horde", m, at("2026-11-21T02:40:00Z"), 5)).toEqual([30, 31, 33, null, 35]);
   });
 
+  it("treats a non-number in a downloaded file as a missing hour", () => {
+    const bad: Market = { latest: null, hourly: { horde: [day("2026-11-21", ["00", "01"], [[1, "33" as never, 0, 0, 0, 0], [1, 34, 0, 0, 0, 0]])] } };
+    expect(history("Peacebloom", "horde", bad, at("2026-11-21T01:40:00Z"), 2)).toEqual([null, 34]);
+  });
+
   it("is 24 points by default and all null with nothing loaded", () => {
     const h = history("Peacebloom", "alliance", m, at("2026-11-21T02:40:00Z"));
     expect(h).toHaveLength(24);
@@ -156,5 +163,50 @@ describe("asOf", () => {
 
   it("is null with nothing loaded", () => {
     expect(asOf(market(null), at("2026-11-20T15:00:00Z"))).toBeNull();
+  });
+});
+
+describe("review fixes: times, numbers and age of API prices", () => {
+  const horde5 = { 113: "2026-11-20T15:25:17.000Z", 114: "2026-11-20T15:25:10.000Z", 115: "2026-11-20T15:24:54.000Z", 120: "2026-11-20T15:24:58.000Z", 124: "2026-11-20T15:25:00.000Z" };
+  const withSnaps = (snapshots: Record<number, string>): Market => {
+    const l = latest("2026-11-20T15:00:00Z", { horde: [20, 32, 40, 60, 100, 10] });
+    return market({ ...l, snapshots });
+  };
+
+  it("dates API prices by Blizzard's snapshot, not the start of its hour", () => {
+    const m = withSnaps(horde5);
+    const now = at("2026-11-20T15:40:00Z");
+    expect(activePrice("Peacebloom", { items: {}, market: m, character: horde, now })?.at).toBe(at("2026-11-20T15:25:17Z"));
+    // a price you saw at 15:10 is older than the 15:25 snapshot, so the API wins; one at 15:30 is newer
+    expect(activePrice("Peacebloom", { items: manual(["2026-11-20T15:10:00Z", 50]), market: m, character: horde, now })?.source).toBe("api");
+    expect(activePrice("Peacebloom", { items: manual(["2026-11-20T15:30:00Z", 50]), market: m, character: horde, now })?.source).toBe("manual");
+  });
+
+  it("uses only numbers from the files: a non-number becomes null, and no p10 means no API price", () => {
+    const l = latest("2026-11-20T15:00:00Z", {});
+    (l.series.horde.items as Record<number, unknown>)[PEACEBLOOM] = [20, 32, 40, 60, "<img src=x>", 10];
+    const r = activePrice("Peacebloom", { items: {}, market: market(l), character: horde, now: at("2026-11-20T15:40:00Z") });
+    expect(r?.row).toEqual([20, 32, 40, 60, null, 10]);
+    (l.series.horde.items as Record<number, unknown>)[PEACEBLOOM] = [20, "32", 40, 60, 100, 10];
+    expect(activePrice("Peacebloom", { items: {}, market: market(l), character: horde, now: at("2026-11-20T15:40:00Z") })).toBeNull();
+  });
+
+  it("falls back to the file's hour when a series entry has none", () => {
+    const l = latest("2026-11-20T15:00:00Z", { horde: [20, 32, 40, 60, 100, 10] });
+    delete (l.series.horde as { ts?: string }).ts;
+    expect(activePrice("Peacebloom", { items: {}, market: market(l), character: horde, now: at("2026-11-20T15:40:00Z") })?.at).toBe(at("2026-11-20T15:00:00Z"));
+  });
+
+  it("stops using API prices for advice once they are more than a day old", () => {
+    const m = market(latest("2026-11-20T15:00:00Z", { horde: [20, 32, 40, 60, 100, 10] }));
+    expect(activePrice("Peacebloom", { items: {}, market: m, character: horde, now: at("2026-11-21T14:00:00Z") })?.stale).toBe(true); // 23 h
+    expect(activePrice("Peacebloom", { items: {}, market: m, character: horde, now: at("2026-11-21T16:00:00Z") })).toBeNull(); // 25 h
+  });
+
+  it("dates the header by the home series' own hour", () => {
+    const l = latest("2026-11-20T08:00:00Z", {});
+    l.series.horde = { ts: "2026-11-20T04:00:00Z", houses: 5, items: {} };
+    expect(asOf(market(l), at("2026-11-20T08:40:00Z"), "horde")).toEqual({ ts: at("2026-11-20T04:00:00Z"), stale: true });
+    expect(asOf(market(l), at("2026-11-20T08:40:00Z"), "alliance")).toEqual({ ts: at("2026-11-20T08:00:00Z"), stale: false });
   });
 });

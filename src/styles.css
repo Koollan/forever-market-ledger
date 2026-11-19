@@ -99,7 +99,6 @@ input,select{border:1px solid var(--line);border-radius:8px;background:var(--bg)
 .sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:center;z-index:5}
 .sheet.open{display:flex}
 .sheet .panel{background:var(--surface);width:100%;max-width:640px;max-height:88%;overflow-y:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
-.spark{width:100%;height:150px;display:block}
 .out{white-space:pre-wrap;font-size:15px}
 .skillbar{height:6px;border-radius:3px;background:var(--chip);overflow:hidden}
 .skillbar i{display:block;height:100%;background:var(--accent)}

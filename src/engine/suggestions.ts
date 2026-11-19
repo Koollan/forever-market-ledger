@@ -17,7 +17,15 @@ export type SugCtx = { now: number; items: Items; toggles: Toggles; market?: Mar
 const apiCtx=(c: Character,x: SugCtx)=>({market:x.market??null,character:c});
 export type Suggestion = { kind: string; title: string; body: string };
 
+// Worked out once per (context, character): todaySuggestions and sessionPlan reach it through bestFarm and
+// sellAdvice with the same context. Callers only read the result.
+const gatherMemo=new WeakMap<SugCtx,WeakMap<Character,any[]>>();
 export function gatherOptions(c: Character,x: SugCtx): any[]{
+  let byChar=gatherMemo.get(x);if(!byChar){byChar=new WeakMap();gatherMemo.set(x,byChar)}
+  let opts=byChar.get(c);if(!opts){opts=gatherOptionsUncached(c,x);byChar.set(c,opts)}
+  return opts;
+}
+function gatherOptionsUncached(c: Character,x: SugCtx): any[]{
   const out=[];const tg=x.toggles;
   for(const p of c.profs){
     if(!GATHER[p.name])continue;

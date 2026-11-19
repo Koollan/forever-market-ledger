@@ -2,7 +2,8 @@ import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { test, expect, servePrices, PRICES } from "./test";
 
-// The material sheet with API prices (T3 step 9). Recorded files: newest hour 04:00 UTC, Nov 19, 2026.
+// The material sheet with API prices (T3 step 9). Recorded files: newest hour 04:00 UTC, Nov 19, 2026; the Horde
+// houses' newest snapshot is 04:25:17, so at 04:40 the prices are 15 minutes old.
 // Light Leather (2318), Horde p10 37c, Blackwater p10 55c: selling, you keep 35.15c at home after the 5% cut
 // and 46.75c at Blackwater after its 15% cut, 33% better.
 const hunter = { id: "h24", name: "Ref Hunter 24", cls: "Hunter", level: 24, faction: "Horde", region: "us", gold: null,
@@ -22,7 +23,7 @@ async function openSheet(page: import("@playwright/test").Page, c: object, items
 test("the sheet shows the API price, its spread, a 24-hour line and the Blackwater hint", async ({ page }) => {
   await servePrices(page);
   const sheet = await openSheet(page, hunter, {}, "2026-11-19T04:40:00Z");
-  await expect(sheet).toContainText("API · 40m ago");
+  await expect(sheet).toContainText("API · 15m ago");
   await expect(sheet.locator(".stat b").first()).toHaveText("37c");
   await expect(sheet).toContainText("min 25c · median 63c · 38,299 listed");
   await expect(sheet.getByRole("img", { name: "Price, last 24 hours" })).toBeVisible();
@@ -38,14 +39,14 @@ test("no Blackwater hint when Blackwater isn't more than 5% better", async ({ pa
   recorded.series.blackwater.items["2318"][1] = 40; // keeps 34c after the cut: about 3% worse than home
   await page.route(`${PRICES}us/latest.json`, (r) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(recorded) }));
   const sheet = await openSheet(page, hunter, {}, "2026-11-19T04:40:00Z");
-  await expect(sheet).toContainText("API · 40m ago");
+  await expect(sheet).toContainText("API · 15m ago");
   await expect(sheet.locator(".banner.bw")).toHaveCount(0);
 });
 
-test("a price you entered after the API's hour wins, labelled as yours", async ({ page }) => {
+test("a price you entered after the API's snapshot wins, labelled as yours", async ({ page }) => {
   await servePrices(page);
-  const mine = { "item~light-leather": { key: "item~light-leather", name: "Light Leather", hist: [{ t: Date.parse("2026-11-19T04:10:00Z"), price: 52 }] } };
-  const sheet = await openSheet(page, hunter, mine, "2026-11-19T05:10:00Z");
+  const mine = { "item~light-leather": { key: "item~light-leather", name: "Light Leather", hist: [{ t: Date.parse("2026-11-19T04:30:00Z"), price: 52 }] } };
+  const sheet = await openSheet(page, hunter, mine, "2026-11-19T05:30:00Z");
   await expect(sheet).toContainText("You · 1h ago");
   await expect(sheet.locator(".stat b").first()).toHaveText("52c");
 });
@@ -68,5 +69,25 @@ for (const scheme of ["light", "dark"] as const) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(412);
     expect(errors).toEqual([]);
     await page.screenshot({ path: info.outputPath(`sheet-prices-${scheme}.png`) });
+  });
+}
+
+test("an open sheet shows API prices that arrive after it opened", async ({ page }) => {
+  let release!: () => void;
+  const gate = new Promise<void>((r) => (release = r));
+  await servePricesAfter(page, gate);
+  const sheet = await openSheet(page, hunter, {}, "2026-11-19T04:40:00Z");
+  await expect(sheet).toContainText("estimate now");
+  release();
+  await expect(sheet).toContainText("API · 15m ago");
+});
+
+// Serve the recorded files only once `gate` resolves (prices arriving after the user opened a sheet)
+async function servePricesAfter(page: import("@playwright/test").Page, gate: Promise<void>) {
+  const dir = fileURLToPath(new URL("../fixtures/prices/", import.meta.url));
+  await page.route(`${PRICES}**`, async (r) => {
+    await gate;
+    const file = dir + r.request().url().slice(PRICES.length);
+    return fs.existsSync(file) ? r.fulfill({ status: 200, contentType: "application/json", body: fs.readFileSync(file, "utf8") }) : r.fulfill({ status: 404, body: "" });
   });
 }

@@ -16,8 +16,10 @@ export type PriceCache = { v: 1; fetchedAt: number; region: string; series: Seri
 
 export function readCache(storage: Storage): PriceCache | null {
   try {
+    // checked like a fresh download: a cache from an older or broken build must not break rendering
     const c = JSON.parse(storage.getItem(PRICES_KEY) || "null");
-    return c && c.v === 1 && c.latest ? (c as PriceCache) : null;
+    if (!c || c.v !== 1 || !isLatest(c.latest)) return null;
+    return { ...c, hourly: Array.isArray(c.hourly) ? c.hourly.filter(isHourly) : [] } as PriceCache;
   } catch { return null; }
 }
 

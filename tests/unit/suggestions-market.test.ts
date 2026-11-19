@@ -52,3 +52,12 @@ describe("gather options with API prices", () => {
     expect(gatherOptions(hunter, base).find((x) => x.name === "Light Leather")?.est).toBeNull();
   });
 });
+
+describe("gather options are worked out once per context", () => {
+  it("returns the same result for the same character and context, fresh ones otherwise", () => {
+    const x: SugCtx = { ...base, market };
+    expect(gatherOptions(hunter, x)).toBe(gatherOptions(hunter, x));
+    expect(gatherOptions(hunter, { ...x })).not.toBe(gatherOptions(hunter, x));
+    expect(gatherOptions(hunter, { ...x })).toEqual(gatherOptions(hunter, x));
+  });
+});

@@ -2,6 +2,7 @@
 // they change, and refetches when the tab comes back after REFRESH_MS. The first paint never waits on it.
 import { S, char } from "./state";
 import { render } from "./views";
+import { sheetMat } from "./sheets";
 import { homeSeries } from "../engine/market";
 import { loadPrices, readCache, REFRESH_MS } from "./prices";
 
@@ -21,7 +22,15 @@ export async function refreshPrices() {
   const key = (x: typeof m) => JSON.stringify([x?.latest?.generated_at ?? null, x?.hourly && Object.values(x.hourly).map((f) => f?.map((d) => d.ts.length))]);
   const changed = key(m) !== key(S.market);
   S.market = m;
-  if (changed) { const v = document.querySelector("#view"), y = v?.scrollTop ?? 0; render(); if (v) v.scrollTop = y; }
+  if (changed) { const v = document.querySelector("#view"), y = v?.scrollTop ?? 0; render(); if (v) v.scrollTop = y; redrawSheet(); }
+}
+
+// An open material sheet shows the new prices too, unless you're typing a price into it
+function redrawSheet() {
+  const open = document.querySelector("#sheet.open"), panel = document.querySelector("#sheetPanel");
+  const typing = [...document.querySelectorAll<HTMLInputElement>("#priceForm input")].some((i) => i.value);
+  if (!open || !panel || !S.openMat || typing) return;
+  const y = panel.scrollTop; sheetMat(S.openMat); panel.scrollTop = y;
 }
 
 // Called on every header render: when the home series changes (first paint, another character, a faction

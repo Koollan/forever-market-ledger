@@ -70,7 +70,7 @@ export async function deletePrices(name){const key=keyOf(name);delete S.items[ke
 
 /* ============ App state ============ */
 // market: API prices loaded for pricesSeries (src/ui/live.ts); null until loaded, offline with no cache, or EU
-export const S: { state: AppState; items: Items; tab: string; mins: number; q: string; pendingImport?: Backup|null; market: Market|null; pricesSeries?: string|null }={
+export const S: { state: AppState; items: Items; tab: string; mins: number; q: string; pendingImport?: Backup|null; market: Market|null; pricesSeries?: string|null; openMat?: string|null }={
   state:{characters:[{id:"ex",name:"Example rogue",cls:"Rogue",level:15,faction:"Alliance",region:"us",gold:null,stretch:2,profs:[{name:"Herbalism",skill:90},{name:"Skinning",skill:80}],example:true}],activeId:"ex",toggles:{}},
   items:{},tab:"today",mins:60,q:"",market:null
 };
