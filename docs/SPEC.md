@@ -27,7 +27,10 @@ A static site on GitHub Pages (https://koollan.github.io/forever-market-ledger/)
 
 Data stays on the device in `localStorage` (key `fml-cache`). Since T3, US characters also get hourly auction prices from the Blizzard Game Data API: the app fetches them from the repo's `prices` branch and keeps the last good copy in `fml-prices` (not part of Backup); the header shows how fresh they are. The character sheet's **Backup** section exports everything as versioned JSON and imports it all-or-nothing after a confirm (T1). There is no sync across devices (decided Nov 18, 2026).
 
-### Screens (bottom tabs)
+### Layouts (T8)
+Phone first. Below 720px: one column, header with the character chip, bottom tab bar, bottom sheets (checked at 412px). From 720px (tablet): full-width header, an 88px nav rail on the left, cards in two columns, sheets as centred dialogs (at most 560px wide, 85vh tall). From 1100px (desktop): a 220px labelled sidebar and up to three columns, content capped at 1200px. Today: Conditions, Do this and Your materials side by side. Farm: zones beside the profession cards. Prices: Your prices, Market and Find. Professions: a grid of cards. Session: picker beside the steps.
+
+### Screens (tabs)
 | Tab | What it shows |
 |---|---|
 | Today | **Conditions now** (only conditions that move this character's materials, one line each: effect + what to do), **Do this** (farm / list / hold / buy / train suggestions), **Your materials today** (% shift vs a normal day) |
@@ -132,7 +135,7 @@ Sell advice: hold if the best 3-hour window in the next 7 days beats now by > 5%
 ---
 
 ## 7. Backlog
-Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → T4, then data tasks in parallel.
+Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → T8 → T4, then data tasks in parallel.
 
 **T0. One-time price history backfill** (done Nov 18, 2026)
 - `scripts/backfill-forever-ah.mjs` pulled hourly and daily history for the catalogued materials from Forever AH's free public API (US, "All Auction Houses" view, ~1 request/second as the API asks). Raw files in `data/backfill/forever-ah/`, each tagged `source: "forever-ah"`.
@@ -174,6 +177,10 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 - Herb and ore subzone hotspots (RankedBoost lists "most spots" per zone and bracket).
 - Forever crafting recipe ranges for `PATHS`.
 - ✅ Each new datum has a source in a comment or `docs/SOURCES.md`.
+
+**T8. Responsive layout** (Nov 18, 2026; design and plan in `planning/responsive/`; done ahead of T4–T7)
+- Tablet (720–1099px) and desktop (≥ 1100px) layouts as in section 2, Layouts: side nav, columns per tab, sheets as centred dialogs. CSS behind min-width media queries plus text-free `.lanes`/`.lane` wrappers (`display:contents` on phones).
+- ✅ Every tab and sheet at 412px renders pixel-identical to before; the behavior lock is unchanged; screenshots at 412, 768, 1280 and 1920, light and dark; layout checks in `tests/e2e/responsive.spec.ts`.
 
 **T7. Server time and region**
 - Use realm time zone and region-specific raid reset (US Tue / EU Wed).

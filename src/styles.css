@@ -1,4 +1,6 @@
-/* Layout: one-column phone app; sticky header with active character, scrolling view, fixed bottom tab bar. Harbor teal + brass. */
+/* Layout: phone first. Below 720px: one column, sticky header with the active character, scrolling view, fixed bottom tab bar.
+   720px and up (T8, end of file): full-width header, side nav (rail, then labelled sidebar at 1100px), columns per tab, sheets as dialogs.
+   Harbor teal + brass. */
 :root{
   --bg:#eef2f1; --surface:#ffffff; --ink:#15211f; --muted:#5b6b68; --line:#d4dcda;
   --accent:#0e6b62; --brass:#9a6a12;
@@ -118,4 +120,66 @@ details.zone[open] summary .nm::before{content:"▾ "}
 .ww ul{margin:4px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:3px;font-size:14px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--ink);color:var(--surface);padding:10px 14px;border-radius:10px;font-size:14px;z-index:9;display:none;max-width:90%}
 .empty{padding:14px;text-align:center;color:var(--muted);font-size:14px}
+/* Column wrappers (T8): no boxes on phones, so cards stay in main's single column */
+.lanes,.lane{display:contents}
 @media (prefers-reduced-motion: no-preference){.sheet .panel{animation:up .18s ease-out}@keyframes up{from{transform:translateY(20px)}to{transform:none}}}
+
+/* ============ Tablet and desktop (T8). Phone rules above stay untouched. ============ */
+/* body becomes a grid: header across the top, nav down the left, main (the only scroller) beside it */
+@media (min-width:720px){
+  :root{--navw:88px}
+  body{display:grid;grid-template-columns:var(--navw) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+  .app{display:contents}
+  header{grid-column:1/-1;grid-row:1;padding:calc(12px + env(safe-area-inset-top)) 24px 12px}
+  .brand{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:14px;row-gap:4px}
+  .brand small{margin-top:0}
+  .charchip{max-width:40%}
+  main{grid-column:2;grid-row:2;min-height:0;padding:24px max(24px,calc((100% - 1200px) / 2)) 32px}
+  nav{position:static;grid-column:1;grid-row:2;display:block;overflow-y:auto;border-top:0;border-right:1px solid var(--line);padding:12px 8px}
+  nav .in{grid-template-columns:1fr;max-width:none;gap:6px}
+  nav button{padding:10px 2px}
+  .toast{bottom:24px;left:calc(50% + var(--navw) / 2)}
+  /* sheets become centred dialogs */
+  .sheet{align-items:center;padding:24px}
+  .sheet .panel{max-width:560px;max-height:85vh;border-radius:18px;padding:20px}
+  /* columns per tab: .lanes is the grid, a .lane stacks the cards of one column */
+  .lanes{display:grid;gap:16px;align-items:start;grid-template-columns:minmax(0,1fr)}
+  .lanes>*{min-width:0}
+  .lane{display:flex;flex-direction:column;gap:16px}
+  /* Today: Conditions with Your materials under it, Do this beside both (they aren't adjacent in the DOM) */
+  .lanes-today{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto 1fr}
+  .lanes-today>:nth-child(1){grid-area:1/1}
+  .lanes-today>:nth-child(2){grid-area:1/2/3/3}
+  .lanes-today>:nth-child(3){grid-area:2/1}
+  .lanes-prices{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* Farm: zones full width, profession cards side by side under it */
+  .lanes-farm>.lane{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:start}
+  .lanes-skills{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .lanes-plan{max-width:760px}
+}
+@media (min-width:720px) and (prefers-reduced-motion: no-preference){
+  .sheet .panel{animation:pop .16s ease-out}
+  @keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+}
+@media (min-width:1100px){
+  :root{--navw:220px}
+  nav{padding:16px 12px}
+  nav button{flex-direction:row;justify-content:flex-start;gap:12px;padding:10px 14px;font-size:15px}
+  .lanes-today{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto}
+  .lanes-today>:nth-child(n){grid-area:auto}
+  /* Prices: Your prices, Market (when there is one) and Find, one column each */
+  .lanes-prices{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+  .lanes-prices .lane{display:contents}
+  /* Farm: zones (3fr) beside the stacked profession cards (2fr); without zones the cards share the width */
+  .lanes-farm{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
+  .lanes-farm>.lane{display:flex}
+  .lanes-farm>.lane:only-child{display:grid;grid-column:1/-1}
+  .lanes-plan{grid-template-columns:320px minmax(0,1fr);max-width:none}
+}
+/* Hover on wide screens with a mouse; the side shadows widen the highlight without moving anything */
+@media (min-width:720px) and (hover:hover){
+  button.item:hover,details.zone summary:hover{background:var(--chip);box-shadow:-8px 0 0 var(--chip),8px 0 0 var(--chip)}
+  nav button:not([aria-current="page"]):hover{background:var(--chip);color:var(--ink)}
+  .btn:not(.primary):not(:disabled):hover{background:var(--chip)}
+  .btn.primary:not(:disabled):hover{filter:brightness(1.1)}
+}

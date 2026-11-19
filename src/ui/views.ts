@@ -36,6 +36,11 @@ function vMarket(c,relevant,sa){
 }
 
 /* ============ Rendering ============ */
+// Column wrappers for tablet and desktop (T8). They hold no text and are display:contents below 720px,
+// so the phone layout and main's text (the behavior lock) are unchanged.
+const lanes=(tab,html)=>`<div class="lanes lanes-${tab}">${html}</div>`;
+const lane=html=>`<div class="lane">${html}</div>`;
+
 export const ICONS={
  today:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
  farm:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4-3 7-7 7-12a7 7 0 0 0-14 0c0 5 3 9 7 12z"/><path d="M12 22V10"/><path d="M12 14l-3-3M12 12l3-3"/></svg>',
@@ -80,7 +85,7 @@ export function vToday(c){
   if(ctx.prime)conds.push({t:"Evening prime time",fx:"about +3% when selling",act:"More buyers are online. A good hour to list."});
   if(ctx.offpeak)conds.push({t:"Quiet hours",fx:"about −3% when buying",act:"Overnight undercuts are still up. A good hour to buy."});
   const shifts=[...mine].map(n=>{const m=MAT[n];if(!m)return null;const s=shiftAt(m,Date.now(),tg);return{n,s,e:estimate(n)}}).filter(Boolean).filter(x=>Math.abs(x.s.mult-1)>=0.02).sort((a,b)=>b.s.mult-a.s.mult);
-  return `
+  return lanes("today",`
   <section class="card">
     <div class="row between"><h2>Conditions now</h2><span class="small muted">Day ${ctx.days} of Forever</span></div>
     <div class="list">${conds.map(x=>`<div class="cond"><span class="t">${esc(x.t)}</span><span class="fx">${esc(x.fx)}</span><span class="act">${esc(x.act)}</span></div>`).join("")||'<div class="empty">Nothing unusual for your materials right now.</div>'}</div>
@@ -93,14 +98,14 @@ export function vToday(c){
     <h2>Your materials today</h2>
     <p class="small muted" style="margin:0">How today's conditions push prices for what you gather or need, compared with a normal day.</p>
     <div class="list">${shifts.map(x=>`<button class="item" type="button" data-mat="${esc(x.n)}"><span class="nm">${esc(x.n)}</span><span class="right"><span class="pill ${x.s.mult>1?"good":"bad"}">${pct(x.s.mult-1)}</span>${x.e?`<span class="small muted">≈ ${plainMoney(x.e.now)}</span>`:""}</span><span class="meta small muted">${esc(x.s.why.map(w=>w.why).join("; "))}</span></button>`).join("")||'<div class="empty">No notable shifts for your materials right now.</div>'}</div>
-  </section>`;
+  </section>`);
 }
 
 export function vFarm(c){
   const gp=c.profs.filter(p=>GATHER[p.name]);
   if(!gp.length)return `<section class="card"><h2>No gathering professions</h2><p class="small muted" style="margin:0">Add Herbalism, Skinning or Mining to your character to get a farm plan.</p><button class="btn" type="button" data-act="editChar" data-id="${c.id}">Edit character</button></section>`;
   const f=bestFarm(c);const tg=S.state.toggles;
-  let h="";
+  let h="",profCards="";
   if(f&&f.list.length){
     const sec=(t,a)=>`<div class="ww"><b>${t}</b><ul>${a.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
     h+=`<section class="card"><h2>Zones for ${esc(c.name)}</h2>
@@ -111,6 +116,7 @@ export function vFarm(c){
       ${sec("When",d.when)}${sec("Where",d.where)}${sec("Why",d.why)}</details>`}).join("")}</div></section>`;
   }
   for(const p of gp){
+    let h="";
     const rows=GATHER[p.name].map(([n,req])=>({n,req,col:skillColor(p.skill,req),w:whereGather(n,p.name,c),e:estimate(n),s:shiftAt(MAT[n],Date.now(),tg)}));
     const next=rows.find(r=>r.req>p.skill);const rb=rankBlock(c,p);
     h+=`<section class="card">
@@ -128,8 +134,9 @@ export function vFarm(c){
           <span class="right">${r.e?money(r.e.now):'<span class="small muted">add price</span>'}${ph?`<span class="small muted">~${plainMoney(ph)}/hr</span>`:""}</span>
           <span class="meta small muted">${esc(zt)}${Math.abs(r.s.mult-1)>=.02?` · today ${pct(r.s.mult-1)}`:""}</span></button>`}).join("")}</div>
     </section>`;
+    profCards+=h;
   }
-  return h+`<p class="small muted">Node data follows Wowhead's Forever data where published. Zones marked (est.) are new Forever zones whose nodes aren't charted yet, so their herbs and ores are a best guess for their level.</p><p class="small muted">Gold per hour is a rough guide: about ${GATHER_RATE.Herbalism.nodes} herb nodes, ${GATHER_RATE.Skinning.nodes} skins or ${GATHER_RATE.Mining.nodes} mining nodes an hour, after the auction house cut.</p>`;
+  return lanes("farm",h+lane(profCards))+`<p class="small muted">Node data follows Wowhead's Forever data where published. Zones marked (est.) are new Forever zones whose nodes aren't charted yet, so their herbs and ores are a best guess for their level.</p><p class="small muted">Gold per hour is a rough guide: about ${GATHER_RATE.Herbalism.nodes} herb nodes, ${GATHER_RATE.Skinning.nodes} skins or ${GATHER_RATE.Mining.nodes} mining nodes an hour, after the auction house cut.</p>`;
 }
 
 export function vPrices(c){
@@ -138,24 +145,24 @@ export function vPrices(c){
   const relevant=new Set([...gatherOptions(c).map(o=>o.name),...needsFor(c).map(n=>n.name)]);
   const pool=MATS.filter(m=>!tracked.includes(m.name)&&(q?m.name.toLowerCase().includes(q):relevant.has(m.name)));
   const sa=Object.fromEntries(sellAdvice(c).map(x=>[x.name,x]));
-  return `
+  return lanes("prices",lane(`
   <section class="card">
     <h2>Your prices</h2>
     <p class="small muted" style="margin:0">Type in a price whenever you see one in game. The app removes the conditions at the time you saw it and re-applies today's, so old prices stay useful.</p>
     <div class="list">${tracked.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">${e.source==="api"?`API ${ago(e.last.t)} · yours ${ago(lastPrice(n).t)}`:`seen ${ago(e.last.t)}`}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}<span class="pill">${itemFor(n).hist.length} price${itemFor(n).hist.length===1?"":"s"}</span></span></button>`}).join("")||'<div class="empty">No prices yet. Pick a material below to add one.</div>'}</div>
   </section>
-  ${vMarket(c,relevant,sa)}
+  ${vMarket(c,relevant,sa)}`)+`
   <section class="card">
     <input id="matQ" placeholder="Find a material" value="${esc(S.q)}" aria-label="Find a material">
     <h3>${q?"Matches":"Relevant to you"}</h3>
     <div class="list">${pool.slice(0,30).map(m=>`<button class="item" type="button" data-mat="${esc(m.name)}"><span class="nm">${esc(m.name)}</span><span class="right"><span class="small muted">add price</span></span><span class="meta small muted">${esc(m.cat)} · tier ${m.tier}</span></button>`).join("")||'<div class="empty">No matches.</div>'}</div>
-  </section>`;
+  </section>`);
 }
 
 export function vSkills(c){
   if(!c.profs.length)return `<section class="card"><h2>No professions</h2><button class="btn" type="button" data-act="editChar" data-id="${c.id}">Add professions</button></section>`;
   const tg=S.state.toggles;
-  return c.profs.map(p=>{
+  return lanes("skills",c.profs.map(p=>{
     const rb=rankBlock(c,p);const path=PATHS[p.name];
     let body="";
     if(GATHER[p.name]){
@@ -175,12 +182,12 @@ export function vSkills(c){
       ${rb?`<div class="banner">${esc(rb.msg)}</div>`:""}
       ${path?`<h3>Skill ${(path.find(x=>p.skill>=x[0]&&p.skill<x[1])||path[path.length-1]).slice(0,2).join("–")}</h3>`:""}
       ${body}
-    </section>`}).join("")+`<p class="small muted">Material paths follow Classic leveling routes. Forever may differ, for example First Aid now also makes healing potions.</p>`;
+    </section>`}).join(""))+`<p class="small muted">Material paths follow Classic leveling routes. Forever may differ, for example First Aid now also makes healing potions.</p>`;
 }
 
 export function vPlan(c){
   const steps=sessionPlan(c,S.mins);
-  return `
+  return lanes("plan",`
   <section class="card">
     <h2>How long can you play?</h2>
     <div class="tabs" role="group" aria-label="Session length">${[30,60,120].map(m=>`<button type="button" data-act="mins" data-m="${m}" aria-pressed="${S.mins===m}">${m<60?m+" min":m/60+" hr"+(m>60?"s":"")}</button>`).join("")}</div>
@@ -188,5 +195,5 @@ export function vPlan(c){
   <section class="card">
     <h2>Your ${S.mins<60?S.mins+"-minute":S.mins/60+"-hour"} session</h2>
     <ol class="steps">${steps.map(s=>`<li><div><b>${esc(s.t)}</b> <span class="small muted">${s.m} min</span><p class="small" style="margin:4px 0 0">${esc(s.b)}</p></div></li>`).join("")}</ol>
-  </section>`;
+  </section>`);
 }
