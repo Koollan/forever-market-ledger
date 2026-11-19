@@ -9,15 +9,20 @@
 //          responses (tracked materials kept) for the pipeline's tests.
 //   run    reads each house's /commodities, reduces the tracked materials to stats and pools them
 //          into the four series. --fixtures <dir> reads saved responses (house-<id>-commodities.json;
-//          a missing file is a house not read) instead of the API. For now only --dry is supported:
-//          it prints a summary and sample rows and writes nothing (writing files arrives in step 3).
+//          a missing file is a house not read) instead of the API. --out <dir> merges the point into
+//          <dir>/<region>/{latest.json, <series>/hourly/<day>.json, <series>/daily/<month>.json} and
+//          rebuilds that day's and the previous day's daily rows. If no house's snapshot moved since
+//          latest.json, nothing is written. --dry prints the summary and sample rows instead.
 
 import fs from "node:fs";
 import path from "node:path";
 import { getJson, getToken, type Deps, type JsonResult } from "../src/pipeline/http.ts";
 import { SERIES, SERIES_IDS } from "../src/pipeline/houses.ts";
 import { listingsFrom } from "../src/pipeline/reduce.ts";
-import { pool, type HouseListings } from "../src/pipeline/series.ts";
+import { pool, type HouseListings, type SeriesPoint } from "../src/pipeline/series.ts";
+import { changed, pointHour } from "../src/pipeline/snapshot.ts";
+import { buildLatest, formatFile, mergeDaily, mergeHourly, rollDay, type DailyFile, type HourlyFile, type Latest, type Point } from "../src/pipeline/files.ts";
+import type { SeriesId } from "../src/pipeline/houses.ts";
 
 const REGION = "us";
 const API = `https://${REGION}.api.blizzard.com`;
@@ -146,8 +151,34 @@ async function readHouse(house: number, source: { fixtures?: string; token?: str
   return { body: res.body, lastModified: res.headers.get("last-modified") };
 }
 
+function readJson<T>(file: string): T | null {
+  return fs.existsSync(file) ? (JSON.parse(fs.readFileSync(file, "utf8")) as T) : null;
+}
+function writeFile(file: string, data: object) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, formatFile(data));
+}
+const dayBefore = (date: string) => new Date(Date.parse(`${date}T00:00:00Z`) - 864e5).toISOString().slice(0, 10);
+
+// Merge one series' point into its day file and rebuild that day's and the previous day's daily rows
+function writeSeries(out: string, series: SeriesId, point: Point) {
+  const meta = { region: REGION, series };
+  const dir = path.join(out, REGION, series);
+  const date = point.ts.slice(0, 10);
+  const hourlyPath = (d: string) => path.join(dir, "hourly", `${d}.json`);
+  writeFile(hourlyPath(date), mergeHourly(readJson<HourlyFile>(hourlyPath(date)), point, meta));
+  for (const d of [dayBefore(date), date]) {
+    const hourly = readJson<HourlyFile>(hourlyPath(d));
+    if (!hourly) continue;
+    const dailyPath = path.join(dir, "daily", `${d.slice(0, 7)}.json`);
+    writeFile(dailyPath, mergeDaily(readJson<DailyFile>(dailyPath), rollDay(hourly), meta));
+  }
+}
+
 async function run() {
-  if (!process.argv.includes("--dry")) { console.error("run writes files from T3 step 3 on; use --dry for now"); process.exit(2); }
+  const dry = process.argv.includes("--dry");
+  const out = arg("out");
+  if (!dry && !out) { console.error("run needs --out <dir> (or --dry)"); process.exit(2); }
   const ids = tracked();
   const fixtures = arg("fixtures");
   const source = fixtures ? { fixtures } : { token: await getToken(...credentials(), deps) };
@@ -159,19 +190,33 @@ async function run() {
     perHouse.set(house, listingsFrom(read.body, ids));
     if (read.lastModified) snapshots[house] = new Date(read.lastModified).toISOString();
   }
+  if (!perHouse.size) { console.error("no house could be read"); process.exit(1); }
   const items = [...ids];
-  const series = Object.fromEntries(SERIES_IDS.map((s) => [s, pool(perHouse, SERIES[s], items)]));
-  const latest = Object.values(snapshots).sort().pop() ?? "(no snapshot time)";
+  const series = Object.fromEntries(SERIES_IDS.map((s) => [s, pool(perHouse, SERIES[s], items)])) as Record<SeriesId, SeriesPoint>;
+  const ts = pointHour(snapshots) ?? new Date().toISOString().slice(0, 13) + ":00:00Z";
   const priced = items.filter((id) => series.all.items[id]).length;
   const missing = SERIES.all.filter((h) => !perHouse.has(h));
-  console.log(`${latest} ${perHouse.size}/${SERIES.all.length} houses, ${priced}/${items.length} items${missing.length ? ` (not read: ${missing.join(", ")})` : ""}`);
-  for (const s of SERIES_IDS) console.log(`  ${s}: ${series[s].houses}/${SERIES[s].length} houses`);
-  const names = Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync("data/items.json", "utf8")) as Record<string, unknown>).map(([k, v]) => [v, k]));
-  console.log("  sample rows (all), [min, p10, p25, median, qty, listings] in copper:");
-  for (const id of items.filter((id) => series.all.items[id]).slice(0, 5)) console.log(`    ${names[id]} (${id}): ${JSON.stringify(series.all.items[id])}`);
+  const summary = `${ts} ${perHouse.size}/${SERIES.all.length} houses, ${priced}/${items.length} items${missing.length ? ` (not read: ${missing.join(", ")})` : ""}`;
+
+  if (dry) {
+    console.log(summary);
+    for (const s of SERIES_IDS) console.log(`  ${s}: ${series[s].houses}/${SERIES[s].length} houses`);
+    const names = Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync("data/items.json", "utf8")) as Record<string, unknown>).map(([k, v]) => [v, k]));
+    console.log("  sample rows (all), [min, p10, p25, median, qty, listings] in copper:");
+    for (const id of items.filter((id) => series.all.items[id]).slice(0, 5)) console.log(`    ${names[id]} (${id}): ${JSON.stringify(series.all.items[id])}`);
+    return;
+  }
+
+  const latestPath = path.join(out as string, REGION, "latest.json");
+  const prev = readJson<Latest>(latestPath);
+  if (!changed(prev?.snapshots ?? null, snapshots)) { console.log(`${summary}: no new snapshot, nothing written`); return; }
+  const points = Object.fromEntries(SERIES_IDS.map((s) => [s, { ts, src: "bnet", houses: series[s].houses, items: series[s].houses ? series[s].items : {} }])) as Record<SeriesId, Point>;
+  for (const s of SERIES_IDS) if (series[s].houses) writeSeries(out as string, s, points[s]);
+  writeFile(latestPath, buildLatest(REGION, points, { ...(prev?.snapshots ?? {}), ...snapshots }, new Date().toISOString()));
+  console.log(summary);
 }
 
 const mode = arg("mode");
 if (mode === "probe") await probe();
 else if (mode === "run") await run();
-else { console.error(`Unknown or missing --mode (${mode ?? "none"}). Available now: probe, run --dry`); process.exit(2); }
+else { console.error(`Unknown or missing --mode (${mode ?? "none"}). Available now: probe, run`); process.exit(2); }

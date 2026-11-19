@@ -4,7 +4,7 @@
 
 - [x] Step 1: Item map, Battle.net client and a read-only probe (PR A). Findings in `research/probe.md`: materials are commodities, `Last-Modified` is the snapshot time, ruleset 2 is valid
 - [x] Step 2: Reduce listings to stats and pool into series (PR A)
-- [ ] Step 3: Hourly, daily and latest files written by a full run (PR A)
+- [x] Step 3: Hourly, daily and latest files written by a full run (PR A)
 - [ ] Step 4: Convert the T0 backfill (PR A)
 - [ ] Step 5: The hourly workflow and the `prices` branch; ship PR A (PR A)
 - [ ] Step 6: Close the gap after T0 (PR B)
