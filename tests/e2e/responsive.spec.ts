@@ -35,6 +35,37 @@ test.describe("shell", () => {
     });
   }
 
+  test.describe("sheets", () => {
+    for (const width of [768, 1280]) {
+      test.describe(`at ${width}px`, () => {
+        test.use({ viewport: { width, height: 900 } });
+
+        test("open as centred dialogs and still close", async ({ page }) => {
+          await page.goto("./");
+          const centred = async () => {
+            const [p] = await boxes(page, "#sheetPanel");
+            expect(p.width).toBeLessThanOrEqual(560);
+            expect(Math.abs(p.x - (width - p.x - p.width))).toBeLessThanOrEqual(2);
+            expect(Math.abs(p.y - (900 - p.y - p.height))).toBeLessThanOrEqual(2);
+            expect(p.height).toBeLessThanOrEqual(900 * 0.85 + 1);
+          };
+          await page.locator(`nav [data-tab="prices"]`).click();
+          await page.locator("main [data-mat]").first().click();
+          await centred();
+          await page.keyboard.press("Escape");
+          await expect(page.locator("#sheet")).not.toHaveClass(/open/);
+
+          await page.locator("#charBtn").click();
+          await centred();
+          await page.locator('#sheet [data-act="editChar"]').first().click();
+          await centred();
+          await page.mouse.click(10, 450); // the backdrop, left of the dialog
+          await expect(page.locator("#sheet")).not.toHaveClass(/open/);
+        });
+      });
+    }
+  });
+
   test.describe("at 1920px", () => {
     test.use({ viewport: { width: 1920, height: 1000 } });
     test("content is capped at 1200px and centred beside the sidebar", async ({ page }) => {

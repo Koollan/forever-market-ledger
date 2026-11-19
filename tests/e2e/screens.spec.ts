@@ -38,13 +38,13 @@ for (const width of WIDTHS) {
         await page.locator("main [data-mat]").first().click();
         await expect(page.locator("#sheet")).toHaveClass(/open/);
         await noOverflow(page, width);
-        await page.screenshot({ path: info.outputPath(`sheet-material-${width}-${scheme}.png`) });
+        await page.screenshot({ path: info.outputPath(`sheet-material-${width}-${scheme}.png`), animations: "disabled" });
         await page.locator('#sheet [data-act="close"]').click();
         await page.locator("#charBtn").click();
-        await page.screenshot({ path: info.outputPath(`sheet-characters-${width}-${scheme}.png`) });
+        await page.screenshot({ path: info.outputPath(`sheet-characters-${width}-${scheme}.png`), animations: "disabled" });
         await page.locator('#sheet [data-act="editChar"]').first().click();
         await noOverflow(page, width);
-        await page.screenshot({ path: info.outputPath(`sheet-edit-${width}-${scheme}.png`) });
+        await page.screenshot({ path: info.outputPath(`sheet-edit-${width}-${scheme}.png`), animations: "disabled" });
         expect(errors).toEqual([]);
       });
     });
