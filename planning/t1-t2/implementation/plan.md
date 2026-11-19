@@ -9,7 +9,7 @@
 - [x] Step 5: Record and lock the baseline (T2)
 - [x] Step 6: Serve the app from a Vite build of the legacy script (T2)
 - [x] Step 7: Move the data tables into `src/data` (T2)
-- [ ] Step 8: Pure conditions and estimate engine (T2)
+- [x] Step 8: Pure conditions and estimate engine (T2)
 - [ ] Step 9: Pure farm, skinning, dossier and character engine (T2)
 - [ ] Step 10: Pure suggestions and session plan; reference-character test (T2)
 - [ ] Step 11: Typed UI, local-only storage, backup moved to the engine (T2)

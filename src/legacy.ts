@@ -7,6 +7,10 @@ import { CONSUMABLES, HOUSES } from "./data/consumables";
 import { RANKS, PATHS } from "./data/professions";
 import { SKIN_SPOTS } from "./data/skinSpots";
 import { LAUNCH, MATS, MAT, RAW, CONSUME, FA_HERBS, tierOfLevel, zoneTier } from "./data/materials";
+import { keyOf, plainMoney, median, andList, pct } from "./engine/util";
+import { esc, money } from "./ui/format";
+import { frontLevel, ctxAt, RULES, shiftAt, windows as windowsAt } from "./engine/conditions";
+import { estimate as estimateAt } from "./engine/estimate";
 import { validateBackup, buildBackup, backupData, staleKeys } from "./engine/backup";
 "use strict";
 /* ============ Reference data (Classic-era rules used by WoW Forever) ============ */
@@ -40,19 +44,8 @@ function whereGather(name,prof,c){
 /* A flip only counts if it fits the budget, has real margin and won't need to corner the market */
 /* ============ Helpers ============ */
 const $=s=>document.querySelector(s);
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const keyOf=n=>"item~"+String(n).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,120);
-function money(c){
-  if(c==null||!isFinite(c))return '<span class="money muted">—</span>';
-  c=Math.round(c);const neg=c<0;c=Math.abs(c);
-  const g=Math.floor(c/10000),s=Math.floor(c%10000/100),cc=c%100;
-  let o="";if(g)o+=`${g.toLocaleString()}<span class="g">g</span> `;if(s||g)o+=`${s}<span class="s">s</span>`;if(!g)o+=` ${cc}<span class="c">c</span>`;
-  return `<span class="money">${neg?"−":""}${o.trim()}</span>`;
-}
-function plainMoney(c){if(c==null)return"?";c=Math.round(c);const g=Math.floor(c/10000),s=Math.floor(c%10000/100),cc=c%100;return g?`${g}g ${s}s`:s?`${s}s ${cc}c`:`${cc}c`}
 function ago(t){const m=Math.round((Date.now()-t)/60000);if(m<60)return m+"m ago";const h=Math.round(m/60);if(h<48)return h+"h ago";return Math.round(h/24)+"d ago"}
 function toast(msg){const t=$("#toast");t.textContent=msg;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",3200)}
-const median=a=>{const b=a.filter(x=>x!=null&&isFinite(x)).sort((x,y)=>x-y);if(!b.length)return null;const m=b.length>>1;return b.length%2?b[m]:(b[m-1]+b[m])/2};
 const uid8=()=>Math.random().toString(36).slice(2,10);
 // True only inside claude.ai, where the optional Ask Claude call and private sync exist
 const inClaude=()=>!!(window.claude&&typeof window.claude.use==="function");
@@ -91,66 +84,16 @@ function readLocal(){try{return JSON.parse(localStorage.getItem("fml-cache")||"n
 
 /* ============ Materials catalog ============ */
 
-/* ============ Conditions engine: rule-based price shifts ============ */
-function frontLevel(t){const d=Math.max(0,(t-LAUNCH)/864e5);return Math.min(60,8+52*(1-Math.exp(-d/25)))}
-function ctxAt(t,toggles){
-  const d=new Date(t);const day=d.getDay(),h=d.getHours();
-  const days=Math.max(0,Math.floor((t-LAUNCH)/864e5));
-  return{t,day,h,days,front:frontLevel(t),frontTier:tierOfLevel(frontLevel(t)),
-    weekend:day===6||day===0||(day===5&&h>=17),midweek:day>=2&&day<=4,
-    raidPrep:(day===1&&h>=17)||day===2,prime:h>=18&&h<23,offpeak:h>=3&&h<10,
-    endgame:days>=21,toggles:toggles||{}};
-}
-/* Each rule: when it applies, which materials it moves, by how much, and what to do about it. */
-const RULES=[
- {id:"front",label:c=>`Most players are around level ${Math.round(c.front)}`,
-  act:"Sell what the crowd is leveling into; buy what they've moved past.",
-  hit:(m,c)=>{const g=m.tier-c.frontTier;
-    if(g===0)return{p:12,why:"most players are leveling through this bracket now"};
-    if(g===1)return{p:6,why:"the leveling crowd reaches this bracket soon"};
-    if(g===-1)return{p:-4,why:"the crowd is moving past this bracket"};
-    if(g<=-2)return{p:-12,why:"most players have outleveled this bracket"};
-    return null}},
- {id:"endgame",when:c=>c.endgame,label:()=>"Endgame demand",act:"Level-60 materials sell well; hold them for raid nights.",
-  hit:m=>m.tier===6?{p:10,why:"level-60 players buy raid and crafting materials"}:null},
- {id:"weekend",when:c=>c.weekend,label:()=>"Weekend",act:"Buy raw materials now; sell what you gather Tuesday to Thursday.",
-  hit:m=>RAW.has(m.cat)?{p:-7,why:"weekend farmers flood raw materials"}:null},
- {id:"midweek",when:c=>c.midweek,label:()=>"Midweek",act:"Good days to list raw materials.",
-  hit:m=>RAW.has(m.cat)?{p:4,why:"weekday supply is thinner"}:null},
- {id:"raid",when:c=>c.raidPrep&&c.days>=14,label:()=>"Raid reset prep",act:"List potions, elixirs and endgame materials before Tuesday's reset.",
-  hit:m=>CONSUME.has(m.cat)||m.tier===6?{p:10,why:"raiders restock before the reset"}:null},
- {id:"greenhouse",when:c=>c.days>=30,label:()=>"Greenhouse herbs reaching the market",act:"Sell herbs promptly rather than stockpiling.",
-  hit:m=>m.cat==="Herb"?{p:-3,why:"herbalists' greenhouses add steady supply"}:null}
-];
-function shiftAt(m,t,toggles,mode){ // mode: "sell" adds listing-exposure effects, "buy" adds quiet-hour discounts
-  const c=ctxAt(t,toggles);let mult=1;const why=[];
-  for(const r of RULES){if(r.when&&!r.when(c))continue;const x=r.hit(m,c);if(x){mult*=1+x.p/100;why.push({p:x.p,why:x.why,id:r.id})}}
-  if(mode==="sell"&&c.prime){mult*=1.03;why.push({p:3,why:"prime time: more buyers browsing",id:"prime"})}
-  if(mode==="buy"&&c.offpeak){mult*=0.97;why.push({p:-3,why:"quiet hours: overnight undercuts are still up",id:"quiet"})}
-  return{mult:Math.max(.6,Math.min(1.6,mult)),why,ctx:c};
-}
-function windows(m,toggles,mode,hours){ // best and worst 3-hour slots over the next N hours
-  const now=Date.now();const slots=[];
-  for(let k=0;k<=hours;k+=3){const t=now+k*36e5;slots.push({t,s:shiftAt(m,t,toggles,mode).mult})}
-  const best=slots.reduce((a,b)=>mode==="sell"?(b.s>a.s?b:a):(b.s<a.s?b:a));
-  return{now:slots[0].s,best};
-}
+/* ============ Conditions engine and estimates (src/engine) ============ */
+// Old signatures read the clock and app state here, so behavior is unchanged while call sites move
+const windows=(m,toggles,mode,hours)=>windowsAt(m,toggles,mode,hours,Date.now());
+const estimate=(name,when)=>estimateAt(name,S.items,S.state.toggles,when||Date.now());
 const whenTxt=t=>{const d=new Date(t);const diff=(t-Date.now())/36e5;if(diff<1.5)return"now";
   return d.toLocaleString(undefined,{weekday:"short",hour:"numeric"})};
-const andList=a=>a.length<2?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1];
-const pct=x=>(x>=0?"+":"−")+Math.abs(Math.round(x*100))+"%";
 
 /* ============ Prices you enter ============ */
 function itemFor(name){return S.items[keyOf(name)]||null}
 function lastPrice(name){const it=itemFor(name);const h=it?.hist||[];return h.length?h[h.length-1]:null}
-// Base value = your observations with each one's conditions removed; estimate = base x conditions now
-function estimate(name,when){
-  const m=MAT[name]||{name,cat:"Other",tier:3};const it=itemFor(name);if(!it||!it.hist?.length)return null;
-  const tg=S.state.toggles;
-  const bases=it.hist.map(p=>p.price/shiftAt(m,p.t,tg).mult);
-  const base=median(bases);const s=shiftAt(m,when||Date.now(),tg);
-  return{base,now:Math.round(base*s.mult),mult:s.mult,why:s.why,n:it.hist.length,last:it.hist[it.hist.length-1]};
-}
 async function recordPrice(name,copper){
   const key=keyOf(name);const it=S.items[key]||{key,name,hist:[]};
   it.hist=(it.hist||[]).filter(p=>Date.now()-p.t>10*6e4).concat([{t:Date.now(),price:copper}]).slice(-60);
