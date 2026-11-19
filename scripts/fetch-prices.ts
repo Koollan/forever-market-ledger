@@ -11,7 +11,8 @@
 //          into the four series. --fixtures <dir> reads saved responses (house-<id>-commodities.json;
 //          a missing file is a house not read) instead of the API. --out <dir> merges the point into
 //          <dir>/<region>/{latest.json, <series>/hourly/<day>.json, <series>/daily/<month>.json} and
-//          rebuilds that day's and the previous day's daily rows. If no house's snapshot moved since
+//          rebuilds that day's and the previous day's daily rows. Each house read also gets its own
+//          series, house-<id> (T10), in hourly and daily files only. If no house's snapshot moved since
 //          latest.json, nothing is written. --dry prints the summary and sample rows instead.
 //   import merges Forever AH backfill files (--from <dir>, repeatable; later folders win) into the `all`
 //          series under --out: one Forever AH point per hour (a Blizzard hour is never replaced), and
@@ -20,12 +21,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import { getJson, getToken, type Deps, type JsonResult } from "../src/pipeline/http.ts";
-import { SERIES, SERIES_IDS, indexDiff } from "../src/pipeline/houses.ts";
+import { SERIES, SERIES_IDS, houseSeries, indexDiff } from "../src/pipeline/houses.ts";
 import { listingsFrom } from "../src/pipeline/reduce.ts";
 import { pool, type HouseListings, type SeriesPoint } from "../src/pipeline/series.ts";
 import { changed, newest, pointHour, snapshotOf } from "../src/pipeline/snapshot.ts";
 import { buildLatest, dayRow, formatFile, mergeDaily, mergeHourly, type DailyFile, type DailyRow, type HourlyFile, type Latest, type Point } from "../src/pipeline/files.ts";
-import type { SeriesId } from "../src/pipeline/houses.ts";
+import type { SeriesId, StoredSeries } from "../src/pipeline/houses.ts";
 import { convertT0, type T0File } from "../src/pipeline/convert-t0.ts";
 
 const REGION = "us";
@@ -188,7 +189,7 @@ function writeFile(file: string, data: object) {
 const dayBefore = (date: string) => new Date(Date.parse(`${date}T00:00:00Z`) - 864e5).toISOString().slice(0, 10);
 
 // Merge one series' point into its day file and rebuild that day's and the previous day's daily rows
-function writeSeries(out: string, series: SeriesId, point: Point) {
+function writeSeries(out: string, series: StoredSeries, point: Point) {
   const meta = { region: REGION, series };
   const dir = path.join(out, REGION, series);
   const date = point.ts.slice(0, 10);
@@ -253,6 +254,8 @@ async function run() {
   if (!changed(prev?.snapshots ?? null, snapshots)) { console.log(`${summary}: no new snapshot, nothing written`); return; }
   const points = Object.fromEntries(SERIES_IDS.map((s) => [s, { ts, src: "bnet", houses: series[s].houses, items: series[s].houses ? series[s].items : {} }])) as Record<SeriesId, Point>;
   for (const s of SERIES_IDS) if (series[s].houses) writeSeries(out as string, s, points[s]);
+  // T10: each house read also gets its own series (us/house-<id>/…), not listed in latest.json
+  for (const house of perHouse.keys()) writeSeries(out as string, houseSeries(house), { ts, src: "bnet", houses: 1, items: pool(perHouse, [house], items).items });
   writeFile(latestPath, buildLatest(REGION, points, newest(prev?.snapshots ?? null, snapshots), new Date(now).toISOString(), prev));
   console.log(summary);
 }

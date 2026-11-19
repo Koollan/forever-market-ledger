@@ -50,6 +50,23 @@ describe("fetch-prices --mode run on the recorded fixtures", () => {
   it("writes nothing for a series none of whose houses were read", () => {
     expect(existsSync(path.join(out, "us/horde"))).toBe(false);
     expect(existsSync(path.join(out, "us/blackwater"))).toBe(false);
+    expect(existsSync(path.join(out, "us/house-113"))).toBe(false);
+  });
+
+  it("writes a series per house read, kept out of latest.json (T10)", () => {
+    const busy = read(out, "us/house-110/hourly/2026-11-19.json");
+    expect(busy).toMatchObject({ v: 1, region: "us", series: "house-110", date: "2026-11-19" });
+    expect(busy.ts).toEqual(["2026-11-19T01:00:00Z"]);
+    expect(busy.houses).toEqual([1]);
+    expect(busy.items["2447"]).toEqual([[7999, 7999, 7999, 7999, 20, 1]]);
+    expect(read(out, "us/house-110/daily/2026-11.json").items["2447"]).toEqual([[7999, 7999, 7999, 7999, 20, 1]]);
+
+    // House 112 was read but has no listings: every item is null for that hour
+    const empty = read(out, "us/house-112/hourly/2026-11-19.json");
+    expect(empty.houses).toEqual([1]);
+    expect(Object.values(empty.items).every((rows) => (rows as unknown[]).every((r) => r === null))).toBe(true);
+
+    expect(Object.keys(read(out, "us/latest.json").series).sort()).toEqual(["all", "alliance", "blackwater", "horde"]);
   });
 
   it("writes nothing on a second run with the same snapshots", () => {
