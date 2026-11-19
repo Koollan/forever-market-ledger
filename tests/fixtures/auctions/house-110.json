@@ -1,0 +1,182 @@
+{
+  "headers": {
+    "last-modified": "Thu, 19 Nov 2026 01:25:08 GMT",
+    "date": "Thu, 19 Nov 2026 02:16:44 GMT"
+  },
+  "body": {
+    "_links": {
+      "self": {
+        "href": "https://us.api.blizzard.com/data/wow/ruleset/2/auctions/110?namespace=dynamic-forever-us"
+      }
+    },
+    "auctions": [
+      {
+        "id": 114355015,
+        "item": {
+          "id": 211786
+        },
+        "buyout": 100,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 114355136,
+        "item": {
+          "id": 273115,
+          "context": 1,
+          "modifiers": [
+            {
+              "type": 28,
+              "value": 5239
+            }
+          ]
+        },
+        "buyout": 950095,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 114355400,
+        "item": {
+          "id": 287007,
+          "context": 1,
+          "modifiers": [
+            {
+              "type": 28,
+              "value": 6326
+            }
+          ]
+        },
+        "buyout": 52609,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 114355429,
+        "item": {
+          "id": 2015
+        },
+        "buyout": 4475,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 114355759,
+        "item": {
+          "id": 20745
+        },
+        "buyout": 651,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 114356218,
+        "item": {
+          "id": 5069
+        },
+        "buyout": 350,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 114357510,
+        "item": {
+          "id": 264023
+        },
+        "buyout": 11500,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 114358881,
+        "item": {
+          "id": 264026
+        },
+        "buyout": 5050,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 114359169,
+        "item": {
+          "id": 3830,
+          "context": 1,
+          "modifiers": [
+            {
+              "type": 28,
+              "value": 5242
+            }
+          ]
+        },
+        "buyout": 696,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 114360064,
+        "item": {
+          "id": 15625,
+          "bonus_lists": [
+            12731
+          ]
+        },
+        "buyout": 10000,
+        "quantity": 1,
+        "time_left": "SHORT"
+      },
+      {
+        "id": 118937324,
+        "item": {
+          "id": 2982
+        },
+        "bid": 560,
+        "quantity": 1,
+        "time_left": "LONG"
+      },
+      {
+        "id": 119019087,
+        "item": {
+          "id": 767
+        },
+        "bid": 300,
+        "quantity": 1,
+        "time_left": "LONG"
+      },
+      {
+        "id": 119022413,
+        "item": {
+          "id": 768
+        },
+        "bid": 120,
+        "quantity": 1,
+        "time_left": "LONG"
+      },
+      {
+        "id": 119030504,
+        "item": {
+          "id": 250366
+        },
+        "bid": 600,
+        "quantity": 1,
+        "time_left": "LONG"
+      },
+      {
+        "id": 119030561,
+        "item": {
+          "id": 250366
+        },
+        "bid": 600,
+        "quantity": 1,
+        "time_left": "LONG"
+      }
+    ],
+    "id": 110,
+    "name": "Alliance Auction House",
+    "commodities": {
+      "href": "https://us.api.blizzard.com/data/wow/ruleset/2/auctions/110/commodities?namespace=dynamic-forever-us"
+    },
+    "ruleset": {
+      "href": "https://us.api.blizzard.com/data/wow/ruleset/2?namespace=dynamic-forever-us"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "headers": {
+    "last-modified": "Thu, 19 Nov 2026 01:24:54 GMT",
+    "date": "Thu, 19 Nov 2026 02:16:48 GMT"
+  },
+  "body": {
+    "_links": {
+      "self": {
+        "href": "https://us.api.blizzard.com/data/wow/ruleset/2/auctions/112/commodities?namespace=dynamic-forever-us"
+      }
+    }
+  }
+}

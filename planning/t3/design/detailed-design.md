@@ -85,7 +85,7 @@ To run under Node's type stripping, these files use only erasable TypeScript (no
 ```
 node scripts/fetch-prices.ts --mode run|probe|import --out <prices checkout> [--region us]
 ```
-- **run:** token → index → each house (sequential, about 1 per second; snapshot from the `Last-Modified` header, else run time floored to the hour) → if `changed`, reduce, pool, merge files, write → exit 0. Prints one summary line, e.g. `2026-11-20T15:00Z 15/15 houses, 131/136 items`.
+- **run:** token → index → each house's `/commodities` (sequential, about 1 per second; snapshot from the `Last-Modified` header, else run time floored to the hour) → if `changed`, reduce, pool, merge files, write → exit 0. The step-1 probe (Nov 19, 2026) found every tracked material under `/commodities` (`unit_price` per item) and none in the house's regular `auctions`, so the regular lists are not read. Prints one summary line, e.g. `2026-11-20T15:00Z 15/15 houses, 131/136 items`.
 - **probe:** token → index → one house and its `/commodities` sub-path; logs top-level keys, auction counts, whether tracked items appear in `auctions` or `commodities`, and response header names. Writes nothing.
 - **import:** reads the T0 and gap backfill files from the `main` checkout, converts them and merges them into `us/all`, then rebuilds the affected daily rows.
 - Credentials come only from the environment (`BNET_CLIENT_ID`, `BNET_CLIENT_SECRET`) and are never printed. The token is kept in memory only.

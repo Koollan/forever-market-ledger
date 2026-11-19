@@ -16,11 +16,14 @@
     "noEmit": true,
     "skipLibCheck": true,
     "allowJs": false,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "allowImportingTsExtensions": true
   },
   "include": [
     "src/engine",
     "src/data",
+    "src/pipeline",
+    "scripts/**/*.ts",
     "tests/**/*.ts",
     "*.config.ts"
   ]
