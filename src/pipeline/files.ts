@@ -2,16 +2,16 @@
 // function takes a file (or null) and returns a new one. Columnar: `ts`, `src`, `houses`/`n` and every
 // item's rows line up by index, sorted by `ts`, so T4 can slice by weekday and hour.
 import { FIELDS } from "./reduce.ts";
-import type { SeriesId } from "./houses.ts";
+import type { SeriesId, StoredSeries } from "./houses.ts";
 
 export type Source = "bnet" | "fah"; // Blizzard Game Data API, or Forever AH (T0 backfill)
 // [min, p10, p25, median, qty, listings]; p25 is null in Forever AH rows
 export type FileRow = (number | null)[];
-export type Meta = { region: string; series: SeriesId };
+export type Meta = { region: string; series: StoredSeries };
 
 export type Point = { ts: string; src: Source; houses: number | null; items: Record<number, FileRow | null> };
 
-type Header = { v: 1; region: string; series: SeriesId; fields: string[] };
+type Header = { v: 1; region: string; series: StoredSeries; fields: string[] };
 export type HourlyFile = Header & {
   date: string; // UTC day, yyyy-mm-dd
   ts: string[]; src: Source[]; houses: (number | null)[];

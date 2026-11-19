@@ -159,7 +159,7 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 **T3. Blizzard API price pipeline** (done Nov 19, 2026: PR A #3, PR B #4; design and plan in `planning/t3/`, decisions from the grill on Nov 18, 2026)
 - Two PRs: **A** (`t3/pipeline`, steps 1–5) starts hourly collection; **B** (`t3/app`, steps 6–10) makes the app use it.
 - `.github/workflows/prices.yml`, hourly at :40 UTC: client-credentials token → `dynamic-forever-us`, ruleset 2 → each of the 15 houses' `/data/wow/ruleset/2/auctions/{houseId}/commodities` (materials are commodities) → per item `[min, p10, p25, median, qty, listings]`, quantity-weighted, pooled into four series: `alliance`, `horde`, `blackwater`, `all`.
-- Stored on the orphan `prices` branch (not `main`): `us/latest.json`, `us/{series}/hourly/{yyyy-mm-dd}.json`, `us/{series}/daily/{yyyy-mm}.json`, columnar and tagged by source. Hourly data is kept (T4 needs per-hour effects), not rolled up after 7 days; the branch history is squashed monthly. US only for now.
+- Stored on the orphan `prices` branch (not `main`): `us/latest.json`, `us/{series}/hourly/{yyyy-mm-dd}.json`, `us/{series}/daily/{yyyy-mm}.json`, columnar and tagged by source. Since T10 step 1, each house also has its own series `house-{id}` (hourly and daily files, not in `latest.json`). Hourly data is kept (T4 needs per-hour effects), not rolled up after 7 days; the branch history is squashed monthly. US only for now.
 - Item IDs from `data/items.json` (recorded by T0); no static item API calls.
 - Secrets: `BNET_CLIENT_ID`, `BNET_CLIENT_SECRET` in repo secrets (added Nov 19, 2026).
 - App (PR B) fetches the files at runtime and caches them in `fml-prices`; `p10` of the home faction's series is the price; a manual price wins while newer than the API's snapshot and under 24 h old; API prices more than 24 h old no longer drive prices or advice. Sell advice covers your priced materials plus what you gather that has an API price; farm zone values use API prices too. EU characters stay on manual prices.
@@ -190,6 +190,13 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 - Gold kept per craft after the home cut on both sides, at the active price (API p10 or yours), vendor reagents counted. Processing is recommended at > 10% and ≥ 1s more per craft; routes for Today and Prices use only inputs the character holds (no buying to craft).
 - Shown on the material sheet (all routes, including "No price for … yet"), as a Prices row pill and as a Today "Process" card (top two routes; their inputs leave the List now / Hold cards).
 - ✅ Every recipe number cites a source (`est` where Forever is unconfirmed); unit tests for routes, the comparison and thresholds; `tests/e2e/process.spec.ts` at 412px; the behavior lock is unchanged.
+
+**T10. Ruleset-aware prices** (Nov 19, 2026)
+- Rulesets (PvE, PvP, RP, RP-PvP) have entirely separate auction houses (owner, Nov 19, 2026). The faction series pool every house of a faction, so they blend several rulesets' markets; the Forever AH history before Nov 19 04:00 pools all 15 houses.
+- **Step 1 (done):** the pipeline also stores each house it reads as its own series, `us/house-{id}/hourly|daily`, so per-house history starts now. `latest.json` and the app are unchanged.
+- **Step 2:** confirm which houses belong to which ruleset. The IDs suggest five sets of one house per faction (110/113/116, 111/114/117, 112/115/118, 119/120/121, 123/124/125), with 112/115/118 empty and four live sets for four rulesets; this is an inference (`est`). Confirm in game: list a cheap item at an odd price on a character whose ruleset is known, then find it in the next snapshot.
+- **Step 3:** a ruleset picker on the character sheet; the app reads that ruleset's faction house (and its Blackwater house for the hint), falling back to the pooled faction series until a ruleset is set. T4 calibrates per ruleset.
+- ✅ A character on a known ruleset sees that ruleset's prices; the behavior lock changes only for characters with a ruleset set.
 
 **T7. Server time and region**
 - Use realm time zone and region-specific raid reset (US Tue / EU Wed).

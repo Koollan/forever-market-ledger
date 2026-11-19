@@ -5,6 +5,13 @@
 export type SeriesId = "alliance" | "horde" | "blackwater" | "all";
 export const SERIES_IDS: SeriesId[] = ["alliance", "horde", "blackwater", "all"];
 
+// T10: one stored series per house, kept beside the pooled ones. Rulesets (PvE, PvP, RP, RP-PvP) have
+// separate auction houses (owner, Nov 19, 2026), so the faction series above pool several markets.
+// Which house belongs to which ruleset is not confirmed yet; storing every house keeps that history.
+export type HouseSeriesId = `house-${number}`;
+export const houseSeries = (house: number): HouseSeriesId => `house-${house}`;
+export type StoredSeries = SeriesId | HouseSeriesId;
+
 const alliance = [110, 111, 112, 119, 123];
 const horde = [113, 114, 115, 120, 124];
 const blackwater = [116, 117, 118, 121, 125];
