@@ -7,8 +7,8 @@ const TABS = ["today", "farm", "prices", "skills", "plan"] as const;
  * Loads the app as `c` at a fixed moment and returns what the behavior lock compares:
  * the visible text of every tab, and the engine's outputs for that character.
  *
- * The single-file app exposes its functions as globals. Later builds expose the same
- * names on `window.__fml` (with `now` and data passed in) so this capture keeps working.
+ * The app exposes these functions on `window.__fml` (src/main.ts) with the single-file app's
+ * original names and signatures, so the baseline it recorded still applies.
  */
 export async function capture(page: Page, c: RefCharacter, iso: string) {
   await page.clock.setFixedTime(new Date(iso));

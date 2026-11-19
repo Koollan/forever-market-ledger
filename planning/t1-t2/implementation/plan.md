@@ -13,7 +13,7 @@
 - [x] Step 9: Pure farm, skinning, dossier and character engine (T2)
 - [x] Step 10: Pure suggestions and session plan; reference-character test (T2)
 - [x] Step 11: Typed UI, local-only storage, backup moved to the engine (T2)
-- [ ] Step 12: Gated deploy from the build; retire the single file (T2)
+- [x] Step 12: Gated deploy from the build; retire the single file (T2)
 
 Steps 1–3 are one branch and PR (`t1/standalone`); merging it deploys T1. Steps 4–12 are one branch (`t2/modules`), with a commit per step; the PR merges when step 12 is green. After every step from 6 on, the behavior lock from step 5 must stay green: that is what makes each step demoable and safe.
 
