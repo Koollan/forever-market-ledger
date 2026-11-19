@@ -13,7 +13,9 @@ Read `docs/SPEC.md` first. It describes the app, its rules, data sources, assump
 - `src/data`: reference tables, typed. `src/engine`: pure rules and suggestions; functions take `now` and the data they need, never `Date.now()` or app state. `src/ui`: tabs, sheets, `localStorage` storage (key `fml-cache`), events. `src/main.ts`: boot.
 - `tests/unit` (Vitest, `TZ=America/New_York`), `tests/e2e` (Playwright against the production build at 412×900, New York time), `tests/baseline` (the behavior lock), `tests/fixtures/reference.ts` (reference characters, moments, prices).
 - `docs/SPEC.md`: spec and backlog. `docs/SOURCES.md`: data sources. `planning/`: design and plans.
-- `.github/workflows/ci.yml`: checks on PRs and branches. `.github/workflows/pages.yml`: the same checks on `main`, then deploys `dist/`.
+- `src/pipeline`: the T3 price pipeline, pure and typed; run by `scripts/fetch-prices.ts` (Node's built-in TypeScript support, so pipeline files use erasable syntax and `.ts` import extensions). `data/items.json`: the catalogued materials' item IDs.
+- `.github/workflows/ci.yml`: checks on PRs and branches. `.github/workflows/pages.yml`: the same checks on `main`, then deploys `dist/`. `.github/workflows/prices.yml`: hourly prices into the orphan `prices` branch, the only workflow with write access. Never commit to `prices` by hand.
+- Battle.net credentials live only in repo secrets and the owner's own terminal. Never ask for, print or store them. To test against the live API, the owner runs `node scripts/fetch-prices.ts --mode probe` (or `run --dry`) themselves.
 - TypeScript: `tsconfig.json` is strict (engine, data, tests); `tsconfig.ui.json` allows implicit `any` in the UI's template code. `npm run typecheck` runs both.
 
 ## Verifying changes

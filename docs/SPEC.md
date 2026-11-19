@@ -59,6 +59,7 @@ Character sheet (header chip): name, class, level, region (US/EU), faction, Skyb
 | `src/engine/dossier.ts` | `continentOf`, `zoneDossier` (When/Where/Why) |
 | `src/engine/suggestions.ts` | `gatherOptions`, `bestFarm`, `sellAdvice`, `todaySuggestions`, `sessionPlan`; each takes `{now, items, toggles}` |
 | `src/engine/backup.ts` | `buildBackup`, `validateBackup`, `backupData` (T1) |
+| `src/pipeline/*` | T3 price pipeline, pure: Battle.net requests (`http`), houses and series, listings → stats (`reduce`, `series`), snapshot hours, the `prices` branch files (`files`), T0 conversion. Run by `scripts/fetch-prices.ts` (modes `probe`, `run`, `import`) |
 | `src/ui/*`, `src/main.ts` | State and `localStorage`, the five tabs, sheets (material, characters, Backup), events, boot |
 
 The engine is pure: no DOM, storage or clock. The UI reads the clock once per call and passes it in.
@@ -148,11 +149,13 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 - Visual check: Playwright screenshots at 412px wide for every tab (regression: the "Conditions now" squeeze bug).
 - ✅ Tests green in CI; built output is still a static site.
 
-**T3. Blizzard API price pipeline**
-- GitHub Actions hourly cron: OAuth client-credentials token → `dynamic-forever-{us,eu}` → `/data/wow/ruleset/{id}/auctions/` (trailing slash required) → each house `/data/wow/ruleset/{id}/auctions/{houseId}` → reduce to per-item `{min, p25, median, qty, listings}` → append to `data/prices/{region}/{house}/{yyyy-mm}.json`; roll hourly to daily after 7 days.
-- Item names via `static-forever-{region}` once, cached in `data/items.json`.
-- Secrets: `BNET_CLIENT_ID`, `BNET_CLIENT_SECRET` in repo secrets.
-- App reads these files; manual prices remain as overrides.
+**T3. Blizzard API price pipeline** (in progress; design and plan in `planning/t3/`, decisions from the grill on Nov 18, 2026)
+- Two PRs: **A** (`t3/pipeline`, steps 1–5) starts hourly collection; **B** (`t3/app`, steps 6–10) makes the app use it.
+- `.github/workflows/prices.yml`, hourly at :40 UTC: client-credentials token → `dynamic-forever-us`, ruleset 2 → each of the 15 houses' `/data/wow/ruleset/2/auctions/{houseId}/commodities` (materials are commodities) → per item `[min, p10, p25, median, qty, listings]`, quantity-weighted, pooled into four series: `alliance`, `horde`, `blackwater`, `all`.
+- Stored on the orphan `prices` branch (not `main`): `us/latest.json`, `us/{series}/hourly/{yyyy-mm-dd}.json`, `us/{series}/daily/{yyyy-mm}.json`, columnar and tagged by source. Hourly data is kept (T4 needs per-hour effects), not rolled up after 7 days; the branch history is squashed monthly. US only for now.
+- Item IDs from `data/items.json` (recorded by T0); no static item API calls.
+- Secrets: `BNET_CLIENT_ID`, `BNET_CLIENT_SECRET` in repo secrets (added Nov 19, 2026).
+- App (PR B) fetches the files at runtime and caches them in `fml-prices`; `p10` of the home faction's series is the price; a manual price wins while newer than the API's and under 24 h old.
 - ✅ After 24h, the app shows real current prices and a 24-point history for tracked materials; conditions engine can be validated against observed weekday/weekend swings.
 
 **T4. Calibrate the conditions engine**
