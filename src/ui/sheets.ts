@@ -19,12 +19,19 @@ import { validateBackup, buildBackup, backupData } from "../engine/backup";
 import { $, ago, toast, uid8, cacheLocal, readLocal, windows, whenTxt, perHour, zoneDossier, cx, gatherOptions, bestFarm, sellAdvice, todaySuggestions, sessionPlan, estimate, itemFor, lastPrice, recordPrice, deletePrices, S, char, saveState } from "./state";
 import { ICONS, TABS, renderNav, renderHeader, banners, render, KIND_PILL, vToday, vFarm, vPrices, vSkills, vPlan } from "./views";
 import { bindActions } from "./actions";
+import { activePrice, blackwaterHint, history, homeSeries } from "../engine/market";
+import { sparkPath } from "./spark";
 
 /* ============ Sheets ============ */
 export function openSheet(html){$("#sheetPanel").innerHTML=html;$("#sheet").classList.add("open");$("#sheetPanel").scrollTop=0}
 export function closeSheet(){$("#sheet").classList.remove("open")}
 export function sheetMat(name){
-  const c=char();const m=MAT[name]||{name,cat:"Other",tier:3};const tg=S.state.toggles;const e=estimate(name);
+  const c=char();const m=MAT[name]||{name,cat:"Other",tier:3};const tg=S.state.toggles;
+  // API prices (T3): the active price and where it came from, the home series' last 24 hours, Blackwater
+  const now=Date.now(),api={market:S.market,character:c};const e=estimateAt(name,S.items,tg,now,api);
+  const a=activePrice(name,{items:S.items,market:S.market,character:c,now});const series=homeSeries(c);
+  const line=series?history(name,series,S.market,now):[];const path=sparkPath(line,300,40);
+  const hints=(["sell","buy"] as const).map(md=>blackwaterHint(name,md,api)).filter(Boolean);
   const s=shiftAt(m,Date.now(),tg);const ws=windows(m,tg,"sell",168),wb=windows(m,tg,"buy",168);
   const g=canGather(c,name);const it=itemFor(name);
   const hist=(it?.hist||[]).slice().reverse();
@@ -32,10 +39,14 @@ export function sheetMat(name){
     <div class="row between"><h2>${esc(name)}</h2><button class="btn small" type="button" data-act="close">Close</button></div>
     <div class="btns"><span class="pill">${esc(m.cat)} · tier ${m.tier}</span>${g?`<span class="pill good">You can ${g.smelt?"mine and smelt":"gather"} it</span>`:""}</div>
     <div class="stat">
-      <div><b>${e?plainMoney(e.now):"—"}</b><span>estimate now</span></div>
+      <div><b>${a?plainMoney(a.price):e?plainMoney(e.now):"—"}</b><span>${a?`${a.source==="api"?"API":"You"} · ${ago(a.at)}`:"estimate now"}</span></div>
       <div><b>${pct(s.mult-1)}</b><span>today vs normal</span></div>
-      <div><b>${e?e.n:0}</b><span>prices entered</span></div>
+      <div><b>${it?.hist?.length||0}</b><span>prices entered</span></div>
     </div>
+    ${a?.row?`<p class="small muted" style="margin:0">min ${esc(plainMoney(a.row[0]))} · median ${esc(plainMoney(a.row[3]))} · ${(a.row[4]??0).toLocaleString()} listed${a.stale?" · prices are over 3 h old":""}</p>`:""}
+    ${path?`<figure class="pline"><svg viewBox="0 0 300 40" preserveAspectRatio="none" role="img" aria-label="Price, last 24 hours"><path d="${path}"/></svg><figcaption class="small muted"><span>24 h ago</span><span>now</span></figcaption></figure>`:""}
+    ${hints.map(h=>`<div class="banner bw">${h.mode==="sell"?`Blackwater: ${esc(plainMoney(h.price))} after its 15% cut, ${Math.round(h.pct*100)}% better than your faction house.`:`Blackwater: ${esc(plainMoney(h.price))}, ${Math.round(h.pct*100)}% cheaper than your faction house.`}</div>`).join("")}
+    ${(c.region||"us")!=="us"?'<p class="small muted" style="margin:0">API prices are US only for now.</p>':""}
     <div class="banner">${ws.best.s>ws.now*1.03?`Sell: wait for ${esc(whenTxt(ws.best.t))} (${pct(ws.best.s/ws.now-1)} vs now).`:"Sell: now is about as good as this week gets."} ${wb.best.s<wb.now*0.97?`Buy: ${esc(whenTxt(wb.best.t))} is cheapest (${pct(wb.best.s/wb.now-1)}).`:"Buy: no better window this week."}</div>
     ${s.why.length?`<p class="small muted" style="margin:0">${esc(s.why.map(w=>`${pct(w.p/100)} ${w.why}`).join(" · "))}</p>`:""}
     ${g?`<p class="small" style="margin:0"><b>Where:</b> ${esc(g.zones.map(zl).join(", "))}</p>`:""}
