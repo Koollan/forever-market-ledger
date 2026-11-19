@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:16.384Z",
+  "name": "Elixir of Ogre's Strength",
+  "forever_name": "Elixir of Ogre Strength",
+  "item_id": 3391,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:12Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 209,
+        "p10_unit": 210,
+        "median_unit": 448,
+        "mean_unit": 485,
+        "quantity": 6606,
+        "listings": 296
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 209,
+        "p10_unit": 220,
+        "median_unit": 404,
+        "mean_unit": 496,
+        "quantity": 6467,
+        "listings": 299
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 208,
+        "p10_unit": 220,
+        "median_unit": 400,
+        "mean_unit": 508,
+        "quantity": 7559,
+        "listings": 357
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 215,
+        "p10_unit": 345,
+        "median_unit": 500,
+        "mean_unit": 528,
+        "quantity": 8366,
+        "listings": 394
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 220,
+        "p10_unit": 341,
+        "median_unit": 404,
+        "mean_unit": 509,
+        "quantity": 8611,
+        "listings": 405
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 208,
+        "p10_unit": 267,
+        "median_unit": 431,
+        "mean_unit": 505,
+        "quantity": 7522,
+        "listings": 350
+      }
+    ]
+  }
+}

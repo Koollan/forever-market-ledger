@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:51.581Z",
+  "name": "Ruined Leather Scraps",
+  "forever_name": "Ruined Leather Scraps",
+  "item_id": 2934,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 8,
+        "p10_unit": 13,
+        "median_unit": 24,
+        "mean_unit": 54,
+        "quantity": 20612,
+        "listings": 911
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 9,
+        "p10_unit": 13,
+        "median_unit": 23,
+        "mean_unit": 55,
+        "quantity": 21263,
+        "listings": 1043
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 8,
+        "p10_unit": 11,
+        "median_unit": 20,
+        "mean_unit": 48,
+        "quantity": 26604,
+        "listings": 1306
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 7,
+        "p10_unit": 10,
+        "median_unit": 20,
+        "mean_unit": 63,
+        "quantity": 27106,
+        "listings": 1294
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 8,
+        "p10_unit": 11,
+        "median_unit": 28,
+        "mean_unit": 64,
+        "quantity": 34949,
+        "listings": 1400
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 7,
+        "p10_unit": 12,
+        "median_unit": 23,
+        "mean_unit": 57,
+        "quantity": 26107,
+        "listings": 1191
+      }
+    ]
+  }
+}

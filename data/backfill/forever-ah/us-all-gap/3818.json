@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:06.012Z",
+  "name": "Fadeleaf",
+  "forever_name": "Fadeleaf",
+  "item_id": 3818,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 295,
+        "p10_unit": 415,
+        "median_unit": 685,
+        "mean_unit": 862,
+        "quantity": 11962,
+        "listings": 1842
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 300,
+        "p10_unit": 382,
+        "median_unit": 619,
+        "mean_unit": 783,
+        "quantity": 11249,
+        "listings": 1759
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 300,
+        "p10_unit": 349,
+        "median_unit": 570,
+        "mean_unit": 707,
+        "quantity": 12971,
+        "listings": 2081
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 177,
+        "p10_unit": 382,
+        "median_unit": 600,
+        "mean_unit": 854,
+        "quantity": 10884,
+        "listings": 1556
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 299,
+        "p10_unit": 370,
+        "median_unit": 700,
+        "mean_unit": 950,
+        "quantity": 12491,
+        "listings": 1904
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 177,
+        "p10_unit": 380,
+        "median_unit": 635,
+        "mean_unit": 831,
+        "quantity": 11911,
+        "listings": 1828
+      }
+    ]
+  }
+}

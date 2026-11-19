@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:23.581Z",
+  "name": "Elixir of Greater Intellect",
+  "forever_name": "Elixir of Greater Intellect",
+  "item_id": 9179,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:12Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1050,
+        "p10_unit": 1056,
+        "median_unit": 1084,
+        "mean_unit": 1207,
+        "quantity": 2728,
+        "listings": 233
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1000,
+        "p10_unit": 1055,
+        "median_unit": 1079,
+        "mean_unit": 1209,
+        "quantity": 2758,
+        "listings": 244
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1049,
+        "p10_unit": 1054,
+        "median_unit": 1069,
+        "mean_unit": 1200,
+        "quantity": 2803,
+        "listings": 243
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1048,
+        "p10_unit": 1053,
+        "median_unit": 1067,
+        "mean_unit": 1162,
+        "quantity": 2852,
+        "listings": 244
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1048,
+        "p10_unit": 1053,
+        "median_unit": 1067,
+        "mean_unit": 1183,
+        "quantity": 2847,
+        "listings": 247
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1000,
+        "p10_unit": 1054,
+        "median_unit": 1073,
+        "mean_unit": 1192,
+        "quantity": 2798,
+        "listings": 242
+      }
+    ]
+  }
+}

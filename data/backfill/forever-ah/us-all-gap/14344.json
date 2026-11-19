@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:30.501Z",
+  "name": "Large Brilliant Shard",
+  "forever_name": "Large Brilliant Shard",
+  "item_id": 14344,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 26259,
+        "p10_unit": 26890,
+        "median_unit": 31600,
+        "mean_unit": 35289,
+        "quantity": 1030,
+        "listings": 283
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 25000,
+        "p10_unit": 26259,
+        "median_unit": 30501,
+        "mean_unit": 34824,
+        "quantity": 980,
+        "listings": 305
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 22499,
+        "p10_unit": 26259,
+        "median_unit": 30501,
+        "mean_unit": 34113,
+        "quantity": 1123,
+        "listings": 344
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 22499,
+        "p10_unit": 26259,
+        "median_unit": 31100,
+        "mean_unit": 34215,
+        "quantity": 1276,
+        "listings": 300
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 22497,
+        "p10_unit": 27498,
+        "median_unit": 31602,
+        "mean_unit": 34559,
+        "quantity": 1260,
+        "listings": 304
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 22497,
+        "p10_unit": 26633,
+        "median_unit": 31061,
+        "mean_unit": 34600,
+        "quantity": 1134,
+        "listings": 307
+      }
+    ]
+  }
+}

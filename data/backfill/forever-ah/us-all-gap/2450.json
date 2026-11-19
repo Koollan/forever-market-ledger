@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:22:46.811Z",
+  "name": "Briarthorn",
+  "forever_name": "Briarthorn",
+  "item_id": 2450,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 94,
+        "p10_unit": 124,
+        "median_unit": 185,
+        "mean_unit": 343,
+        "quantity": 23204,
+        "listings": 1885
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 94,
+        "p10_unit": 120,
+        "median_unit": 170,
+        "mean_unit": 258,
+        "quantity": 24667,
+        "listings": 1931
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 80,
+        "p10_unit": 119,
+        "median_unit": 165,
+        "mean_unit": 282,
+        "quantity": 25354,
+        "listings": 1884
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 82,
+        "p10_unit": 110,
+        "median_unit": 154,
+        "mean_unit": 259,
+        "quantity": 28105,
+        "listings": 2091
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 80,
+        "p10_unit": 100,
+        "median_unit": 147,
+        "mean_unit": 259,
+        "quantity": 28929,
+        "listings": 2152
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 80,
+        "p10_unit": 115,
+        "median_unit": 164,
+        "mean_unit": 280,
+        "quantity": 26052,
+        "listings": 1989
+      }
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:49.177Z",
+  "name": "Light Hide",
+  "forever_name": "Light Hide",
+  "item_id": 783,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 79,
+        "p10_unit": 90,
+        "median_unit": 135,
+        "mean_unit": 228,
+        "quantity": 6567,
+        "listings": 1581
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 75,
+        "p10_unit": 98,
+        "median_unit": 140,
+        "mean_unit": 246,
+        "quantity": 5315,
+        "listings": 1441
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 65,
+        "p10_unit": 99,
+        "median_unit": 128,
+        "mean_unit": 207,
+        "quantity": 6505,
+        "listings": 1521
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 74,
+        "p10_unit": 95,
+        "median_unit": 130,
+        "mean_unit": 205,
+        "quantity": 6824,
+        "listings": 1608
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 70,
+        "p10_unit": 93,
+        "median_unit": 125,
+        "mean_unit": 192,
+        "quantity": 6686,
+        "listings": 1649
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 65,
+        "p10_unit": 95,
+        "median_unit": 132,
+        "mean_unit": 216,
+        "quantity": 6379,
+        "listings": 1560
+      }
+    ]
+  }
+}

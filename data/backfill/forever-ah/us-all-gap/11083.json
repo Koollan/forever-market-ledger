@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:01.676Z",
+  "name": "Soul Dust",
+  "forever_name": "Soul Dust",
+  "item_id": 11083,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 397,
+        "p10_unit": 421,
+        "median_unit": 530,
+        "mean_unit": 779,
+        "quantity": 13039,
+        "listings": 627
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 410,
+        "p10_unit": 434,
+        "median_unit": 595,
+        "mean_unit": 771,
+        "quantity": 16012,
+        "listings": 876
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 405,
+        "p10_unit": 434,
+        "median_unit": 575,
+        "mean_unit": 733,
+        "quantity": 19111,
+        "listings": 1090
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 340,
+        "p10_unit": 434,
+        "median_unit": 565,
+        "mean_unit": 714,
+        "quantity": 19772,
+        "listings": 1196
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 396,
+        "p10_unit": 422,
+        "median_unit": 533,
+        "mean_unit": 772,
+        "quantity": 21809,
+        "listings": 1249
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 340,
+        "p10_unit": 429,
+        "median_unit": 560,
+        "mean_unit": 754,
+        "quantity": 17949,
+        "listings": 1008
+      }
+    ]
+  }
+}

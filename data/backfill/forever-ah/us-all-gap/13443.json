@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:57.062Z",
+  "name": "Superior Mana Potion",
+  "forever_name": "Superior Mana Potion",
+  "item_id": 13443,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:10Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 2869,
+        "p10_unit": 3499,
+        "median_unit": 4899,
+        "mean_unit": 5191,
+        "quantity": 1482,
+        "listings": 312
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 3099,
+        "p10_unit": 3700,
+        "median_unit": 5000,
+        "mean_unit": 5291,
+        "quantity": 1512,
+        "listings": 280
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 3200,
+        "p10_unit": 3822,
+        "median_unit": 5699,
+        "mean_unit": 5631,
+        "quantity": 1505,
+        "listings": 295
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 3522,
+        "p10_unit": 4240,
+        "median_unit": 5899,
+        "mean_unit": 6312,
+        "quantity": 1967,
+        "listings": 434
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 2988,
+        "p10_unit": 4240,
+        "median_unit": 6499,
+        "mean_unit": 6598,
+        "quantity": 2290,
+        "listings": 534
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 2869,
+        "p10_unit": 3900,
+        "median_unit": 5599,
+        "mean_unit": 5805,
+        "quantity": 1751,
+        "listings": 371
+      }
+    ]
+  }
+}

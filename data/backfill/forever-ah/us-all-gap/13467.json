@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:41.984Z",
+  "name": "Icecap",
+  "forever_name": "Icecap",
+  "item_id": 13467,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1154,
+        "p10_unit": 1179,
+        "median_unit": 1397,
+        "mean_unit": 1814,
+        "quantity": 5111,
+        "listings": 569
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1155,
+        "p10_unit": 1179,
+        "median_unit": 1499,
+        "mean_unit": 1825,
+        "quantity": 5131,
+        "listings": 565
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1143,
+        "p10_unit": 1179,
+        "median_unit": 1490,
+        "mean_unit": 1857,
+        "quantity": 4897,
+        "listings": 564
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1155,
+        "p10_unit": 1175,
+        "median_unit": 1432,
+        "mean_unit": 1787,
+        "quantity": 5187,
+        "listings": 585
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1151,
+        "p10_unit": 1156,
+        "median_unit": 1488,
+        "mean_unit": 1736,
+        "quantity": 4766,
+        "listings": 532
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1143,
+        "p10_unit": 1174,
+        "median_unit": 1461,
+        "mean_unit": 1804,
+        "quantity": 5018,
+        "listings": 563
+      }
+    ]
+  }
+}

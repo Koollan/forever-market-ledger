@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:49.818Z",
+  "name": "Lesser Mana Potion",
+  "forever_name": "Lesser Mana Potion",
+  "item_id": 3385,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:10Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 34,
+        "p10_unit": 49,
+        "median_unit": 70,
+        "mean_unit": 144,
+        "quantity": 6428,
+        "listings": 1103
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 39,
+        "p10_unit": 46,
+        "median_unit": 68,
+        "mean_unit": 129,
+        "quantity": 7584,
+        "listings": 1265
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 39,
+        "p10_unit": 45,
+        "median_unit": 60,
+        "mean_unit": 382,
+        "quantity": 6073,
+        "listings": 1273
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 37,
+        "p10_unit": 44,
+        "median_unit": 59,
+        "mean_unit": 116,
+        "quantity": 4867,
+        "listings": 1010
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 37,
+        "p10_unit": 42,
+        "median_unit": 59,
+        "mean_unit": 132,
+        "quantity": 4968,
+        "listings": 1066
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 34,
+        "p10_unit": 45,
+        "median_unit": 63,
+        "mean_unit": 181,
+        "quantity": 5984,
+        "listings": 1143
+      }
+    ]
+  }
+}

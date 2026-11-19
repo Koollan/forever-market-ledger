@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:06.772Z",
+  "name": "Elixir of Agility",
+  "forever_name": "Elixir of Agility",
+  "item_id": 8949,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:12Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 598,
+        "p10_unit": 724,
+        "median_unit": 879,
+        "mean_unit": 1112,
+        "quantity": 3687,
+        "listings": 295
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 697,
+        "p10_unit": 709,
+        "median_unit": 850,
+        "mean_unit": 1049,
+        "quantity": 4300,
+        "listings": 330
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 675,
+        "p10_unit": 698,
+        "median_unit": 847,
+        "mean_unit": 1038,
+        "quantity": 3977,
+        "listings": 308
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 674,
+        "p10_unit": 697,
+        "median_unit": 816,
+        "mean_unit": 1025,
+        "quantity": 3360,
+        "listings": 291
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 500,
+        "p10_unit": 664,
+        "median_unit": 799,
+        "mean_unit": 1143,
+        "quantity": 4246,
+        "listings": 342
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 500,
+        "p10_unit": 698,
+        "median_unit": 838,
+        "mean_unit": 1073,
+        "quantity": 3914,
+        "listings": 313
+      }
+    ]
+  }
+}

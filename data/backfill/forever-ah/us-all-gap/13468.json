@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:44.383Z",
+  "name": "Black Lotus",
+  "forever_name": "Black Lotus",
+  "item_id": 13468,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 82093,
+        "p10_unit": 91097,
+        "median_unit": 97599,
+        "mean_unit": 113196,
+        "quantity": 1221,
+        "listings": 401
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 82400,
+        "p10_unit": 90699,
+        "median_unit": 96598,
+        "mean_unit": 111817,
+        "quantity": 1169,
+        "listings": 384
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 82200,
+        "p10_unit": 89987,
+        "median_unit": 92990,
+        "mean_unit": 108165,
+        "quantity": 1327,
+        "listings": 452
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 79800,
+        "p10_unit": 89586,
+        "median_unit": 92598,
+        "mean_unit": 106959,
+        "quantity": 1219,
+        "listings": 446
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 80000,
+        "p10_unit": 85084,
+        "median_unit": 92585,
+        "mean_unit": 107780,
+        "quantity": 1176,
+        "listings": 452
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 79800,
+        "p10_unit": 89291,
+        "median_unit": 94474,
+        "mean_unit": 109583,
+        "quantity": 1222,
+        "listings": 427
+      }
+    ]
+  }
+}

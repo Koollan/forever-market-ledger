@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:57.342Z",
+  "name": "Arcane Powder",
+  "forever_name": "Arcane Powder",
+  "item_id": 17020,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:13Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 1000,
+        "median_unit": 1000,
+        "mean_unit": 1153,
+        "quantity": 238,
+        "listings": 19
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 400,
+        "median_unit": 1100,
+        "mean_unit": 1049,
+        "quantity": 130,
+        "listings": 16
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 400,
+        "median_unit": 1000,
+        "mean_unit": 1010,
+        "quantity": 148,
+        "listings": 18
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 400,
+        "median_unit": 1000,
+        "mean_unit": 1009,
+        "quantity": 150,
+        "listings": 16
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 400,
+        "median_unit": 1000,
+        "mean_unit": 996,
+        "quantity": 150,
+        "listings": 17
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 520,
+        "median_unit": 1020,
+        "mean_unit": 1043,
+        "quantity": 163,
+        "listings": 17
+      }
+    ]
+  }
+}

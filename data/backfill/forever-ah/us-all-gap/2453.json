@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:22:54.001Z",
+  "name": "Bruiseweed",
+  "forever_name": "Bruiseweed",
+  "item_id": 2453,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 66,
+        "p10_unit": 96,
+        "median_unit": 128,
+        "mean_unit": 166,
+        "quantity": 17970,
+        "listings": 1705
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 67,
+        "p10_unit": 97,
+        "median_unit": 126,
+        "mean_unit": 165,
+        "quantity": 17760,
+        "listings": 1685
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 62,
+        "p10_unit": 90,
+        "median_unit": 124,
+        "mean_unit": 202,
+        "quantity": 19544,
+        "listings": 1707
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 60,
+        "p10_unit": 84,
+        "median_unit": 121,
+        "mean_unit": 184,
+        "quantity": 24963,
+        "listings": 2275
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 60,
+        "p10_unit": 84,
+        "median_unit": 124,
+        "mean_unit": 185,
+        "quantity": 24673,
+        "listings": 2357
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 60,
+        "p10_unit": 90,
+        "median_unit": 125,
+        "mean_unit": 180,
+        "quantity": 20982,
+        "listings": 1946
+      }
+    ]
+  }
+}

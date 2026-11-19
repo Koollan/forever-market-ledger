@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:50.102Z",
+  "name": "Solid Weightstone",
+  "forever_name": "Solid Weightstone",
+  "item_id": 7965,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:13Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 219,
+        "p10_unit": 245,
+        "median_unit": 395,
+        "mean_unit": 448,
+        "quantity": 3497,
+        "listings": 132
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 205,
+        "p10_unit": 210,
+        "median_unit": 374,
+        "mean_unit": 407,
+        "quantity": 3976,
+        "listings": 153
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 204,
+        "p10_unit": 210,
+        "median_unit": 350,
+        "mean_unit": 391,
+        "quantity": 4874,
+        "listings": 197
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 200,
+        "p10_unit": 240,
+        "median_unit": 350,
+        "mean_unit": 409,
+        "quantity": 5028,
+        "listings": 207
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 204,
+        "p10_unit": 287,
+        "median_unit": 339,
+        "mean_unit": 386,
+        "quantity": 5967,
+        "listings": 207
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 200,
+        "p10_unit": 238,
+        "median_unit": 362,
+        "mean_unit": 408,
+        "quantity": 4668,
+        "listings": 179
+      }
+    ]
+  }
+}

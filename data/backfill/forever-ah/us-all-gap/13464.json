@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:32.383Z",
+  "name": "Golden Sansam",
+  "forever_name": "Golden Sansam",
+  "item_id": 13464,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 800,
+        "p10_unit": 933,
+        "median_unit": 1320,
+        "mean_unit": 1403,
+        "quantity": 5929,
+        "listings": 858
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 611,
+        "p10_unit": 940,
+        "median_unit": 1297,
+        "mean_unit": 1406,
+        "quantity": 6042,
+        "listings": 884
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 898,
+        "p10_unit": 950,
+        "median_unit": 1300,
+        "mean_unit": 1389,
+        "quantity": 6741,
+        "listings": 998
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 700,
+        "p10_unit": 925,
+        "median_unit": 1282,
+        "mean_unit": 1345,
+        "quantity": 7027,
+        "listings": 1073
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 684,
+        "p10_unit": 899,
+        "median_unit": 1282,
+        "mean_unit": 1308,
+        "quantity": 7567,
+        "listings": 1138
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 611,
+        "p10_unit": 929,
+        "median_unit": 1296,
+        "mean_unit": 1370,
+        "quantity": 6661,
+        "listings": 990
+      }
+    ]
+  }
+}

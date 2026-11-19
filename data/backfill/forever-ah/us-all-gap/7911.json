@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:54.207Z",
+  "name": "Truesilver Ore",
+  "forever_name": "Truesilver Ore",
+  "item_id": 7911,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1235,
+        "p10_unit": 1288,
+        "median_unit": 1590,
+        "mean_unit": 2078,
+        "quantity": 5845,
+        "listings": 904
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1229,
+        "p10_unit": 1300,
+        "median_unit": 1515,
+        "mean_unit": 2081,
+        "quantity": 5787,
+        "listings": 890
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1255,
+        "p10_unit": 1292,
+        "median_unit": 1445,
+        "mean_unit": 2031,
+        "quantity": 6561,
+        "listings": 1040
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1153,
+        "p10_unit": 1277,
+        "median_unit": 1435,
+        "mean_unit": 2120,
+        "quantity": 6757,
+        "listings": 1096
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1219,
+        "p10_unit": 1287,
+        "median_unit": 1425,
+        "mean_unit": 2054,
+        "quantity": 7241,
+        "listings": 1160
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1153,
+        "p10_unit": 1289,
+        "median_unit": 1482,
+        "mean_unit": 2073,
+        "quantity": 6438,
+        "listings": 1018
+      }
+    ]
+  }
+}

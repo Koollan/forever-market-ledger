@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:22.790Z",
+  "name": "Sungrass",
+  "forever_name": "Sungrass",
+  "item_id": 8838,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1299,
+        "p10_unit": 1327,
+        "median_unit": 1469,
+        "mean_unit": 1606,
+        "quantity": 7309,
+        "listings": 810
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1290,
+        "p10_unit": 1360,
+        "median_unit": 1465,
+        "mean_unit": 1616,
+        "quantity": 6682,
+        "listings": 729
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1250,
+        "p10_unit": 1310,
+        "median_unit": 1500,
+        "mean_unit": 1718,
+        "quantity": 6384,
+        "listings": 712
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1288,
+        "p10_unit": 1320,
+        "median_unit": 1455,
+        "mean_unit": 1738,
+        "quantity": 6329,
+        "listings": 692
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1270,
+        "p10_unit": 1310,
+        "median_unit": 1494,
+        "mean_unit": 1762,
+        "quantity": 6552,
+        "listings": 675
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1250,
+        "p10_unit": 1325,
+        "median_unit": 1477,
+        "mean_unit": 1688,
+        "quantity": 6651,
+        "listings": 724
+      }
+    ]
+  }
+}

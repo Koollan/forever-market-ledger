@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:04.083Z",
+  "name": "Greater Astral Essence",
+  "forever_name": "Greater Astral Essence",
+  "item_id": 11082,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1385,
+        "p10_unit": 1588,
+        "median_unit": 2471,
+        "mean_unit": 2367,
+        "quantity": 3590,
+        "listings": 558
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1425,
+        "p10_unit": 1594,
+        "median_unit": 2429,
+        "mean_unit": 2405,
+        "quantity": 3892,
+        "listings": 640
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1532,
+        "p10_unit": 1587,
+        "median_unit": 2100,
+        "mean_unit": 2378,
+        "quantity": 3708,
+        "listings": 647
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1499,
+        "p10_unit": 1584,
+        "median_unit": 2005,
+        "mean_unit": 2299,
+        "quantity": 3986,
+        "listings": 733
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1496,
+        "p10_unit": 1584,
+        "median_unit": 2000,
+        "mean_unit": 2377,
+        "quantity": 4153,
+        "listings": 746
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1385,
+        "p10_unit": 1587,
+        "median_unit": 2201,
+        "mean_unit": 2365,
+        "quantity": 3866,
+        "listings": 665
+      }
+    ]
+  }
+}

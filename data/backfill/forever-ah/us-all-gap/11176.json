@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:13.667Z",
+  "name": "Dream Dust",
+  "forever_name": "Dream Dust",
+  "item_id": 11176,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1892,
+        "p10_unit": 2239,
+        "median_unit": 2933,
+        "mean_unit": 3590,
+        "quantity": 9601,
+        "listings": 678
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1892,
+        "p10_unit": 2239,
+        "median_unit": 3008,
+        "mean_unit": 3664,
+        "quantity": 8655,
+        "listings": 621
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1892,
+        "p10_unit": 2350,
+        "median_unit": 2908,
+        "mean_unit": 3435,
+        "quantity": 10127,
+        "listings": 673
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1882,
+        "p10_unit": 2345,
+        "median_unit": 2853,
+        "mean_unit": 3425,
+        "quantity": 10063,
+        "listings": 680
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1875,
+        "p10_unit": 2345,
+        "median_unit": 3000,
+        "mean_unit": 3692,
+        "quantity": 7789,
+        "listings": 634
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1875,
+        "p10_unit": 2304,
+        "median_unit": 2940,
+        "mean_unit": 3561,
+        "quantity": 9247,
+        "listings": 657
+      }
+    ]
+  }
+}

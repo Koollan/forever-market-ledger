@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:27.721Z",
+  "name": "Devilsaur Leather",
+  "forever_name": "Devilsaur Leather",
+  "item_id": 15417,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 4525,
+        "p10_unit": 6500,
+        "median_unit": 9500,
+        "mean_unit": 14413,
+        "quantity": 4112,
+        "listings": 292
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 4525,
+        "p10_unit": 6500,
+        "median_unit": 9595,
+        "mean_unit": 13882,
+        "quantity": 4688,
+        "listings": 325
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 4492,
+        "p10_unit": 6500,
+        "median_unit": 9094,
+        "mean_unit": 13409,
+        "quantity": 4509,
+        "listings": 332
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 4525,
+        "p10_unit": 6526,
+        "median_unit": 9090,
+        "mean_unit": 13225,
+        "quantity": 4856,
+        "listings": 346
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 4524,
+        "p10_unit": 6500,
+        "median_unit": 9500,
+        "mean_unit": 13036,
+        "quantity": 4488,
+        "listings": 360
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 4492,
+        "p10_unit": 6505,
+        "median_unit": 9356,
+        "mean_unit": 13593,
+        "quantity": 4531,
+        "listings": 331
+      }
+    ]
+  }
+}

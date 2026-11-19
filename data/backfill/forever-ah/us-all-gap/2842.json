@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:25:30.427Z",
+  "name": "Silver Bar",
+  "forever_name": "Silver Bar",
+  "item_id": 2842,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 350,
+        "p10_unit": 390,
+        "median_unit": 539,
+        "mean_unit": 763,
+        "quantity": 8941,
+        "listings": 1110
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 344,
+        "p10_unit": 396,
+        "median_unit": 627,
+        "mean_unit": 823,
+        "quantity": 10552,
+        "listings": 1315
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 300,
+        "p10_unit": 369,
+        "median_unit": 575,
+        "mean_unit": 738,
+        "quantity": 13580,
+        "listings": 1696
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 318,
+        "p10_unit": 388,
+        "median_unit": 540,
+        "mean_unit": 726,
+        "quantity": 11338,
+        "listings": 1482
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 330,
+        "p10_unit": 390,
+        "median_unit": 543,
+        "mean_unit": 738,
+        "quantity": 9650,
+        "listings": 1314
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 300,
+        "p10_unit": 387,
+        "median_unit": 565,
+        "mean_unit": 758,
+        "quantity": 10812,
+        "listings": 1383
+      }
+    ]
+  }
+}

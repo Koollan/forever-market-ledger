@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:11.585Z",
+  "name": "Elixir of the Mongoose",
+  "forever_name": "Elixir of the Mongoose",
+  "item_id": 13452,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:12Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 7777,
+        "p10_unit": 8346,
+        "median_unit": 9398,
+        "mean_unit": 10071,
+        "quantity": 2722,
+        "listings": 278
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 7776,
+        "p10_unit": 7998,
+        "median_unit": 9292,
+        "mean_unit": 9799,
+        "quantity": 2560,
+        "listings": 298
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 7774,
+        "p10_unit": 8190,
+        "median_unit": 9292,
+        "mean_unit": 9815,
+        "quantity": 2297,
+        "listings": 279
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 7473,
+        "p10_unit": 7896,
+        "median_unit": 8975,
+        "mean_unit": 9761,
+        "quantity": 2290,
+        "listings": 278
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 6969,
+        "p10_unit": 7949,
+        "median_unit": 8864,
+        "mean_unit": 9738,
+        "quantity": 2285,
+        "listings": 256
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 6969,
+        "p10_unit": 8076,
+        "median_unit": 9164,
+        "mean_unit": 9837,
+        "quantity": 2431,
+        "listings": 278
+      }
+    ]
+  }
+}

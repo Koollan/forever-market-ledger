@@ -6,8 +6,8 @@
 - [x] Step 2: Reduce listings to stats and pool into series (PR A)
 - [x] Step 3: Hourly, daily and latest files written by a full run (PR A)
 - [x] Step 4: Convert the T0 backfill (PR A)
-- [x] Step 5: The hourly workflow and the `prices` branch; ship PR A (PR A). Code done; PR A, merge and the first dispatches pending
-- [ ] Step 6: Close the gap after T0 (PR B)
+- [x] Step 5: The hourly workflow and the `prices` branch; ship PR A (PR A). Merged as Koollan/forever-market-ledger#3 on Nov 19, 2026; probe, first run (04:00 UTC, 15/15 houses) and T0 import dispatched the same morning
+- [x] Step 6: Close the gap after T0 (PR B). Gap files in `data/backfill/forever-ah/us-all-gap/`; the import runs once they are on a ref the workflow can read
 - [ ] Step 7: Market rules in the engine (PR B)
 - [ ] Step 8: Load and cache prices; "prices as of" line (PR B)
 - [ ] Step 9: Material sheet: API price, sparkline, Blackwater hint (PR B)

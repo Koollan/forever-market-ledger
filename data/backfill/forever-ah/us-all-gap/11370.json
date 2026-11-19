@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:56.611Z",
+  "name": "Dark Iron Ore",
+  "forever_name": "Dark Iron Ore",
+  "item_id": 11370,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 965,
+        "p10_unit": 1493,
+        "median_unit": 3200,
+        "mean_unit": 3091,
+        "quantity": 5098,
+        "listings": 469
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1390,
+        "p10_unit": 1476,
+        "median_unit": 2800,
+        "mean_unit": 2737,
+        "quantity": 6825,
+        "listings": 513
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1299,
+        "p10_unit": 1385,
+        "median_unit": 2450,
+        "mean_unit": 2437,
+        "quantity": 8205,
+        "listings": 663
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1289,
+        "p10_unit": 1385,
+        "median_unit": 2048,
+        "mean_unit": 2433,
+        "quantity": 7577,
+        "listings": 660
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1163,
+        "p10_unit": 1289,
+        "median_unit": 2015,
+        "mean_unit": 2262,
+        "quantity": 7960,
+        "listings": 690
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 965,
+        "p10_unit": 1406,
+        "median_unit": 2503,
+        "mean_unit": 2592,
+        "quantity": 7133,
+        "listings": 599
+      }
+    ]
+  }
+}
