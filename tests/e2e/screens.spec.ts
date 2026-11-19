@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./test";
 
 // Screenshots of every tab at 412×900, light and dark, for a person to review on each PR.
 // They are saved as files, not compared: the behavior lock (tab text and engine outputs) is the exact check.

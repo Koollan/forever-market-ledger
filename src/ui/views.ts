@@ -19,6 +19,9 @@ import { validateBackup, buildBackup, backupData } from "../engine/backup";
 import { $, ago, toast, uid8, cacheLocal, readLocal, windows, whenTxt, perHour, zoneDossier, cx, gatherOptions, bestFarm, sellAdvice, todaySuggestions, sessionPlan, estimate, itemFor, lastPrice, recordPrice, deletePrices, S, char, saveState } from "./state";
 import { openSheet, closeSheet, sheetMat, sheetChar, sheetChars, plural, checkImport, cancelImport, applyBackup, showExport, copyBackup } from "./sheets";
 import { bindActions } from "./actions";
+import { asOf } from "../engine/market";
+import { asOfText } from "./prices";
+import { ensurePrices } from "./live";
 
 /* ============ Rendering ============ */
 export const ICONS={
@@ -33,6 +36,8 @@ export function renderNav(){$("#nav").innerHTML=TABS.map(([k,l])=>`<button type=
 export function renderHeader(){
   const c=char();$("#charName").textContent=`${c.name} · ${c.level} ${c.cls}`;$("#charDot").style.background=CLASSES[c.cls]?.c||"#888";
   $("#sub").textContent=`${HOUSES[houseOf(c)].label} · budget ${plainMoney(budgetOf(c))}${c.gold==null?" (est.)":""}`;
+  ensurePrices();
+  const a=asOf(S.market,Date.now());const el=$("#asof");el.textContent=asOfText(a,Date.now());el.classList.toggle("stale",!!a?.stale);
 }
 export function banners(c){
   let b="";

@@ -17,6 +17,7 @@ import { continentOf, zoneDossier as zoneDossierAt } from "../engine/dossier";
 import { gatherOptions as gatherOptionsAt, bestFarm as bestFarmAt, sellAdvice as sellAdviceAt, todaySuggestions as todaySuggestionsAt, sessionPlan as sessionPlanAt } from "../engine/suggestions";
 import { validateBackup, buildBackup, backupData, type Backup } from "../engine/backup";
 import type { AppState, Items, Character } from "../engine/types";
+import type { Market } from "../engine/market";
 import { ICONS, TABS, renderNav, renderHeader, banners, render, KIND_PILL, vToday, vFarm, vPrices, vSkills, vPlan } from "./views";
 import { openSheet, closeSheet, sheetMat, sheetChar, sheetChars, plural, checkImport, cancelImport, applyBackup, showExport, copyBackup } from "./sheets";
 import { bindActions } from "./actions";
@@ -68,9 +69,10 @@ export async function deletePrices(name){const key=keyOf(name);delete S.items[ke
 /* ============ Backup: export and import (src/engine/backup.ts) ============ */
 
 /* ============ App state ============ */
-export const S: { state: AppState; items: Items; tab: string; mins: number; q: string; pendingImport?: Backup|null }={
+// market: API prices loaded for pricesSeries (src/ui/live.ts); null until loaded, offline with no cache, or EU
+export const S: { state: AppState; items: Items; tab: string; mins: number; q: string; pendingImport?: Backup|null; market: Market|null; pricesSeries?: string|null }={
   state:{characters:[{id:"ex",name:"Example rogue",cls:"Rogue",level:15,faction:"Alliance",region:"us",gold:null,stretch:2,profs:[{name:"Herbalism",skill:90},{name:"Skinning",skill:80}],example:true}],activeId:"ex",toggles:{}},
-  items:{},tab:"today",mins:60,q:""
+  items:{},tab:"today",mins:60,q:"",market:null
 };
 export const char=(): Character=>S.state.characters.find(c=>c.id===S.state.activeId)||S.state.characters[0];
 export function saveState(){cacheLocal();return Promise.resolve()}
