@@ -22,6 +22,18 @@ import { bindActions } from "./actions";
 import { asOf } from "../engine/market";
 import { asOfText } from "./prices";
 import { ensurePrices } from "./live";
+import { apiRow, homeSeries } from "../engine/market";
+
+// API prices for what this character gathers or needs (T3); nothing without API data
+function vMarket(c,relevant,sa){
+  const series=homeSeries(c);if(!series||!S.market)return "";
+  const names=[...relevant].filter(n=>apiRow(n,series,S.market)).sort();if(!names.length)return "";
+  return `<section class="card market">
+    <h2>Market</h2>
+    <p class="small muted" style="margin:0">Prices at your ${series==="alliance"?"Alliance":"Horde"} auction house, from Blizzard's auction data each hour: what the cheapest tenth of listings ask.</p>
+    <div class="list">${names.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">${e.source==="api"?"API":"you"} · ${ago(e.last.t)}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}</span></button>`}).join("")}</div>
+  </section>`;
+}
 
 /* ============ Rendering ============ */
 export const ICONS={
@@ -132,6 +144,7 @@ export function vPrices(c){
     <p class="small muted" style="margin:0">Type in a price whenever you see one in game. The app removes the conditions at the time you saw it and re-applies today's, so old prices stay useful.</p>
     <div class="list">${tracked.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">seen ${ago(e.last.t)}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}<span class="pill">${e.n} price${e.n===1?"":"s"}</span></span></button>`}).join("")||'<div class="empty">No prices yet. Pick a material below to add one.</div>'}</div>
   </section>
+  ${vMarket(c,relevant,sa)}
   <section class="card">
     <input id="matQ" placeholder="Find a material" value="${esc(S.q)}" aria-label="Find a material">
     <h3>${q?"Matches":"Relevant to you"}</h3>

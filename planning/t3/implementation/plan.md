@@ -11,7 +11,7 @@
 - [x] Step 7: Market rules in the engine (PR B)
 - [x] Step 8: Load and cache prices; "prices as of" line (PR B)
 - [x] Step 9: Material sheet: API price, sparkline, Blackwater hint (PR B)
-- [ ] Step 10: Market list and advice from API prices; ship PR B (PR B)
+- [x] Step 10: Market list and advice from API prices; ship PR B (PR B). Code done; PR B pending
 
 Steps 1–5 are branch `t3/pipeline` (PR A). Merging it starts hourly collection, the clock T4 waits on, so it goes first and stays free of app changes. Steps 6–10 are branch `t3/app` (PR B), started from `main` after PR A merges. One commit per step; `npm run check` green after every step, and the behavior lock (`tests/e2e/baseline.spec.ts`) unchanged throughout. Never push or open a PR without asking.
 

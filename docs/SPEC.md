@@ -25,14 +25,14 @@ This document is the hand-off from the prototype built in chat (Nov 18, 2026) to
 
 A static site on GitHub Pages (https://koollan.github.io/forever-market-ledger/), built with Vite from TypeScript modules (T2, Nov 2026). It started as one ~900-line HTML file hosted as a claude.ai artifact; that file and its claude.ai features (private sync, Ask Claude) are retired.
 
-Data stays on the device in `localStorage` (key `fml-cache`). The character sheet's **Backup** section exports everything as versioned JSON and imports it all-or-nothing after a confirm (T1). There is no sync across devices (decided Nov 18, 2026).
+Data stays on the device in `localStorage` (key `fml-cache`). Since T3, US characters also get hourly auction prices from the Blizzard Game Data API: the app fetches them from the repo's `prices` branch and keeps the last good copy in `fml-prices` (not part of Backup); the header shows how fresh they are. The character sheet's **Backup** section exports everything as versioned JSON and imports it all-or-nothing after a confirm (T1). There is no sync across devices (decided Nov 18, 2026).
 
 ### Screens (bottom tabs)
 | Tab | What it shows |
 |---|---|
 | Today | **Conditions now** (only conditions that move this character's materials, one line each: effect + what to do), **Do this** (farm / list / hold / buy / train suggestions), **Your materials today** (% shift vs a normal day) |
 | Farm | Ranked zones with expandable **When / Where / Why** dossiers; per-gathering-profession node lists (skill color, zones, today's shift, gold/hr if priced); **Where to skin now** for skinners |
-| Prices | Manually entered prices with List now / Hold until… advice; search to add prices for any catalogued material |
+| Prices | Manually entered prices with List now / Hold until… advice; **Market**: API prices (home faction house p10) for what the character gathers or needs, with the same advice; search to add prices for any catalogued material. The material sheet shows the active price and its source, min/median, a 24-hour line and a Blackwater hint |
 | Professions | Per profession: skill bar, training-cap warnings, current bracket's materials marked **Farm it** (with zones, incl. mine-and-smelt) or **Buy** (cheapest window this week) |
 | Session | 30 / 60 / 120 min plan: AH step, gathering loop with expected yield, profession skill-ups |
 
@@ -151,13 +151,13 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 - Visual check: Playwright screenshots at 412px wide for every tab (regression: the "Conditions now" squeeze bug).
 - ✅ Tests green in CI; built output is still a static site.
 
-**T3. Blizzard API price pipeline** (in progress; design and plan in `planning/t3/`, decisions from the grill on Nov 18, 2026)
+**T3. Blizzard API price pipeline** (PR A merged Nov 19, 2026 as #3; PR B ready; design and plan in `planning/t3/`, decisions from the grill on Nov 18, 2026)
 - Two PRs: **A** (`t3/pipeline`, steps 1–5) starts hourly collection; **B** (`t3/app`, steps 6–10) makes the app use it.
 - `.github/workflows/prices.yml`, hourly at :40 UTC: client-credentials token → `dynamic-forever-us`, ruleset 2 → each of the 15 houses' `/data/wow/ruleset/2/auctions/{houseId}/commodities` (materials are commodities) → per item `[min, p10, p25, median, qty, listings]`, quantity-weighted, pooled into four series: `alliance`, `horde`, `blackwater`, `all`.
 - Stored on the orphan `prices` branch (not `main`): `us/latest.json`, `us/{series}/hourly/{yyyy-mm-dd}.json`, `us/{series}/daily/{yyyy-mm}.json`, columnar and tagged by source. Hourly data is kept (T4 needs per-hour effects), not rolled up after 7 days; the branch history is squashed monthly. US only for now.
 - Item IDs from `data/items.json` (recorded by T0); no static item API calls.
 - Secrets: `BNET_CLIENT_ID`, `BNET_CLIENT_SECRET` in repo secrets (added Nov 19, 2026).
-- App (PR B) fetches the files at runtime and caches them in `fml-prices`; `p10` of the home faction's series is the price; a manual price wins while newer than the API's and under 24 h old.
+- App (PR B) fetches the files at runtime and caches them in `fml-prices`; `p10` of the home faction's series is the price; a manual price wins while newer than the API's and under 24 h old. Sell advice covers your priced materials plus what you gather that has an API price; farm zone values use API prices too. EU characters stay on manual prices.
 - ✅ After 24h, the app shows real current prices and a 24-point history for tracked materials; conditions engine can be validated against observed weekday/weekend swings.
 
 **T4. Calibrate the conditions engine**

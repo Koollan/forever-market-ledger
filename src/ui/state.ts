@@ -43,13 +43,13 @@ export const whenTxt=t=>whenTxtAt(t,Date.now());
 export const perHour=o=>perHourOf(o,char());
 export const zoneDossier=(c,Zr)=>zoneDossierAt(c,Zr,Date.now(),S.state.toggles);
 // Suggestions read the clock and app state here; the engine takes them as a context
-export const cx=()=>({now:Date.now(),items:S.items,toggles:S.state.toggles});
+export const cx=()=>({now:Date.now(),items:S.items,toggles:S.state.toggles,market:S.market});
 export const gatherOptions=c=>gatherOptionsAt(c,cx());
 export const bestFarm=c=>bestFarmAt(c,cx());
 export const sellAdvice=c=>sellAdviceAt(c,cx());
 export const todaySuggestions=c=>todaySuggestionsAt(c,cx());
 export const sessionPlan=(c,mins)=>sessionPlanAt(c,mins,cx());
-export const estimate=(name,when?)=>estimateAt(name,S.items,S.state.toggles,when||Date.now());
+export const estimate=(name,when?)=>estimateAt(name,S.items,S.state.toggles,when||Date.now(),{market:S.market,character:char()});
 
 /* ============ Prices you enter ============ */
 export function itemFor(name){return S.items[keyOf(name)]||null}

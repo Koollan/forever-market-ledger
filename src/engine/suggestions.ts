@@ -1,5 +1,6 @@
 // Suggestions: what to farm, sell, hold, buy and train, and timed session plans.
-// Pure: every function takes the character and a context of {now, items, toggles}.
+// Pure: every function takes the character and a context of {now, items, toggles, market?}.
+// With API prices (market, T3), estimates use them; without, every output is as before.
 import { MAT } from "../data/materials";
 import { GATHER, GATHER_RATE } from "../data/gathering";
 import { SKIN_SPOTS } from "../data/skinSpots";
@@ -10,8 +11,10 @@ import { profOf, skillColor, rankBlock, needsFor, perHour } from "./character";
 import { skinPlan } from "./skinning";
 import { andList, pct, plainMoney, whenTxt } from "./util";
 import type { Character, Items } from "./types";
+import { apiRow, homeSeries, type Market } from "./market";
 
-export type SugCtx = { now: number; items: Items; toggles: Toggles };
+export type SugCtx = { now: number; items: Items; toggles: Toggles; market?: Market | null };
+const apiCtx=(c: Character,x: SugCtx)=>({market:x.market??null,character:c});
 export type Suggestion = { kind: string; title: string; body: string };
 
 export function gatherOptions(c: Character,x: SugCtx): any[]{
@@ -20,7 +23,7 @@ export function gatherOptions(c: Character,x: SugCtx): any[]{
     if(!GATHER[p.name])continue;
     for(const [n,req] of GATHER[p.name]){
       if(p.skill<req)continue;const w=whereGather(n,p.name,c);if(!w.zones.length)continue;
-      const col=skillColor(p.skill,req);const e=estimate(n,x.items,tg,x.now);const m=MAT[n];
+      const col=skillColor(p.skill,req);const e=estimate(n,x.items,tg,x.now,apiCtx(c,x));const m=MAT[n];
       const s=shiftAt(m,x.now,tg);
       out.push({prof:p.name,name:n,req,zones:w.zones,col:col[0],colCls:col[1],est:e,shift:s.mult,why:s.why,
         skillUp:col[0]==="orange"?2:col[0]==="yellow"?1:0});
@@ -49,8 +52,11 @@ export function bestFarm(c: Character,x: SugCtx): { top: any; list: any[]; opts:
 
 export function sellAdvice(c: Character,x: SugCtx): any[]{
   const tg=x.toggles;const res=[];
-  const names=[...new Set(Object.values(x.items).map(i=>i.name))];
-  for(const n of names){const m=MAT[n]||{name:n,cat:"Other",tier:3};const e=estimate(n,x.items,tg,x.now);if(!e)continue;
+  // what you priced, plus what you gather that has an API price (what you're likely holding)
+  const series=homeSeries(c);
+  const gathered=x.market&&series?gatherOptions(c,x).map(o=>o.name).filter(n=>apiRow(n,series,x.market as Market)):[];
+  const names=[...new Set([...Object.values(x.items).map(i=>i.name),...gathered])];
+  for(const n of names){const m=MAT[n]||{name:n,cat:"Other",tier:3};const e=estimate(n,x.items,tg,x.now,apiCtx(c,x));if(!e)continue;
     const w=windows(m,tg,"sell",168,x.now);const gain=w.best.s/w.now-1;
     res.push({name:n,est:e,now:w.now,best:w.best,gain,action:gain>0.05?"hold":"list"});}
   return res.sort((a,b)=>b.gain-a.gain);
