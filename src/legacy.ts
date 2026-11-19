@@ -1,74 +1,16 @@
 // @ts-nocheck
 // The single-file app's script, moved unchanged (T2 step 6). Later steps move pieces out into typed modules.
+import { CLASSES, PROFS, CONS_TAGS } from "./data/classes";
+import { GATHER, SMELT, GATHER_RATE } from "./data/gathering";
+import { ZONES, ZONE, STONE_OF, LEATHER_TIERS, SKIN_SPECIAL, KALIMDOR, DENSITY } from "./data/zones";
+import { CONSUMABLES, HOUSES } from "./data/consumables";
+import { RANKS, PATHS } from "./data/professions";
+import { SKIN_SPOTS } from "./data/skinSpots";
+import { LAUNCH, MATS, MAT, RAW, CONSUME, FA_HERBS, tierOfLevel, zoneTier } from "./data/materials";
+import { validateBackup, buildBackup, backupData, staleKeys } from "./engine/backup";
 "use strict";
 /* ============ Reference data (Classic-era rules used by WoW Forever) ============ */
-const CLASSES={
- Warrior:{c:"#C79C6E",armor:l=>l>=40?["Plate","Mail"]:["Mail","Leather"],suf:["Bear","Tiger","Monkey","Power","Strength","Stamina","Defense","Champion"],mana:false},
- Paladin:{c:"#F58CBA",armor:l=>l>=40?["Plate","Mail"]:["Mail"],suf:["Gorilla","Bear","Tiger","Healing","Eagle","Strength","Champion"],mana:true},
- Hunter:{c:"#ABD473",armor:l=>l>=40?["Mail","Leather"]:["Leather"],suf:["Monkey","Falcon","Wolf","Agility","Power","Tiger"],mana:true},
- Rogue:{c:"#E6D45A",armor:()=>["Leather"],suf:["Monkey","Tiger","Power","Agility","Bear"],mana:false},
- Priest:{c:"#B9C4CC",armor:()=>["Cloth"],suf:["Owl","Eagle","Healing","Whale","Shadow Wrath","Spirit","Intellect","Sorcery"],mana:true},
- Shaman:{c:"#2B8BE6",armor:l=>l>=40?["Mail","Leather"]:["Leather"],suf:["Eagle","Owl","Gorilla","Healing","Tiger","Nature's Wrath"],mana:true},
- Mage:{c:"#69CCF0",armor:()=>["Cloth"],suf:["Eagle","Owl","Sorcery","Frozen Wrath","Fiery Wrath","Arcane Wrath","Intellect"],mana:true},
- Warlock:{c:"#9482C9",armor:()=>["Cloth"],suf:["Eagle","Shadow Wrath","Fiery Wrath","Whale","Sorcery","Stamina"],mana:true},
- Druid:{c:"#FF7D0A",armor:()=>["Leather"],suf:["Owl","Eagle","Monkey","Healing","Nature's Wrath","Bear","Wolf"],mana:true}
-};
-const PROFS=["Herbalism","Skinning","Mining","Alchemy","Blacksmithing","Enchanting","Engineering","Leatherworking","Tailoring","Cooking","First Aid","Fishing"];
-const GATHER={
- Herbalism:[["Peacebloom",1],["Silverleaf",1],["Earthroot",15],["Mageroyal",50],["Briarthorn",70],["Swiftthistle",70],["Stranglekelp",85],["Bruiseweed",100],["Wild Steelbloom",115],["Grave Moss",120],["Kingsblood",125],["Liferoot",150],["Fadeleaf",160],["Goldthorn",170],["Khadgar's Whisker",185],["Wintersbite",195],["Firebloom",205],["Purple Lotus",210],["Arthas' Tears",220],["Sungrass",230],["Blindweed",235],["Ghost Mushroom",245],["Gromsblood",250],["Golden Sansam",260],["Dreamfoil",270],["Mountain Silversage",280],["Plaguebloom",285],["Icecap",290],["Black Lotus",300]],
- Skinning:[["Light Leather",1],["Light Hide",1],["Ruined Leather Scraps",1],["Deviate Scale",80],["Medium Leather",75],["Medium Hide",75],["Black Whelp Scale",100],["Green Whelp Scale",100],["Heavy Leather",125],["Heavy Hide",125],["Turtle Scale",175],["Thick Leather",175],["Thick Hide",175],["Scorpid Scale",200],["Worn Dragonscale",225],["Rugged Leather",215],["Rugged Hide",215],["Devilsaur Leather",270]],
- Mining:[["Copper Ore",1],["Rough Stone",1],["Tin Ore",65],["Coarse Stone",65],["Silver Ore",75],["Iron Ore",125],["Heavy Stone",125],["Gold Ore",155],["Mithril Ore",175],["Solid Stone",175],["Truesilver Ore",230],["Dark Iron Ore",230],["Thorium Ore",245],["Dense Stone",245],["Arcane Crystal",275],["Heavy Thorium Ore",300]]
-};
-/* Zones: [name, minLvl, maxLvl, faction A/H/C, herbs, ores]. Skinning tiers come from mob level. */
-const ZONES=[
- ["Elwynn Forest",1,10,"A",["Peacebloom","Silverleaf","Earthroot"],["Copper Ore"]],
- ["Dun Morogh",1,10,"A",["Peacebloom","Silverleaf","Earthroot"],["Copper Ore"]],
- ["Teldrassil",1,10,"A",["Peacebloom","Silverleaf","Earthroot"],[]],
- ["Durotar",1,10,"H",["Peacebloom","Silverleaf","Earthroot"],["Copper Ore"]],
- ["Mulgore",1,10,"H",["Peacebloom","Silverleaf","Earthroot"],["Copper Ore"]],
- ["Tirisfal Glades",1,10,"H",["Peacebloom","Silverleaf","Earthroot"],["Copper Ore"]],
- ["Zephras Isle",1,12,"C",["Peacebloom","Silverleaf","Earthroot","Mageroyal"],["Copper Ore","Tin Ore"],{skyborne:true}],
- ["Westfall",10,20,"A",["Peacebloom","Silverleaf","Earthroot","Mageroyal","Briarthorn","Bruiseweed"],["Copper Ore","Tin Ore"]],
- ["Loch Modan",10,20,"A",["Peacebloom","Silverleaf","Earthroot","Mageroyal","Briarthorn"],["Copper Ore","Tin Ore"]],
- ["Darkshore",10,20,"A",["Earthroot","Mageroyal","Briarthorn","Stranglekelp"],["Copper Ore","Tin Ore"]],
- ["Silverpine Forest",10,20,"H",["Peacebloom","Silverleaf","Earthroot","Mageroyal","Briarthorn","Stranglekelp"],["Copper Ore","Tin Ore"]],
- ["The Barrens",10,25,"H",["Peacebloom","Silverleaf","Earthroot","Mageroyal","Briarthorn","Stranglekelp","Bruiseweed"],["Copper Ore","Tin Ore","Silver Ore"]],
- ["Redridge Mountains",15,25,"A",["Earthroot","Mageroyal","Briarthorn","Bruiseweed"],["Copper Ore","Tin Ore","Silver Ore"]],
- ["Stonetalon Mountains",15,27,"C",["Mageroyal","Briarthorn","Stranglekelp","Bruiseweed","Wild Steelbloom","Kingsblood"],["Copper Ore","Tin Ore","Silver Ore"]],
- ["Ashenvale",18,30,"C",["Briarthorn","Stranglekelp","Bruiseweed","Wild Steelbloom","Kingsblood"],["Tin Ore","Silver Ore","Iron Ore"]],
- ["Duskwood",18,30,"A",["Briarthorn","Bruiseweed","Wild Steelbloom","Grave Moss","Kingsblood"],["Tin Ore","Silver Ore","Iron Ore"]],
- ["Wetlands",20,30,"A",["Briarthorn","Stranglekelp","Bruiseweed","Wild Steelbloom","Kingsblood"],["Tin Ore","Silver Ore","Iron Ore"]],
- ["Hillsbrad Foothills",20,30,"C",["Briarthorn","Bruiseweed","Wild Steelbloom","Kingsblood"],["Tin Ore","Silver Ore","Iron Ore"]],
- ["Thousand Needles",25,35,"C",["Bruiseweed","Wild Steelbloom","Kingsblood"],["Tin Ore","Silver Ore","Iron Ore"]],
- ["Alterac Mountains",30,40,"C",["Kingsblood","Liferoot","Wild Steelbloom","Fadeleaf","Goldthorn","Khadgar's Whisker","Wintersbite"],["Iron Ore","Gold Ore","Mithril Ore"]],
- ["Arathi Highlands",30,40,"C",["Kingsblood","Liferoot","Fadeleaf","Goldthorn","Khadgar's Whisker"],["Tin Ore","Silver Ore","Iron Ore","Gold Ore","Mithril Ore"]],
- ["Desolace",30,40,"C",["Kingsblood","Liferoot","Wild Steelbloom","Gromsblood","Ghost Mushroom"],["Iron Ore","Gold Ore","Mithril Ore"]],
- ["Stranglethorn Vale",30,45,"C",["Bruiseweed","Wild Steelbloom","Kingsblood","Liferoot","Fadeleaf","Goldthorn","Khadgar's Whisker","Purple Lotus"],["Tin Ore","Silver Ore","Iron Ore","Gold Ore","Mithril Ore"]],
- ["Dustwallow Marsh",35,45,"C",["Kingsblood","Liferoot","Fadeleaf","Goldthorn","Khadgar's Whisker"],["Iron Ore","Gold Ore","Mithril Ore"]],
- ["Badlands",35,45,"C",["Goldthorn","Purple Lotus","Firebloom"],["Iron Ore","Gold Ore","Mithril Ore","Truesilver Ore"]],
- ["Swamp of Sorrows",35,45,"C",["Liferoot","Fadeleaf","Goldthorn","Khadgar's Whisker","Blindweed"],["Iron Ore","Gold Ore","Mithril Ore"]],
- ["The Riverglades",35,45,"C",["Liferoot","Fadeleaf","Goldthorn","Khadgar's Whisker","Kingsblood"],["Iron Ore","Gold Ore","Mithril Ore"],{est:true}],
- ["Shen'dralas",40,53,"C",["Goldthorn","Khadgar's Whisker","Purple Lotus","Sungrass"],["Mithril Ore","Truesilver Ore"],{est:true}],
- ["Feralas",40,50,"C",["Goldthorn","Khadgar's Whisker","Purple Lotus","Sungrass","Ghost Mushroom","Golden Sansam"],["Mithril Ore","Truesilver Ore"]],
- ["Tanaris",40,50,"C",["Firebloom","Purple Lotus"],["Gold Ore","Mithril Ore","Truesilver Ore"]],
- ["The Hinterlands",40,50,"C",["Khadgar's Whisker","Goldthorn","Purple Lotus","Sungrass","Golden Sansam","Ghost Mushroom"],["Mithril Ore","Truesilver Ore","Thorium Ore"]],
- ["Searing Gorge",43,50,"C",["Firebloom"],["Mithril Ore","Truesilver Ore","Thorium Ore","Dark Iron Ore"]],
- ["Azshara",45,55,"C",["Sungrass","Golden Sansam","Dreamfoil","Mountain Silversage"],["Mithril Ore","Truesilver Ore","Thorium Ore"]],
- ["Blasted Lands",45,55,"C",["Firebloom","Gromsblood","Sungrass"],["Thorium Ore"]],
- ["Felwood",48,55,"C",["Gromsblood","Golden Sansam","Dreamfoil","Plaguebloom"],["Thorium Ore"]],
- ["Un'Goro Crater",48,55,"C",["Sungrass","Golden Sansam","Dreamfoil","Mountain Silversage","Black Lotus"],["Thorium Ore","Arcane Crystal"]],
- ["Burning Steppes",50,58,"C",["Sungrass","Golden Sansam","Dreamfoil","Mountain Silversage","Black Lotus"],["Thorium Ore","Dark Iron Ore","Arcane Crystal"]],
- ["Western Plaguelands",51,58,"C",["Arthas' Tears","Sungrass","Golden Sansam","Dreamfoil","Plaguebloom"],["Thorium Ore"]],
- ["Eastern Plaguelands",53,60,"C",["Arthas' Tears","Plaguebloom","Golden Sansam","Dreamfoil","Black Lotus"],["Thorium Ore","Arcane Crystal"]],
- ["Winterspring",55,60,"C",["Icecap","Mountain Silversage","Black Lotus"],["Thorium Ore","Arcane Crystal"]],
- ["Silithus",55,60,"C",["Dreamfoil","Mountain Silversage","Black Lotus"],["Thorium Ore","Arcane Crystal"]],
- ["Mount Hyjal",60,60,"C",[],["Thorium Ore","Heavy Thorium Ore"],{herbsUnknown:true}]
-].map(([name,min,max,f,herbs,ores,x])=>Object.assign({name,min,max,f,herbs,ores},x||{}));
-const ZONE=Object.fromEntries(ZONES.map(z=>[z.name,z]));
 const zl=n=>ZONE[n]?.est?n+" (est.)":n; // new Forever zones whose nodes aren't charted yet
-const STONE_OF={"Rough Stone":"Copper Ore","Coarse Stone":"Tin Ore","Heavy Stone":"Iron Ore","Solid Stone":"Mithril Ore","Dense Stone":"Thorium Ore"};
-const LEATHER_TIERS=[["Light",1,27],["Medium",15,36],["Heavy",25,46],["Thick",35,63],["Rugged",43,63]]; // beast levels that drop each tier
-const SKIN_SPECIAL={"Deviate Scale":["The Barrens"],"Black Whelp Scale":["Redridge Mountains","Wetlands"],"Green Whelp Scale":["Wetlands"],"Turtle Scale":["Swamp of Sorrows","Feralas","The Hinterlands"],"Scorpid Scale":["Tanaris","Burning Steppes"],"Worn Dragonscale":["Swamp of Sorrows","Dustwallow Marsh","Burning Steppes"],"Devilsaur Leather":["Un'Goro Crater"]};
 /* Typical spendable gold by level when the player hasn't entered their own (copper) */
 function estBudget(l){return l<10?5000:l<20?40000:l<30?200000:l<40?600000:l<50?1500000:l<60?3000000:6000000}
 function budgetOf(c){return c.gold!=null&&c.gold>=0?c.gold:estBudget(c.level)}
@@ -96,19 +38,6 @@ function whereGather(name,prof,c){
   return{zones:ok,unlock:ok.length?null:(lock.length?Math.max(1,Math.min(...lock)-s):null)};
 }
 /* A flip only counts if it fits the budget, has real margin and won't need to corner the market */
-const CONSUMABLES=[ // [name, min level, who]
- ["Minor Healing Potion",1,"all"],["Lesser Healing Potion",3,"all"],["Healing Potion",12,"all"],["Greater Healing Potion",21,"all"],["Superior Healing Potion",35,"all"],["Major Healing Potion",45,"all"],
- ["Minor Mana Potion",5,"mana"],["Lesser Mana Potion",14,"mana"],["Mana Potion",22,"mana"],["Greater Mana Potion",31,"mana"],["Superior Mana Potion",41,"mana"],["Major Mana Potion",49,"mana"],
- ["Elixir of Minor Agility",2,"agi"],["Elixir of Lesser Agility",18,"agi"],["Elixir of Agility",27,"agi"],["Elixir of Greater Agility",38,"agi"],["Elixir of the Mongoose",46,"agi"],
- ["Elixir of Lion's Strength",1,"str"],["Elixir of Ogre's Strength",20,"str"],["Elixir of Giants",46,"str"],
- ["Elixir of Wisdom",10,"int"],["Elixir of Greater Intellect",37,"int"],["Arcane Elixir",37,"int"],["Greater Arcane Elixir",47,"int"],
- ["Elixir of Fortitude",25,"all"],["Elixir of Superior Defense",43,"tank"],
- ["Rough Sharpening Stone",1,"blade"],["Coarse Sharpening Stone",15,"blade"],["Heavy Sharpening Stone",25,"blade"],["Solid Sharpening Stone",35,"blade"],["Dense Sharpening Stone",45,"blade"],
- ["Heavy Weightstone",25,"blunt"],["Solid Weightstone",35,"blunt"],["Dense Weightstone",45,"blunt"],
- ["Flash Powder",22,"Rogue"],["Arcane Powder",56,"Mage"],["Sacred Candle",60,"Priest"],["Symbol of Kings",52,"Paladin"]
-];
-const CONS_TAGS={Warrior:["all","str","blade","blunt","tank"],Paladin:["all","mana","str","int","blunt","tank"],Hunter:["all","mana","agi"],Rogue:["all","agi","blade","Rogue"],Priest:["all","mana","int","Priest"],Shaman:["all","mana","int","str","blunt"],Mage:["all","mana","int","Mage"],Warlock:["all","mana","int"],Druid:["all","mana","int","agi"]};
-const HOUSES={Alliance:{cut:.05,label:"Alliance AH"},Horde:{cut:.05,label:"Horde AH"},Blackwater:{cut:.15,label:"Blackwater (neutral)"}};
 /* ============ Helpers ============ */
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -161,27 +90,6 @@ function readLocal(){try{return JSON.parse(localStorage.getItem("fml-cache")||"n
 
 
 /* ============ Materials catalog ============ */
-const LAUNCH=Date.parse("2026-11-04T00:00:00Z"); // WoW Forever launch
-const tierOfLevel=l=>Math.max(1,Math.min(6,Math.floor(l/10)+1));
-function zoneTier(pred){const z=ZONES.filter(pred);return z.length?tierOfLevel(Math.min(...z.map(x=>x.min))):null}
-const MATS=(()=>{
-  const m=[];const add=(name,cat,tier,extra)=>m.push(Object.assign({name,cat,tier},extra||{}));
-  GATHER.Herbalism.forEach(([n,req])=>add(n,"Herb",zoneTier(z=>z.herbs.includes(n))||tierOfLevel(req/5),{gather:"Herbalism",req}));
-  GATHER.Skinning.forEach(([n,req])=>{const lt=LEATHER_TIERS.findIndex(t=>n.startsWith(t[0]+" "));
-    const t=SKIN_SPECIAL[n]?zoneTier(z=>SKIN_SPECIAL[n].includes(z.name)):lt>=0?tierOfLevel(LEATHER_TIERS[lt][1]+5):n==="Ruined Leather Scraps"?1:3;
-    add(n,/Hide$/.test(n)?"Hide":/Scale/.test(n)?"Scale":"Leather",Math.min(6,t),{gather:"Skinning",req})});
-  GATHER.Mining.forEach(([n,req])=>{const ore=STONE_OF[n]||n;add(n,/Stone$/.test(n)?"Stone":/Crystal/.test(n)?"Gem":"Ore",zoneTier(z=>z.ores.includes(ore))||6,{gather:"Mining",req})});
-  [["Linen Cloth",1],["Wool Cloth",2],["Silk Cloth",3],["Mageweave Cloth",4],["Runecloth",5],["Felcloth",6]].forEach(([n,t])=>add(n,"Cloth",t));
-  [["Copper Bar",1],["Bronze Bar",2],["Tin Bar",2],["Silver Bar",2],["Iron Bar",3],["Gold Bar",3],["Steel Bar",3],["Mithril Bar",4],["Truesilver Bar",5],["Thorium Bar",5],["Dark Iron Bar",6],["Arcanite Bar",6]].forEach(([n,t])=>add(n,"Bar",t));
-  [["Strange Dust",1],["Lesser Magic Essence",1],["Greater Magic Essence",2],["Lesser Astral Essence",2],["Soul Dust",3],["Greater Astral Essence",3],["Vision Dust",4],["Lesser Mystic Essence",4],["Greater Mystic Essence",4],["Dream Dust",5],["Lesser Nether Essence",5],["Greater Nether Essence",5],["Illusion Dust",6],["Lesser Eternal Essence",6],["Greater Eternal Essence",6],["Small Brilliant Shard",6],["Large Brilliant Shard",6]].forEach(([n,t])=>add(n,"Enchanting",t));
-  CONSUMABLES.forEach(([n,l])=>add(n,/Potion/.test(n)?"Potion":/Elixir/.test(n)?"Elixir":"Consumable",tierOfLevel(l),{lvl:l}));
-  return m;
-})();
-const MAT=Object.fromEntries(MATS.map(x=>[x.name,x]));
-const RAW=new Set(["Herb","Leather","Hide","Scale","Ore","Stone","Cloth"]);
-const CONSUME=new Set(["Potion","Elixir","Consumable"]);
-// Forever moved healing potions to First Aid, which puts steady extra demand on these herbs
-const FA_HERBS=new Set(["Peacebloom","Silverleaf","Earthroot","Briarthorn","Bruiseweed","Kingsblood","Liferoot","Sungrass","Khadgar's Whisker","Golden Sansam","Mountain Silversage"]);
 
 /* ============ Conditions engine: rule-based price shifts ============ */
 function frontLevel(t){const d=Math.max(0,(t-LAUNCH)/864e5);return Math.min(60,8+52*(1-Math.exp(-d/25)))}
@@ -251,18 +159,6 @@ async function recordPrice(name,copper){
 async function deletePrices(name){const key=keyOf(name);delete S.items[key];cacheLocal();await Store.remove(key)}
 
 /* ============ Character helpers ============ */
-const RANKS=[{cap:75,name:"Apprentice",lvl:5,skill:0},{cap:150,name:"Journeyman",lvl:10,skill:50},{cap:225,name:"Expert",lvl:20,skill:125},{cap:300,name:"Artisan",lvl:35,skill:200}];
-const PATHS={ // materials needed by skill bracket (Classic paths; Forever may differ)
- Alchemy:[[1,60,["Peacebloom","Silverleaf"]],[60,110,["Briarthorn","Mageroyal"]],[110,140,["Bruiseweed","Briarthorn"]],[140,185,["Kingsblood","Liferoot"]],[185,230,["Goldthorn","Khadgar's Whisker"]],[230,265,["Sungrass","Khadgar's Whisker"]],[265,300,["Dreamfoil","Golden Sansam","Mountain Silversage"]]],
- Leatherworking:[[1,100,["Light Leather"]],[100,150,["Medium Leather"]],[150,200,["Heavy Leather"]],[200,250,["Thick Leather"]],[250,300,["Rugged Leather"]]],
- Tailoring:[[1,75,["Linen Cloth"]],[75,125,["Wool Cloth"]],[125,175,["Silk Cloth"]],[175,250,["Mageweave Cloth"]],[250,300,["Runecloth"]]],
- "First Aid":[[1,80,["Linen Cloth"]],[80,150,["Wool Cloth"]],[150,210,["Silk Cloth"]],[210,260,["Mageweave Cloth"]],[260,300,["Runecloth"]]],
- Blacksmithing:[[1,75,["Copper Bar","Rough Stone"]],[75,125,["Bronze Bar","Coarse Stone"]],[125,150,["Iron Bar","Heavy Stone"]],[150,200,["Steel Bar","Iron Bar"]],[200,250,["Mithril Bar","Solid Stone"]],[250,300,["Thorium Bar","Dense Stone"]]],
- Engineering:[[1,75,["Copper Bar","Rough Stone"]],[75,125,["Bronze Bar","Coarse Stone"]],[125,175,["Iron Bar","Heavy Stone","Silk Cloth"]],[175,250,["Mithril Bar","Solid Stone"]],[250,300,["Thorium Bar","Dense Stone","Runecloth"]]],
- Enchanting:[[1,130,["Strange Dust","Lesser Magic Essence"]],[130,180,["Soul Dust","Greater Magic Essence"]],[180,230,["Vision Dust","Lesser Mystic Essence"]],[230,270,["Dream Dust","Lesser Nether Essence"]],[270,300,["Illusion Dust","Greater Eternal Essence"]]]
-};
-const SMELT={"Copper Bar":["Copper Ore"],"Tin Bar":["Tin Ore"],"Bronze Bar":["Copper Ore","Tin Ore"],"Silver Bar":["Silver Ore"],"Iron Bar":["Iron Ore"],"Gold Bar":["Gold Ore"],"Steel Bar":["Iron Ore"],"Mithril Bar":["Mithril Ore"],"Truesilver Bar":["Truesilver Ore"],"Thorium Bar":["Thorium Ore"],"Dark Iron Bar":["Dark Iron Ore"]};
-const GATHER_RATE={Herbalism:{nodes:35,yield:2.3},Skinning:{nodes:25,yield:1.5},Mining:{nodes:20,yield:2.5}}; // rough per hour
 function profOf(c,n){return c.profs.find(p=>p.name===n)}
 function canGather(c,name){ // can this character gather it in their zones at their skill?
   const m=MAT[name];if(m&&m.gather){const p=profOf(c,m.gather);if(!p||p.skill<m.req)return null;const w=whereGather(name,m.gather,c);return w.zones.length?{prof:m.gather,zones:w.zones}:null}
@@ -315,38 +211,6 @@ function bestFarm(c){
 
 
 /* ============ Skinning spots: beasts, levels and subzones (Classic spawns via RankedBoost; Forever may differ) ============ */
-const SKIN_SPOTS=[
- ["Durotar",5,9,"Elder and Dire Mottled Boars, Clattering and Armored Scorpids",["Razormane Grounds","Thunder Ridge","Razor Hill"],"Light"],
- ["Mulgore",5,10,"Prairie Stalkers, Prairie Wolves, Flatland Prowlers and Prairie Wolf Alphas",["The Golden Plains","Bloodhoof Village","Thunder Bluff"],"Light"],
- ["Tirisfal Glades",3,11,"Duskbats and Worgs",["Brightwater Lake","Nightmare Vale","Balnir Farmstead"],"Light"],
- ["Dun Morogh",5,8,"Elder and Crag Boars, Snow Leopards and Ice Claw Bears",["Kharanos","The Grizzled Den","Iceflow Lake"],"Light"],
- ["Elwynn Forest",5,10,"Rockhide Boars, Mangy Wolves, Prowlers and Gray Forest Wolves",["Fargodeep Mine","Jerod's Landing","Tower of Azora"],"Light"],
- ["Darkshore",10,14,"Rabid and Thistle Bears, Foreststrider Fledglings and Moonstalker Runts",["Cliffspring River","Ameth'Aran","Bashal'Aran"],"Light"],
- ["The Barrens",15,18,"Hecklefang Hyenas, Ornery Plainstriders, Sunscale Scytheclaws and Barrens Giraffes",["Agama'gor","Lushwater Oasis","Bramblescar"],"Light and Medium"],
- ["Loch Modan",16,20,"Black Bear Patriarchs, Young Threshadons and Elder Mountain Boars",["The Farstrider Lodge","The Loch","Mo'grosh Stronghold"],"Medium"],
- ["Westfall",16,17,"Great Goretusks",["The Dead Acre","Sentinel Hill","The Dust Plains"],"Medium"],
- ["Darkshore",14,19,"Giant Foreststriders, Foreststriders, Elder Darkshore Threshers and Moonstalker Sires",["The Master's Glaive","Grove of the Ancients","Remtravel's Excavation"],"Light and Medium"],
- ["The Barrens",20,23,"Thunderheads, Stormhides, Hecklefang Stalkers and Zhevra Coursers",["Field of Giants","Blackthorn Ridge","Camp Taurajo"],"Medium and Heavy"],
- ["Hillsbrad Foothills",21,26,"Elder, Vicious and Gray Bears and Starving Mountain Lions",["Southshore","Hillsbrad Fields","Durnholde Keep"],"Medium and Heavy"],
- ["Ashenvale",21,27,"Ashenvale Bears, Elder Ashenvale Bears and Shadowhorn Stags",["Mystral Lake","Night Run","Raynewood Retreat"],"Medium and Heavy"],
- ["Wetlands",21,28,"Wetlands Crocolisks, Highland Razormaws and Mottled Raptors",["Saltspray Glen","Black Channel Marsh","Whelgar's Excavation Site"],"Medium and Heavy"],
- ["Thousand Needles",30,35,"Saltstone Crystalhides, Scorpid Reavers and Sparkleshell Snappers and Tortoises",["The Shimmering Flats"],"Heavy"],
- ["Arathi Highlands",30,37,"Highland Striders and Thrashers, Giant Plains Creepers and Highland Fleshstalkers",["Boulder'gor","Refuge Pointe","Circle of Inner Binding"],"Heavy and Thick"],
- ["Desolace",30,36,"Gritjaw Basilisks, Raging Thunder Lizards and Scorpashi Snappers",["Kodo Graveyard","Sargeron","Thunder Axe Fortress"],"Heavy and Thick"],
- ["Stranglethorn Vale",37,41,"Shadowmaw Panthers, Stranglethorn Tigresses and Jungle Stalkers and Thunderers",["Gurubashi Arena","Lake Nazferiti","Balia'mah Ruins"],"Heavy and Thick"],
- ["Dustwallow Marsh",37,41,"Drywallow Daggermaws, Crocolisks and Snappers and Young Murk Threshers",["The Quagmire","Beezil's Wreck","Tidefury Cove"],"Heavy and Thick"],
- ["Dustwallow Marsh",39,43,"Drywallow Daggermaws, Bloodfen Lashtails and Murk Threshers",["Wyrmbog","Tidefury Cove","Sentry Point"],"Thick"],
- ["Feralas",40,50,"Longtooth Runners and Howlers, Ironfur Bears and Groddoc Thunderers",["The Twin Colossals","Ruins of Isildien","Lower Wilds"],"Thick and Rugged"],
- ["The Hinterlands",41,50,"Saltwater Snapjaws, Silvermane Stalkers and Wolves and Mangy Silvermanes",["Shaol'watha","The Overlook Cliffs","Hiri'watha"],"Thick and Rugged"],
- ["Tanaris",44,50,"Blisterpaw Hyenas, Glasshide Gazers, Surf Gliders and Scorpid Dunestalkers",["Abyssal Sands","Southbreak Shore","Dunemaul Compound"],"Thick and Rugged"],
- ["Stranglethorn Vale",40,50,"Jungle Stalkers, Elder Mistvale and Skymane Gorillas and Ironjaw Basilisks",["Mistvale Valley","Gurubashi Arena","Jaguero Isle"],"Thick and Rugged"],
- ["Azshara",50,54,"Mosshoof Coursers, Thunderhead Skystormers and Coralshell Lurkers",["Lake Mennar","Legashi Encampment","Thalassian Base Camp"],"Rugged"],
- ["Un'Goro Crater",50,55,"Pterrordaxes, Frenzied Pterrordaxes and Diemetradons",["Golakka Hot Springs","Terror Run","Fire Plume Ridge"],"Rugged"],
- ["Western Plaguelands",51,56,"Diseased Grizzlies, Wolves and Black Bears",["Dalson's Tears","Gahrron's Withering","Northridge Lumber Camp"],"Rugged"],
- ["Burning Steppes",51,57,"Deathlash, Venomtip and Firetail Scorpids and Ember Worgs",["Terror Wing Path","The Pillar of Ash","Draco'dar"],"Rugged"],
- ["Eastern Plaguelands",53,60,"Plaguebats and Plagued Swine",["Blackwood Lake","Pestilent Scar","The Fungal Vale"],"Rugged"],
- ["Winterspring",55,60,"Shardtooth Maulers, Frostsaber Stalkers and Chillwind Ravagers",["Frostsaber Rock","Everlook","The Hidden Grove"],"Rugged"]
-].map(([zone,min,max,beasts,spots,leather])=>({zone,min,max,beasts,spots,leather}));
 const skinReq=l=>l<=10?1:l<=20?(l-10)*10:l*5; // Classic: skill needed to skin a beast of level l
 function skinPlan(c,sp){ // how this spot works for this character, or null if it doesn't
   const p=profOf(c,"Skinning");if(!p)return null;const reach=c.level+3;
@@ -363,11 +227,7 @@ function skinSpots(c){
 }
 const skinLine=x=>`Skin ${x.sp.beasts} (about level ${x.lo}–${x.hi}) around ${andList(x.sp.spots)} for ${x.sp.leather} Leather. ${x.col[0]==="gray"?"No skill-ups for you here.":x.col[0]==="green"?"A few skill-ups left.":"Good skill-ups for you."}`;
 /* ============ Zone dossiers: when, where and why, per character ============ */
-const KALIMDOR=new Set(["Teldrassil","Durotar","Mulgore","Darkshore","The Barrens","Stonetalon Mountains","Ashenvale","Thousand Needles","Desolace","Dustwallow Marsh","Feralas","Tanaris","Azshara","Felwood","Un'Goro Crater","Winterspring","Silithus","Shen'dralas","Mount Hyjal"]);
 const continentOf=n=>n==="Zephras Isle"?"Skywall (Skyborne start)":KALIMDOR.has(n)?"Kalimdor":"Eastern Kingdoms";
-// Peak node counts per zone in a single skill bracket, from Wowhead's Forever data via Kami-labs
-const DENSITY={herb:{"Teldrassil":481,"Zephras Isle":461,"Elwynn Forest":372,"Dun Morogh":367,"Westfall":275,"Redridge Mountains":229,"Wetlands":388,"Darkshore":202,"Ashenvale":330,"Stonetalon Mountains":309,"Stranglethorn Vale":469,"Dustwallow Marsh":310,"Arathi Highlands":267,"Swamp of Sorrows":274,"Feralas":264,"Alterac Mountains":177,"The Hinterlands":162,"Azshara":228,"Eastern Plaguelands":333,"Felwood":228,"Un'Goro Crater":182},
- ore:{"Zephras Isle":230,"Dun Morogh":220,"Elwynn Forest":219,"Loch Modan":151,"Redridge Mountains":271,"Thousand Needles":314,"Hillsbrad Foothills":198,"Arathi Highlands":351,"Desolace":245,"Stranglethorn Vale":275,"Badlands":271,"The Hinterlands":293,"Tanaris":255,"Burning Steppes":290,"Searing Gorge":227,"Silithus":273,"Winterspring":227,"Un'Goro Crater":187}};
 function zoneDossier(c,Zr){
   const z=ZONE[Zr.zone];const tg=S.state.toggles;const ctx=ctxAt(Date.now(),tg);
   const when=[],where=[],why=[];
@@ -468,50 +328,7 @@ function houseOf(c){return c.faction==="Alliance"?"Alliance":"Horde"}
 function cutFor(house){return (HOUSES[house]||HOUSES.Horde).cut}
 function skillColor(skill,req){if(skill<req)return["locked","c-gray"];const d=skill-req;if(d<25)return["orange","c-orange"];if(d<50)return["yellow","c-yellow"];if(d<100)return["green","c-green"];return["gray","c-gray"]}
 
-/* ============ Backup: export and import as versioned JSON ============ */
-const BACKUP_APP="forever-market-ledger",BACKUP_VERSION=1;
-function validateBackup(text){
-  let b;try{b=JSON.parse(text)}catch(e){return{ok:false,error:"That isn't a complete backup. Copy the whole text from Export and try again."}}
-  const fail=error=>({ok:false,error});
-  if(!b||typeof b!=="object"||Array.isArray(b)||b.app!==BACKUP_APP)return fail("This isn't a Forever Market Ledger backup.");
-  if(!Number.isInteger(b.version)||b.version<1)return fail("This isn't a Forever Market Ledger backup.");
-  if(b.version>BACKUP_VERSION)return fail("This backup is from a newer version of the app. Update the app and try again.");
-  if(!Array.isArray(b.characters)||!b.characters.length)return fail("This backup has no characters.");
-  for(let i=0;i<b.characters.length;i++){
-    const c=b.characters[i],n="Character "+(i+1);
-    if(!c||typeof c!=="object")return fail(n+" is damaged.");
-    if(typeof c.id!=="string"||!c.id)return fail(n+" has no id.");
-    if(typeof c.name!=="string"||!c.name)return fail(n+" has no name.");
-    if(!Object.hasOwn(CLASSES,c.cls))return fail(n+" has an unknown class.");
-    if(!Number.isInteger(c.level)||c.level<1||c.level>60)return fail(n+" has an invalid level.");
-    if(c.faction!=="Alliance"&&c.faction!=="Horde")return fail(n+" has no faction.");
-    if(!Array.isArray(c.profs)||!c.profs.every(p=>p&&typeof p.name==="string"&&Number.isFinite(p.skill)&&p.skill>=0&&p.skill<=300))return fail(n+" has invalid professions.");
-  }
-  if(!b.characters.some(c=>c.id===b.activeId))return fail("The active character isn't in this backup.");
-  if(!b.prices||typeof b.prices!=="object"||Array.isArray(b.prices))return fail("The price list in this backup is damaged.");
-  for(const [k,it] of Object.entries(b.prices)){
-    const ok=it&&typeof it.name==="string"&&it.name&&Array.isArray(it.hist)&&it.hist.every(p=>p&&Number.isFinite(p.t)&&Number.isFinite(p.price)&&p.price>=0);
-    if(!ok)return fail("The prices for "+(it&&typeof it.name==="string"&&it.name?it.name:k)+" are damaged.");
-  }
-  // Keep only known fields, so a backup never carries unknown data into the app
-  const pick=(o,keys)=>Object.fromEntries(keys.filter(k=>o[k]!==undefined).map(k=>[k,o[k]]));
-  const backup={app:BACKUP_APP,version:b.version,exportedAt:Number.isFinite(b.exportedAt)?b.exportedAt:null,
-    characters:b.characters.map(c=>Object.assign(pick(c,["id","name","cls","level","faction","region","gold","stretch","skyborne","example"]),{profs:c.profs.map(p=>({name:p.name,skill:p.skill}))})),
-    activeId:b.activeId,
-    toggles:b.toggles&&typeof b.toggles==="object"&&!Array.isArray(b.toggles)?b.toggles:{},
-    prices:Object.fromEntries(Object.entries(b.prices).map(([k,it])=>[k,{key:k,name:it.name,hist:it.hist.map(p=>({t:p.t,price:p.price}))}]))};
-  return{ok:true,backup,counts:{characters:backup.characters.length,prices:Object.keys(backup.prices).length}};
-}
-// A validated backup as the app's own data
-function backupData(b){
-  return JSON.parse(JSON.stringify({state:{characters:b.characters,activeId:b.activeId,toggles:b.toggles||{}},items:b.prices}));
-}
-// Saved price records the incoming data doesn't have (deleted from claude.ai storage on import)
-function staleKeys(oldItems,newItems){return Object.keys(oldItems||{}).filter(k=>!Object.hasOwn(newItems,k))}
-function buildBackup(state,items,now){
-  return JSON.parse(JSON.stringify({app:BACKUP_APP,version:BACKUP_VERSION,exportedAt:now,
-    characters:state.characters,activeId:state.activeId,toggles:state.toggles||{},prices:items}));
-}
+/* ============ Backup: export and import (src/engine/backup.ts) ============ */
 
 /* ============ App state ============ */
 const S={

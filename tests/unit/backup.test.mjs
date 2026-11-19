@@ -1,9 +1,8 @@
 import { test } from "vitest";
 import assert from "node:assert/strict";
-import { loadApp } from "../load-app.mjs";
+import { validateBackup, buildBackup, backupData, staleKeys } from "../../src/engine/backup.ts";
 
-const { validateBackup, buildBackup, backupData, staleKeys } =
-  loadApp(["validateBackup", "buildBackup", "backupData", "staleKeys"]);
+
 
 // A known-good app state: two characters (one with Skyborne), two priced materials
 const rogue = { id: "r1", name: "Vexa", cls: "Rogue", level: 15, faction: "Alliance", region: "us", gold: null,
