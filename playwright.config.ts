@@ -1,6 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
-// Phone-first: every check runs at 412×900 in New York time (US realms; the rules use local time)
+// Phone-first: checks run at 412×900 in New York time (US realms; the rules use local time).
+// screens.spec.ts and responsive.spec.ts set wider viewports (768, 1280, 1920) for the T8 layouts.
 export default defineConfig({
   testDir: "tests/e2e",
   outputDir: "test-results",

@@ -2,12 +2,12 @@
 
 ## Checklist
 
-- [ ] Step 1: Lock the phone (412 pixel baselines) and add the width matrix
-- [ ] Step 2: Wide shell: body grid, full-width header, nav rail and sidebar, content cap, toast
-- [ ] Step 3: Sheets as centred dialogs
-- [ ] Step 4: Lanes on Today and Prices
-- [ ] Step 5: Lanes on Farm, Professions and Session
-- [ ] Step 6: Hover states, docs (T8), final review
+- [x] Step 1: Lock the phone (412 pixel baselines) and add the width matrix
+- [x] Step 2: Wide shell: body grid, full-width header, nav rail and sidebar, content cap, toast
+- [x] Step 3: Sheets as centred dialogs
+- [x] Step 4: Lanes on Today and Prices
+- [x] Step 5: Lanes on Farm, Professions and Session
+- [x] Step 6: Hover states, docs (T8), final review
 
 Branch `responsive/layout` from `main`, one PR. One commit per step. After every step: `npm run check` green, the behavior lock (`tests/e2e/baseline.spec.ts`) unchanged with no re-record, and the 412 pixel diff at zero. Never push or open the PR without asking. Before running Playwright locally, stop any stray `vite preview` on port 4173.
 
@@ -68,7 +68,7 @@ Branch `responsive/layout` from `main`, one PR. One commit per step. After every
 
 **Objective:** the remaining three tabs get their layouts, including empty states.
 
-**Guidance:** Farm: Zones card, then a `.lane` with the profession cards; tablet lane is a 2-column grid, desktop `3fr 2fr`. Professions: auto-fill grid, columns ≥ 340px. Session: 760px cap on tablet, `320px 1fr` on desktop. Empty-state cards span the full width. Footnotes stay outside `.lanes`.
+**Guidance:** Farm: Zones card, then a `.lane` with the profession cards; tablet lane is a 2-column grid, desktop `3fr 2fr`. Professions: auto-fit grid, columns ≥ 300px (340px in the grill; at 768 that leaves one column). Session: 760px cap on tablet, `320px 1fr` on desktop. Empty-state cards span the full width. Footnotes stay outside `.lanes`.
 
 **Tests (first):** Farm (L15 Rogue, two gatherers): at 1280 the zones card is left of the profession cards and they stack; at 768 the zones card is full width and the two profession cards share a top. Professions: a seeded character with three professions shows 2 columns at 768 and 3 at 1280. Session: 2 columns at 1280, 1 at 768 and width ≤ 760. Empty states (a character with no professions) render one full-width card with no overflow. Behavior lock unchanged, 412 pixel diff zero.
 

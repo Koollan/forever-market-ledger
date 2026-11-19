@@ -37,7 +37,7 @@ Banners (example character, budget) and footnotes stay full width, outside any c
 | Today | Two columns: left Conditions now, Your materials today under it; right Do this | Three columns: Conditions now, Do this, Your materials today |
 | Farm | Zones full width; profession cards two across | Two columns: Zones (3fr), profession cards stacked (2fr) |
 | Prices | Two columns: left Your prices, Market under it; right search card | Three columns: Your prices, Market, search card; two when Market is absent |
-| Professions | Auto-fill grid, columns ≥ 340px (two across) | Same grid (three across) |
+| Professions | Auto-fit grid, columns ≥ 300px (two across) | Same grid (three across) |
 | Session | Stacked, capped at 760px | Two columns: picker 320px, steps |
 
 Columns are top-aligned; a short column does not stretch its cards. Empty-state cards ("No gathering professions", "No professions") fill the width as a single card.
@@ -109,7 +109,7 @@ Per tab:
 | Today | Conditions, Do this, Materials (no `.lane`: the tablet grouping is not adjacent in the DOM) | 2 columns, `grid-template-rows:auto 1fr`; Conditions at (1,1), Materials at (1,2), Do this at column 2 spanning rows 1–2 | 3 equal columns, one row |
 | Farm | Zones card, then `.lane` with the profession cards | 1 column; the lane is a 2-column grid | `3fr 2fr`; the lane is a flex column |
 | Prices | `.lane` with Your prices + Market, then the search card | `minmax(0,1fr) minmax(0,1fr)`; the lane is a flex column | the lane is `display:contents`; `grid-auto-flow:column; grid-auto-columns:minmax(0,1fr)` gives 3 columns, or 2 without Market |
-| Professions | the profession cards | `repeat(auto-fill, minmax(340px,1fr))` | same |
+| Professions | the profession cards | `repeat(auto-fit, minmax(300px,1fr))` (340px, as first planned, leaves one column at 768: the content area there is 632px) | same |
 | Session | picker card, steps card | 1 column, `max-width:760px` | `320px minmax(0,1fr)` |
 
 Moving cards between DOM groups is not allowed: `innerText` follows DOM order, so it would change the behavior lock's text at 412px. Grid placement handles the one non-adjacent grouping (Today on tablet).

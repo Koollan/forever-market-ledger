@@ -176,3 +176,10 @@ details.zone[open] summary .nm::before{content:"▾ "}
   .lanes-farm>.lane:only-child{display:grid;grid-column:1/-1}
   .lanes-plan{grid-template-columns:320px minmax(0,1fr);max-width:none}
 }
+/* Hover on wide screens with a mouse; the side shadows widen the highlight without moving anything */
+@media (min-width:720px) and (hover:hover){
+  button.item:hover,details.zone summary:hover{background:var(--chip);box-shadow:-8px 0 0 var(--chip),8px 0 0 var(--chip)}
+  nav button:not([aria-current="page"]):hover{background:var(--chip);color:var(--ink)}
+  .btn:not(.primary):not(:disabled):hover{background:var(--chip)}
+  .btn.primary:not(:disabled):hover{filter:brightness(1.1)}
+}
