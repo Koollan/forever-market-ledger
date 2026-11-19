@@ -605,6 +605,45 @@ function houseOf(c){return c.faction==="Alliance"?"Alliance":"Horde"}
 function cutFor(house){return (HOUSES[house]||HOUSES.Horde).cut}
 function skillColor(skill,req){if(skill<req)return["locked","c-gray"];const d=skill-req;if(d<25)return["orange","c-orange"];if(d<50)return["yellow","c-yellow"];if(d<100)return["green","c-green"];return["gray","c-gray"]}
 
+/* ============ Backup: export and import as versioned JSON ============ */
+const BACKUP_APP="forever-market-ledger",BACKUP_VERSION=1;
+function validateBackup(text){
+  let b;try{b=JSON.parse(text)}catch(e){return{ok:false,error:"That isn't a complete backup. Copy the whole text from Export and try again."}}
+  const fail=error=>({ok:false,error});
+  if(!b||typeof b!=="object"||Array.isArray(b)||b.app!==BACKUP_APP)return fail("This isn't a Forever Market Ledger backup.");
+  if(!Number.isInteger(b.version)||b.version<1)return fail("This isn't a Forever Market Ledger backup.");
+  if(b.version>BACKUP_VERSION)return fail("This backup is from a newer version of the app. Update the app and try again.");
+  if(!Array.isArray(b.characters)||!b.characters.length)return fail("This backup has no characters.");
+  for(let i=0;i<b.characters.length;i++){
+    const c=b.characters[i],n="Character "+(i+1);
+    if(!c||typeof c!=="object")return fail(n+" is damaged.");
+    if(typeof c.id!=="string"||!c.id)return fail(n+" has no id.");
+    if(typeof c.name!=="string"||!c.name)return fail(n+" has no name.");
+    if(!Object.hasOwn(CLASSES,c.cls))return fail(n+" has an unknown class.");
+    if(!Number.isInteger(c.level)||c.level<1||c.level>60)return fail(n+" has an invalid level.");
+    if(c.faction!=="Alliance"&&c.faction!=="Horde")return fail(n+" has no faction.");
+    if(!Array.isArray(c.profs)||!c.profs.every(p=>p&&typeof p.name==="string"&&Number.isFinite(p.skill)&&p.skill>=0&&p.skill<=300))return fail(n+" has invalid professions.");
+  }
+  if(!b.characters.some(c=>c.id===b.activeId))return fail("The active character isn't in this backup.");
+  if(!b.prices||typeof b.prices!=="object"||Array.isArray(b.prices))return fail("The price list in this backup is damaged.");
+  for(const [k,it] of Object.entries(b.prices)){
+    const ok=it&&typeof it.name==="string"&&it.name&&Array.isArray(it.hist)&&it.hist.every(p=>p&&Number.isFinite(p.t)&&Number.isFinite(p.price)&&p.price>=0);
+    if(!ok)return fail("The prices for "+(it&&typeof it.name==="string"&&it.name?it.name:k)+" are damaged.");
+  }
+  // Keep only known fields, so a backup never carries unknown data into the app
+  const pick=(o,keys)=>Object.fromEntries(keys.filter(k=>o[k]!==undefined).map(k=>[k,o[k]]));
+  const backup={app:BACKUP_APP,version:b.version,exportedAt:Number.isFinite(b.exportedAt)?b.exportedAt:null,
+    characters:b.characters.map(c=>Object.assign(pick(c,["id","name","cls","level","faction","region","gold","stretch","skyborne","example"]),{profs:c.profs.map(p=>({name:p.name,skill:p.skill}))})),
+    activeId:b.activeId,
+    toggles:b.toggles&&typeof b.toggles==="object"&&!Array.isArray(b.toggles)?b.toggles:{},
+    prices:Object.fromEntries(Object.entries(b.prices).map(([k,it])=>[k,{key:k,name:it.name,hist:it.hist.map(p=>({t:p.t,price:p.price}))}]))};
+  return{ok:true,backup,counts:{characters:backup.characters.length,prices:Object.keys(backup.prices).length}};
+}
+function buildBackup(state,items,now){
+  return JSON.parse(JSON.stringify({app:BACKUP_APP,version:BACKUP_VERSION,exportedAt:now,
+    characters:state.characters,activeId:state.activeId,toggles:state.toggles||{},prices:items}));
+}
+
 /* ============ App state ============ */
 const S={
   state:{characters:[{id:"ex",name:"Example rogue",cls:"Rogue",level:15,faction:"Alliance",region:"us",gold:null,stretch:2,profs:[{name:"Herbalism",skill:90},{name:"Skinning",skill:80}],example:true}],activeId:"ex",toggles:{}},
