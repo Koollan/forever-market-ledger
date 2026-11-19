@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:30.786Z",
+  "name": "Elixir of Fortitude",
+  "forever_name": "Elixir of Fortitude",
+  "item_id": 250334,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:13Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 2253,
+        "p10_unit": 2255,
+        "median_unit": 2496,
+        "mean_unit": 2853,
+        "quantity": 955,
+        "listings": 102
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 2247,
+        "p10_unit": 2255,
+        "median_unit": 2499,
+        "mean_unit": 2958,
+        "quantity": 884,
+        "listings": 89
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1998,
+        "p10_unit": 1999,
+        "median_unit": 2499,
+        "mean_unit": 2936,
+        "quantity": 1044,
+        "listings": 98
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1998,
+        "p10_unit": 2244,
+        "median_unit": 2494,
+        "mean_unit": 2924,
+        "quantity": 1002,
+        "listings": 100
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1865,
+        "p10_unit": 2246,
+        "median_unit": 2489,
+        "mean_unit": 2879,
+        "quantity": 1060,
+        "listings": 109
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1865,
+        "p10_unit": 2200,
+        "median_unit": 2495,
+        "mean_unit": 2910,
+        "quantity": 989,
+        "listings": 100
+      }
+    ]
+  }
+}

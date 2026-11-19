@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:25.300Z",
+  "name": "Rugged Hide",
+  "forever_name": "Rugged Hide",
+  "item_id": 8171,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 502,
+        "p10_unit": 525,
+        "median_unit": 1242,
+        "mean_unit": 2034,
+        "quantity": 5486,
+        "listings": 1106
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 502,
+        "p10_unit": 544,
+        "median_unit": 1286,
+        "mean_unit": 1933,
+        "quantity": 5953,
+        "listings": 1228
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 544,
+        "p10_unit": 577,
+        "median_unit": 1242,
+        "mean_unit": 1421,
+        "quantity": 5838,
+        "listings": 1209
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 515,
+        "p10_unit": 574,
+        "median_unit": 1115,
+        "mean_unit": 1323,
+        "quantity": 6615,
+        "listings": 1474
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 520,
+        "p10_unit": 573,
+        "median_unit": 899,
+        "mean_unit": 1260,
+        "quantity": 7130,
+        "listings": 1521
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 502,
+        "p10_unit": 559,
+        "median_unit": 1157,
+        "mean_unit": 1594,
+        "quantity": 6204,
+        "listings": 1308
+      }
+    ]
+  }
+}

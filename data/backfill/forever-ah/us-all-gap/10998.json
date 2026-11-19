@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:25:59.281Z",
+  "name": "Lesser Astral Essence",
+  "forever_name": "Lesser Astral Essence",
+  "item_id": 10998,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 448,
+        "p10_unit": 459,
+        "median_unit": 509,
+        "mean_unit": 702,
+        "quantity": 3543,
+        "listings": 416
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 444,
+        "p10_unit": 460,
+        "median_unit": 560,
+        "mean_unit": 794,
+        "quantity": 3751,
+        "listings": 411
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 449,
+        "p10_unit": 500,
+        "median_unit": 799,
+        "mean_unit": 879,
+        "quantity": 3889,
+        "listings": 410
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 440,
+        "p10_unit": 500,
+        "median_unit": 778,
+        "mean_unit": 866,
+        "quantity": 4279,
+        "listings": 581
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 440,
+        "p10_unit": 503,
+        "median_unit": 700,
+        "mean_unit": 890,
+        "quantity": 4587,
+        "listings": 701
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 440,
+        "p10_unit": 484,
+        "median_unit": 669,
+        "mean_unit": 826,
+        "quantity": 4010,
+        "listings": 504
+      }
+    ]
+  }
+}

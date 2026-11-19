@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:03.603Z",
+  "name": "Liferoot",
+  "forever_name": "Liferoot",
+  "item_id": 3357,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 159,
+        "p10_unit": 186,
+        "median_unit": 282,
+        "mean_unit": 437,
+        "quantity": 18532,
+        "listings": 1799
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 164,
+        "p10_unit": 215,
+        "median_unit": 288,
+        "mean_unit": 471,
+        "quantity": 16254,
+        "listings": 1627
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 165,
+        "p10_unit": 204,
+        "median_unit": 284,
+        "mean_unit": 446,
+        "quantity": 17730,
+        "listings": 1843
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 154,
+        "p10_unit": 190,
+        "median_unit": 275,
+        "mean_unit": 420,
+        "quantity": 18969,
+        "listings": 2014
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 157,
+        "p10_unit": 190,
+        "median_unit": 256,
+        "mean_unit": 412,
+        "quantity": 19279,
+        "listings": 2056
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 154,
+        "p10_unit": 197,
+        "median_unit": 277,
+        "mean_unit": 437,
+        "quantity": 18153,
+        "listings": 1868
+      }
+    ]
+  }
+}

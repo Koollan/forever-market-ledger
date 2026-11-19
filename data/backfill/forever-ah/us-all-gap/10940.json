@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:25:52.072Z",
+  "name": "Strange Dust",
+  "forever_name": "Strange Dust",
+  "item_id": 10940,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 96,
+        "p10_unit": 100,
+        "median_unit": 144,
+        "mean_unit": 222,
+        "quantity": 36507,
+        "listings": 1067
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 99,
+        "p10_unit": 116,
+        "median_unit": 144,
+        "mean_unit": 242,
+        "quantity": 31006,
+        "listings": 924
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 100,
+        "p10_unit": 111,
+        "median_unit": 143,
+        "mean_unit": 238,
+        "quantity": 31479,
+        "listings": 944
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 95,
+        "p10_unit": 108,
+        "median_unit": 143,
+        "mean_unit": 252,
+        "quantity": 30637,
+        "listings": 1020
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 92,
+        "p10_unit": 100,
+        "median_unit": 139,
+        "mean_unit": 250,
+        "quantity": 30989,
+        "listings": 1017
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 92,
+        "p10_unit": 107,
+        "median_unit": 143,
+        "mean_unit": 241,
+        "quantity": 32124,
+        "listings": 994
+      }
+    ]
+  }
+}

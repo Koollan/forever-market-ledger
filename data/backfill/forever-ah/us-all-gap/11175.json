@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:18.453Z",
+  "name": "Greater Nether Essence",
+  "forever_name": "Greater Nether Essence",
+  "item_id": 11175,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 9500,
+        "p10_unit": 9795,
+        "median_unit": 12100,
+        "mean_unit": 13763,
+        "quantity": 1122,
+        "listings": 296
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 9500,
+        "p10_unit": 9798,
+        "median_unit": 12500,
+        "mean_unit": 14080,
+        "quantity": 1118,
+        "listings": 280
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 9500,
+        "p10_unit": 9799,
+        "median_unit": 12167,
+        "mean_unit": 13978,
+        "quantity": 1079,
+        "listings": 301
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 9500,
+        "p10_unit": 9795,
+        "median_unit": 12167,
+        "mean_unit": 13981,
+        "quantity": 1095,
+        "listings": 307
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 9500,
+        "p10_unit": 9796,
+        "median_unit": 13800,
+        "mean_unit": 15504,
+        "quantity": 1141,
+        "listings": 342
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 9500,
+        "p10_unit": 9797,
+        "median_unit": 12547,
+        "mean_unit": 14261,
+        "quantity": 1111,
+        "listings": 305
+      }
+    ]
+  }
+}

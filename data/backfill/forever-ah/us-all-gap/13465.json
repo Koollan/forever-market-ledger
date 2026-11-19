@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:37.190Z",
+  "name": "Mountain Silversage",
+  "forever_name": "Mountain Silversage",
+  "item_id": 13465,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 955,
+        "p10_unit": 1047,
+        "median_unit": 1187,
+        "mean_unit": 1304,
+        "quantity": 13827,
+        "listings": 843
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 989,
+        "p10_unit": 1025,
+        "median_unit": 1182,
+        "mean_unit": 1309,
+        "quantity": 12718,
+        "listings": 822
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 999,
+        "p10_unit": 1099,
+        "median_unit": 1199,
+        "mean_unit": 1401,
+        "quantity": 10193,
+        "listings": 685
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 910,
+        "p10_unit": 1015,
+        "median_unit": 1190,
+        "mean_unit": 1356,
+        "quantity": 10669,
+        "listings": 663
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 995,
+        "p10_unit": 1021,
+        "median_unit": 1179,
+        "mean_unit": 1347,
+        "quantity": 10474,
+        "listings": 718
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 910,
+        "p10_unit": 1041,
+        "median_unit": 1187,
+        "mean_unit": 1343,
+        "quantity": 11576,
+        "listings": 746
+      }
+    ]
+  }
+}

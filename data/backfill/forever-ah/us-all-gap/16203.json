@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:25.666Z",
+  "name": "Greater Eternal Essence",
+  "forever_name": "Greater Eternal Essence",
+  "item_id": 16203,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 17000,
+        "p10_unit": 19999,
+        "median_unit": 23395,
+        "mean_unit": 25937,
+        "quantity": 1454,
+        "listings": 271
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 17000,
+        "p10_unit": 19999,
+        "median_unit": 23300,
+        "mean_unit": 24916,
+        "quantity": 1489,
+        "listings": 296
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 17090,
+        "p10_unit": 20500,
+        "median_unit": 22997,
+        "mean_unit": 24765,
+        "quantity": 1400,
+        "listings": 289
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 19699,
+        "p10_unit": 20542,
+        "median_unit": 23000,
+        "mean_unit": 24878,
+        "quantity": 1542,
+        "listings": 320
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 19699,
+        "p10_unit": 20543,
+        "median_unit": 23000,
+        "mean_unit": 25072,
+        "quantity": 1481,
+        "listings": 313
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 17000,
+        "p10_unit": 20317,
+        "median_unit": 23138,
+        "mean_unit": 25114,
+        "quantity": 1473,
+        "listings": 298
+      }
+    ]
+  }
+}

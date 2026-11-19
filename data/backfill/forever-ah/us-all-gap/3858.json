@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:49.400Z",
+  "name": "Mithril Ore",
+  "forever_name": "Mithril Ore",
+  "item_id": 3858,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 750,
+        "p10_unit": 959,
+        "median_unit": 1034,
+        "mean_unit": 1448,
+        "quantity": 22417,
+        "listings": 1140
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 693,
+        "p10_unit": 983,
+        "median_unit": 1025,
+        "mean_unit": 1396,
+        "quantity": 26420,
+        "listings": 1308
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 895,
+        "p10_unit": 976,
+        "median_unit": 1000,
+        "mean_unit": 1299,
+        "quantity": 33472,
+        "listings": 1740
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 885,
+        "p10_unit": 966,
+        "median_unit": 996,
+        "mean_unit": 1290,
+        "quantity": 33092,
+        "listings": 1750
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 879,
+        "p10_unit": 942,
+        "median_unit": 997,
+        "mean_unit": 1302,
+        "quantity": 30890,
+        "listings": 1682
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 693,
+        "p10_unit": 965,
+        "median_unit": 1010,
+        "mean_unit": 1347,
+        "quantity": 29258,
+        "listings": 1524
+      }
+    ]
+  }
+}

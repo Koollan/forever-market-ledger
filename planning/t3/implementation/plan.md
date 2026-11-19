@@ -6,12 +6,12 @@
 - [x] Step 2: Reduce listings to stats and pool into series (PR A)
 - [x] Step 3: Hourly, daily and latest files written by a full run (PR A)
 - [x] Step 4: Convert the T0 backfill (PR A)
-- [x] Step 5: The hourly workflow and the `prices` branch; ship PR A (PR A). Code done; PR A, merge and the first dispatches pending
-- [ ] Step 6: Close the gap after T0 (PR B)
-- [ ] Step 7: Market rules in the engine (PR B)
-- [ ] Step 8: Load and cache prices; "prices as of" line (PR B)
-- [ ] Step 9: Material sheet: API price, sparkline, Blackwater hint (PR B)
-- [ ] Step 10: Market list and advice from API prices; ship PR B (PR B)
+- [x] Step 5: The hourly workflow and the `prices` branch; ship PR A (PR A). Merged as Koollan/forever-market-ledger#3 on Nov 19, 2026; probe, first run (04:00 UTC, 15/15 houses) and T0 import dispatched the same morning
+- [x] Step 6: Close the gap after T0 (PR B). Gap files in `data/backfill/forever-ah/us-all-gap/`; the import runs once they are on a ref the workflow can read
+- [x] Step 7: Market rules in the engine (PR B)
+- [x] Step 8: Load and cache prices; "prices as of" line (PR B)
+- [x] Step 9: Material sheet: API price, sparkline, Blackwater hint (PR B)
+- [x] Step 10: Market list and advice from API prices; ship PR B (PR B). Code done; PR B pending
 
 Steps 1–5 are branch `t3/pipeline` (PR A). Merging it starts hourly collection, the clock T4 waits on, so it goes first and stays free of app changes. Steps 6–10 are branch `t3/app` (PR B), started from `main` after PR A merges. One commit per step; `npm run check` green after every step, and the behavior lock (`tests/e2e/baseline.spec.ts`) unchanged throughout. Never push or open a PR without asking.
 

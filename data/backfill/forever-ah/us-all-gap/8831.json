@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:17.983Z",
+  "name": "Purple Lotus",
+  "forever_name": "Purple Lotus",
+  "item_id": 8831,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 487,
+        "p10_unit": 500,
+        "median_unit": 578,
+        "mean_unit": 723,
+        "quantity": 6893,
+        "listings": 884
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 388,
+        "p10_unit": 497,
+        "median_unit": 539,
+        "mean_unit": 704,
+        "quantity": 7233,
+        "listings": 943
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 475,
+        "p10_unit": 497,
+        "median_unit": 539,
+        "mean_unit": 835,
+        "quantity": 8438,
+        "listings": 1071
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 450,
+        "p10_unit": 496,
+        "median_unit": 575,
+        "mean_unit": 859,
+        "quantity": 9462,
+        "listings": 1275
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 444,
+        "p10_unit": 474,
+        "median_unit": 584,
+        "mean_unit": 893,
+        "quantity": 10301,
+        "listings": 1400
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 388,
+        "p10_unit": 493,
+        "median_unit": 563,
+        "mean_unit": 803,
+        "quantity": 8465,
+        "listings": 1115
+      }
+    ]
+  }
+}

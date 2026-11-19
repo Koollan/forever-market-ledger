@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:34.942Z",
+  "name": "Tin Ore",
+  "forever_name": "Tin Ore",
+  "item_id": 2771,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 118,
+        "p10_unit": 135,
+        "median_unit": 168,
+        "mean_unit": 494,
+        "quantity": 23683,
+        "listings": 1424
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 110,
+        "p10_unit": 139,
+        "median_unit": 174,
+        "mean_unit": 622,
+        "quantity": 17335,
+        "listings": 1263
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 110,
+        "p10_unit": 135,
+        "median_unit": 174,
+        "mean_unit": 505,
+        "quantity": 22810,
+        "listings": 1561
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 100,
+        "p10_unit": 131,
+        "median_unit": 172,
+        "mean_unit": 490,
+        "quantity": 23441,
+        "listings": 1666
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 89,
+        "p10_unit": 121,
+        "median_unit": 168,
+        "mean_unit": 468,
+        "quantity": 25562,
+        "listings": 1756
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 89,
+        "p10_unit": 132,
+        "median_unit": 171,
+        "mean_unit": 516,
+        "quantity": 22566,
+        "listings": 1534
+      }
+    ]
+  }
+}

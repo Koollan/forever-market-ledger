@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:51.805Z",
+  "name": "Solid Stone",
+  "forever_name": "Solid Stone",
+  "item_id": 7912,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 145,
+        "p10_unit": 174,
+        "median_unit": 232,
+        "mean_unit": 605,
+        "quantity": 38679,
+        "listings": 1813
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 138,
+        "p10_unit": 172,
+        "median_unit": 220,
+        "mean_unit": 569,
+        "quantity": 44437,
+        "listings": 2049
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 120,
+        "p10_unit": 172,
+        "median_unit": 219,
+        "mean_unit": 563,
+        "quantity": 45361,
+        "listings": 2203
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 133,
+        "p10_unit": 165,
+        "median_unit": 220,
+        "mean_unit": 573,
+        "quantity": 45389,
+        "listings": 2288
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 140,
+        "p10_unit": 155,
+        "median_unit": 220,
+        "mean_unit": 556,
+        "quantity": 48815,
+        "listings": 2437
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 120,
+        "p10_unit": 168,
+        "median_unit": 222,
+        "mean_unit": 573,
+        "quantity": 44536,
+        "listings": 2158
+      }
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:59.748Z",
+  "name": "Sacred Candle",
+  "forever_name": "Sacred Candle",
+  "item_id": 17029,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:13Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 899,
+        "median_unit": 1498,
+        "mean_unit": 3020,
+        "quantity": 127,
+        "listings": 32
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 899,
+        "median_unit": 1449,
+        "mean_unit": 2600,
+        "quantity": 169,
+        "listings": 36
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 899,
+        "median_unit": 1099,
+        "mean_unit": 2896,
+        "quantity": 133,
+        "listings": 29
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 899,
+        "median_unit": 1099,
+        "mean_unit": 1209,
+        "quantity": 170,
+        "listings": 25
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 899,
+        "median_unit": 1099,
+        "mean_unit": 1214,
+        "quantity": 157,
+        "listings": 27
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 899,
+        "median_unit": 1249,
+        "mean_unit": 2188,
+        "quantity": 151,
+        "listings": 30
+      }
+    ]
+  }
+}

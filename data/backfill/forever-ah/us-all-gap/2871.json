@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:40.444Z",
+  "name": "Heavy Sharpening Stone",
+  "forever_name": "Heavy Sharpening Stone",
+  "item_id": 2871,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:13Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 100,
+        "p10_unit": 198,
+        "median_unit": 220,
+        "mean_unit": 280,
+        "quantity": 4432,
+        "listings": 217
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 189,
+        "p10_unit": 198,
+        "median_unit": 225,
+        "mean_unit": 290,
+        "quantity": 4036,
+        "listings": 193
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 150,
+        "p10_unit": 198,
+        "median_unit": 240,
+        "mean_unit": 317,
+        "quantity": 3493,
+        "listings": 172
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 190,
+        "p10_unit": 198,
+        "median_unit": 279,
+        "mean_unit": 324,
+        "quantity": 4070,
+        "listings": 197
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 190,
+        "p10_unit": 198,
+        "median_unit": 263,
+        "mean_unit": 514,
+        "quantity": 3770,
+        "listings": 196
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 100,
+        "p10_unit": 198,
+        "median_unit": 245,
+        "mean_unit": 345,
+        "quantity": 3960,
+        "listings": 195
+      }
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:25.981Z",
+  "name": "Arcane Elixir",
+  "forever_name": "Arcane Elixir",
+  "item_id": 9155,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:12Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1189,
+        "p10_unit": 1510,
+        "median_unit": 2196,
+        "mean_unit": 2039,
+        "quantity": 2062,
+        "listings": 185
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1189,
+        "p10_unit": 1509,
+        "median_unit": 1995,
+        "mean_unit": 1972,
+        "quantity": 2217,
+        "listings": 197
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1080,
+        "p10_unit": 1509,
+        "median_unit": 1959,
+        "mean_unit": 1967,
+        "quantity": 2068,
+        "listings": 179
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1080,
+        "p10_unit": 1200,
+        "median_unit": 2134,
+        "mean_unit": 2016,
+        "quantity": 1752,
+        "listings": 162
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1080,
+        "p10_unit": 1450,
+        "median_unit": 2000,
+        "mean_unit": 1967,
+        "quantity": 1583,
+        "listings": 152
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1080,
+        "p10_unit": 1436,
+        "median_unit": 2057,
+        "mean_unit": 1992,
+        "quantity": 1936,
+        "listings": 175
+      }
+    ]
+  }
+}

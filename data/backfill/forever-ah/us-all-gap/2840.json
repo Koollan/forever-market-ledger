@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:25:23.199Z",
+  "name": "Copper Bar",
+  "forever_name": "Copper Bar",
+  "item_id": 2840,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 92,
+        "p10_unit": 115,
+        "median_unit": 175,
+        "mean_unit": 300,
+        "quantity": 38636,
+        "listings": 1374
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 89,
+        "p10_unit": 115,
+        "median_unit": 175,
+        "mean_unit": 283,
+        "quantity": 39443,
+        "listings": 1331
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 89,
+        "p10_unit": 112,
+        "median_unit": 175,
+        "mean_unit": 277,
+        "quantity": 47504,
+        "listings": 1578
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 79,
+        "p10_unit": 110,
+        "median_unit": 170,
+        "mean_unit": 262,
+        "quantity": 55942,
+        "listings": 1765
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 69,
+        "p10_unit": 109,
+        "median_unit": 160,
+        "mean_unit": 261,
+        "quantity": 58471,
+        "listings": 1804
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 69,
+        "p10_unit": 112,
+        "median_unit": 171,
+        "mean_unit": 277,
+        "quantity": 47999,
+        "listings": 1570
+      }
+    ]
+  }
+}

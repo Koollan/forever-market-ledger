@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:34.794Z",
+  "name": "Dreamfoil",
+  "forever_name": "Dreamfoil",
+  "item_id": 13463,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1155,
+        "p10_unit": 1255,
+        "median_unit": 1555,
+        "mean_unit": 1698,
+        "quantity": 16541,
+        "listings": 1385
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1200,
+        "p10_unit": 1320,
+        "median_unit": 1644,
+        "mean_unit": 1741,
+        "quantity": 13928,
+        "listings": 1133
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 1252,
+        "p10_unit": 1320,
+        "median_unit": 1550,
+        "mean_unit": 1697,
+        "quantity": 14428,
+        "listings": 1125
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 1252,
+        "p10_unit": 1309,
+        "median_unit": 1517,
+        "mean_unit": 1643,
+        "quantity": 13800,
+        "listings": 1094
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 1195,
+        "p10_unit": 1309,
+        "median_unit": 1515,
+        "mean_unit": 1628,
+        "quantity": 14731,
+        "listings": 1144
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1155,
+        "p10_unit": 1303,
+        "median_unit": 1556,
+        "mean_unit": 1681,
+        "quantity": 14686,
+        "listings": 1176
+      }
+    ]
+  }
+}

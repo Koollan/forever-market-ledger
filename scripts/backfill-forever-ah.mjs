@@ -2,7 +2,9 @@
 // Source: https://forever-ah.com/api/ (free, no key; asks for ~1 request/second and credit
 // to "Forever AH" and Blizzard's Battle.net API). See docs/SOURCES.md.
 //
-// Usage: node scripts/backfill-forever-ah.mjs
+// Usage: node scripts/backfill-forever-ah.mjs [--from <ISO time>] [--out <dir>]
+//   Defaults: from launch (Nov 4, 2026) into data/backfill/forever-ah/us-all (the T0 run).
+//   The T3 gap run: --from 2026-11-19T00:00:00Z --out data/backfill/forever-ah/us-all-gap
 // Reads the material names from data/items.json, looks up any missing item IDs, then saves the
 // hourly and daily history for the US "All Auction Houses" view into data/backfill/forever-ah/.
 
@@ -11,9 +13,11 @@ import path from "node:path";
 
 const API = "https://forever-ah.com/v1";
 const HOUSE = 17; // US, ruleset 2, "All Auction Houses" (unified view across houses 110-125)
-const FROM = "2026-11-04T00:00:00Z"; // launch; the API returns whatever it has from here
+const opt = (name, fallback) => { const i = process.argv.indexOf(`--${name}`); return i >= 0 ? process.argv[i + 1] : fallback; };
+const FROM = opt("from", "2026-11-04T00:00:00Z"); // default: launch; the API returns whatever it has from here
 const TO = new Date().toISOString().slice(0, 13) + ":00:00Z";
-const OUT = "data/backfill/forever-ah/us-all";
+const OUT = opt("out", "data/backfill/forever-ah/us-all");
+if (Number.isNaN(Date.parse(FROM))) throw new Error(`--from is not a time: ${FROM}`);
 const DELAY_MS = 1100;
 
 // Classic item IDs for catalog names that Forever renamed (search finds no exact match)

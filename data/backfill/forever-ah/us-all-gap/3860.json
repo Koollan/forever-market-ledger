@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:25:40.042Z",
+  "name": "Mithril Bar",
+  "forever_name": "Mithril Bar",
+  "item_id": 3860,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 899,
+        "p10_unit": 1087,
+        "median_unit": 1145,
+        "mean_unit": 1412,
+        "quantity": 33406,
+        "listings": 909
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1019,
+        "p10_unit": 1054,
+        "median_unit": 1139,
+        "mean_unit": 1439,
+        "quantity": 29627,
+        "listings": 847
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 958,
+        "p10_unit": 1065,
+        "median_unit": 1180,
+        "mean_unit": 1478,
+        "quantity": 25317,
+        "listings": 804
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 999,
+        "p10_unit": 1058,
+        "median_unit": 1100,
+        "mean_unit": 1376,
+        "quantity": 33137,
+        "listings": 983
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 940,
+        "p10_unit": 1045,
+        "median_unit": 1110,
+        "mean_unit": 1432,
+        "quantity": 29938,
+        "listings": 887
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 899,
+        "p10_unit": 1062,
+        "median_unit": 1135,
+        "mean_unit": 1427,
+        "quantity": 30285,
+        "listings": 886
+      }
+    ]
+  }
+}

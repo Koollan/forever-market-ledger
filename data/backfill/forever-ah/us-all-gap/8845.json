@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:27.586Z",
+  "name": "Ghost Mushroom",
+  "forever_name": "Ghost Mushroom",
+  "item_id": 8845,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 3198,
+        "p10_unit": 3366,
+        "median_unit": 4975,
+        "mean_unit": 4941,
+        "quantity": 3351,
+        "listings": 745
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 2589,
+        "p10_unit": 3300,
+        "median_unit": 5041,
+        "mean_unit": 5253,
+        "quantity": 2741,
+        "listings": 684
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 3100,
+        "p10_unit": 3282,
+        "median_unit": 4999,
+        "mean_unit": 5165,
+        "quantity": 3059,
+        "listings": 747
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 3093,
+        "p10_unit": 3200,
+        "median_unit": 4700,
+        "mean_unit": 5044,
+        "quantity": 3542,
+        "listings": 801
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 3035,
+        "p10_unit": 3309,
+        "median_unit": 4999,
+        "mean_unit": 5277,
+        "quantity": 3455,
+        "listings": 788
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 2589,
+        "p10_unit": 3291,
+        "median_unit": 4943,
+        "mean_unit": 5136,
+        "quantity": 3230,
+        "listings": 753
+      }
+    ]
+  }
+}

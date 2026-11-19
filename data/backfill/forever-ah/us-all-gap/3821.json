@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:08.413Z",
+  "name": "Goldthorn",
+  "forever_name": "Goldthorn",
+  "item_id": 3821,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 300,
+        "p10_unit": 411,
+        "median_unit": 547,
+        "mean_unit": 645,
+        "quantity": 14907,
+        "listings": 1451
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 349,
+        "p10_unit": 418,
+        "median_unit": 529,
+        "mean_unit": 637,
+        "quantity": 14814,
+        "listings": 1434
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 390,
+        "p10_unit": 410,
+        "median_unit": 536,
+        "mean_unit": 660,
+        "quantity": 16179,
+        "listings": 1546
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 342,
+        "p10_unit": 390,
+        "median_unit": 498,
+        "mean_unit": 621,
+        "quantity": 20409,
+        "listings": 1974
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 300,
+        "p10_unit": 370,
+        "median_unit": 492,
+        "mean_unit": 600,
+        "quantity": 20106,
+        "listings": 2035
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 300,
+        "p10_unit": 400,
+        "median_unit": 520,
+        "mean_unit": 633,
+        "quantity": 17283,
+        "listings": 1688
+      }
+    ]
+  }
+}

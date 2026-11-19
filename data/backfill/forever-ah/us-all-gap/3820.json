@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:22:51.605Z",
+  "name": "Stranglekelp",
+  "forever_name": "Stranglekelp",
+  "item_id": 3820,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 142,
+        "p10_unit": 175,
+        "median_unit": 300,
+        "mean_unit": 342,
+        "quantity": 18255,
+        "listings": 1450
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 148,
+        "p10_unit": 177,
+        "median_unit": 297,
+        "mean_unit": 341,
+        "quantity": 19961,
+        "listings": 1537
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 130,
+        "p10_unit": 196,
+        "median_unit": 318,
+        "mean_unit": 357,
+        "quantity": 20152,
+        "listings": 1524
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 121,
+        "p10_unit": 179,
+        "median_unit": 300,
+        "mean_unit": 347,
+        "quantity": 22458,
+        "listings": 1706
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 150,
+        "p10_unit": 207,
+        "median_unit": 300,
+        "mean_unit": 359,
+        "quantity": 21060,
+        "listings": 1586
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 121,
+        "p10_unit": 187,
+        "median_unit": 303,
+        "mean_unit": 349,
+        "quantity": 20377,
+        "listings": 1561
+      }
+    ]
+  }
+}

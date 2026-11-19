@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:20.856Z",
+  "name": "Illusion Dust",
+  "forever_name": "Illusion Dust",
+  "item_id": 16204,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 2545,
+        "p10_unit": 2565,
+        "median_unit": 2997,
+        "mean_unit": 3685,
+        "quantity": 7208,
+        "listings": 611
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 2542,
+        "p10_unit": 2564,
+        "median_unit": 2997,
+        "mean_unit": 3630,
+        "quantity": 6941,
+        "listings": 608
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 2540,
+        "p10_unit": 2565,
+        "median_unit": 3170,
+        "mean_unit": 3812,
+        "quantity": 7882,
+        "listings": 608
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 2545,
+        "p10_unit": 2570,
+        "median_unit": 3499,
+        "mean_unit": 3898,
+        "quantity": 7742,
+        "listings": 652
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 2545,
+        "p10_unit": 2565,
+        "median_unit": 3399,
+        "mean_unit": 3881,
+        "quantity": 7186,
+        "listings": 699
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 2540,
+        "p10_unit": 2566,
+        "median_unit": 3212,
+        "mean_unit": 3781,
+        "quantity": 7392,
+        "listings": 636
+      }
+    ]
+  }
+}

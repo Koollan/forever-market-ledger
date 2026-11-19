@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:26:40.164Z",
+  "name": "Greater Healing Potion",
+  "forever_name": "Greater Healing Potion",
+  "item_id": 1710,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:10Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 297,
+        "p10_unit": 343,
+        "median_unit": 494,
+        "mean_unit": 651,
+        "quantity": 3066,
+        "listings": 478
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 297,
+        "p10_unit": 395,
+        "median_unit": 552,
+        "mean_unit": 725,
+        "quantity": 4069,
+        "listings": 558
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 297,
+        "p10_unit": 420,
+        "median_unit": 537,
+        "mean_unit": 724,
+        "quantity": 5395,
+        "listings": 827
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 299,
+        "p10_unit": 420,
+        "median_unit": 532,
+        "mean_unit": 745,
+        "quantity": 6403,
+        "listings": 1039
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 274,
+        "p10_unit": 397,
+        "median_unit": 538,
+        "mean_unit": 792,
+        "quantity": 5949,
+        "listings": 1046
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 274,
+        "p10_unit": 395,
+        "median_unit": 531,
+        "mean_unit": 727,
+        "quantity": 4976,
+        "listings": 790
+      }
+    ]
+  }
+}

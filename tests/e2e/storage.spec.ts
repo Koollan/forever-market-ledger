@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./test";
 
 // Data saved by the single-file app (T1) lives in localStorage under "fml-cache". The split app must
 // load it unchanged, and keep saving in the same place and shape.

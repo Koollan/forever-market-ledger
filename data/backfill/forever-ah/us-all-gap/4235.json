@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:08.468Z",
+  "name": "Heavy Hide",
+  "forever_name": "Heavy Hide",
+  "item_id": 4235,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 837,
+        "p10_unit": 923,
+        "median_unit": 1271,
+        "mean_unit": 1834,
+        "quantity": 4253,
+        "listings": 1319
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 818,
+        "p10_unit": 929,
+        "median_unit": 1249,
+        "mean_unit": 1748,
+        "quantity": 5232,
+        "listings": 1665
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 590,
+        "p10_unit": 911,
+        "median_unit": 1200,
+        "mean_unit": 1700,
+        "quantity": 5461,
+        "listings": 1783
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 795,
+        "p10_unit": 911,
+        "median_unit": 1172,
+        "mean_unit": 1755,
+        "quantity": 5324,
+        "listings": 1806
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 800,
+        "p10_unit": 900,
+        "median_unit": 1175,
+        "mean_unit": 1691,
+        "quantity": 6009,
+        "listings": 1970
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 590,
+        "p10_unit": 915,
+        "median_unit": 1213,
+        "mean_unit": 1746,
+        "quantity": 5256,
+        "listings": 1709
+      }
+    ]
+  }
+}

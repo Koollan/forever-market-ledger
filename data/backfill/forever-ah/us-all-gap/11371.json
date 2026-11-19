@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:25:47.265Z",
+  "name": "Dark Iron Bar",
+  "forever_name": "Dark Iron Bar",
+  "item_id": 11371,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 15097,
+        "p10_unit": 15100,
+        "median_unit": 28900,
+        "mean_unit": 38335,
+        "quantity": 787,
+        "listings": 55
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 15096,
+        "p10_unit": 15097,
+        "median_unit": 37485,
+        "mean_unit": 42236,
+        "quantity": 878,
+        "listings": 59
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 15094,
+        "p10_unit": 15097,
+        "median_unit": 37470,
+        "mean_unit": 40079,
+        "quantity": 1316,
+        "listings": 78
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 15094,
+        "p10_unit": 15095,
+        "median_unit": 37470,
+        "mean_unit": 42645,
+        "quantity": 1282,
+        "listings": 93
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 15093,
+        "p10_unit": 15094,
+        "median_unit": 37400,
+        "mean_unit": 39318,
+        "quantity": 1547,
+        "listings": 114
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 15093,
+        "p10_unit": 15097,
+        "median_unit": 35745,
+        "mean_unit": 40523,
+        "quantity": 1162,
+        "listings": 80
+      }
+    ]
+  }
+}

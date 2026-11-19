@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:22:39.613Z",
+  "name": "Silverleaf",
+  "forever_name": "Silverleaf",
+  "item_id": 765,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 10,
+        "p10_unit": 18,
+        "median_unit": 28,
+        "mean_unit": 342,
+        "quantity": 42853,
+        "listings": 1698
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 13,
+        "p10_unit": 19,
+        "median_unit": 28,
+        "mean_unit": 319,
+        "quantity": 46214,
+        "listings": 1766
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 11,
+        "p10_unit": 19,
+        "median_unit": 28,
+        "mean_unit": 260,
+        "quantity": 55906,
+        "listings": 2057
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 10,
+        "p10_unit": 18,
+        "median_unit": 26,
+        "mean_unit": 272,
+        "quantity": 53888,
+        "listings": 2107
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 12,
+        "p10_unit": 20,
+        "median_unit": 30,
+        "mean_unit": 315,
+        "quantity": 45417,
+        "listings": 1663
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 10,
+        "p10_unit": 19,
+        "median_unit": 28,
+        "mean_unit": 302,
+        "quantity": 48856,
+        "listings": 1858
+      }
+    ]
+  }
+}

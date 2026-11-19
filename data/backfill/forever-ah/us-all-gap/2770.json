@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:30.124Z",
+  "name": "Copper Ore",
+  "forever_name": "Copper Ore",
+  "item_id": 2770,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 93,
+        "p10_unit": 106,
+        "median_unit": 170,
+        "mean_unit": 335,
+        "quantity": 39824,
+        "listings": 1709
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 87,
+        "p10_unit": 108,
+        "median_unit": 169,
+        "mean_unit": 338,
+        "quantity": 40914,
+        "listings": 1761
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 69,
+        "p10_unit": 98,
+        "median_unit": 154,
+        "mean_unit": 351,
+        "quantity": 50118,
+        "listings": 2155
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 68,
+        "p10_unit": 100,
+        "median_unit": 148,
+        "mean_unit": 1356,
+        "quantity": 49315,
+        "listings": 2147
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 70,
+        "p10_unit": 100,
+        "median_unit": 150,
+        "mean_unit": 1575,
+        "quantity": 56265,
+        "listings": 2336
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 68,
+        "p10_unit": 102,
+        "median_unit": 158,
+        "mean_unit": 791,
+        "quantity": 47287,
+        "listings": 2022
+      }
+    ]
+  }
+}

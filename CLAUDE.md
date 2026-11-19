@@ -11,7 +11,7 @@ Read `docs/SPEC.md` first. It describes the app, its rules, data sources, assump
 
 ## Current layout
 - `src/data`: reference tables, typed. `src/engine`: pure rules and suggestions; functions take `now` and the data they need, never `Date.now()` or app state. `src/ui`: tabs, sheets, `localStorage` storage (key `fml-cache`), events. `src/main.ts`: boot.
-- `tests/unit` (Vitest, `TZ=America/New_York`), `tests/e2e` (Playwright against the production build at 412×900, New York time), `tests/baseline` (the behavior lock), `tests/fixtures/reference.ts` (reference characters, moments, prices).
+- `tests/unit` (Vitest, `TZ=America/New_York`), `tests/e2e` (Playwright against the production build at 412×900, New York time); e2e specs import `test` from `tests/e2e/test.ts`, which 404s the app's price fetch so no test touches the network (`servePrices` serves `tests/fixtures/prices/` instead), `tests/baseline` (the behavior lock), `tests/fixtures/reference.ts` (reference characters, moments, prices).
 - `docs/SPEC.md`: spec and backlog. `docs/SOURCES.md`: data sources. `planning/`: design and plans.
 - `src/pipeline`: the T3 price pipeline, pure and typed; run by `scripts/fetch-prices.ts` (Node's built-in TypeScript support, so pipeline files use erasable syntax and `.ts` import extensions). `data/items.json`: the catalogued materials' item IDs.
 - `.github/workflows/ci.yml`: checks on PRs and branches. `.github/workflows/pages.yml`: the same checks on `main`, then deploys `dist/`. `.github/workflows/prices.yml`: hourly prices into the orphan `prices` branch, the only workflow with write access. Never commit to `prices` by hand.

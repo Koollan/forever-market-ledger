@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:42.144Z",
+  "name": "Iron Ore",
+  "forever_name": "Iron Ore",
+  "item_id": 2772,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 235,
+        "p10_unit": 250,
+        "median_unit": 310,
+        "mean_unit": 367,
+        "quantity": 39958,
+        "listings": 2132
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 211,
+        "p10_unit": 249,
+        "median_unit": 300,
+        "mean_unit": 360,
+        "quantity": 40043,
+        "listings": 2095
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 204,
+        "p10_unit": 233,
+        "median_unit": 294,
+        "mean_unit": 338,
+        "quantity": 45329,
+        "listings": 2395
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 198,
+        "p10_unit": 240,
+        "median_unit": 305,
+        "mean_unit": 367,
+        "quantity": 43596,
+        "listings": 2357
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 197,
+        "p10_unit": 233,
+        "median_unit": 304,
+        "mean_unit": 347,
+        "quantity": 56973,
+        "listings": 2988
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 197,
+        "p10_unit": 241,
+        "median_unit": 303,
+        "mean_unit": 356,
+        "quantity": 45180,
+        "listings": 2393
+      }
+    ]
+  }
+}

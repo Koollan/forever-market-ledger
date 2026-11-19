@@ -14,6 +14,9 @@ Run by the owner in the app's terminal on Nov 19, 2026, 02:16 UTC (`node scripts
 - Snapshots land at about :25 past the hour (01:25:08 for 110, 01:24:54 for 112). A run at :17 would read a snapshot about 52 minutes old. **Decided (user, Nov 19):** the cron runs at minute :40, still away from the top of the hour, so each run gets that hour's snapshot about 15 minutes after it lands.
 - Response headers include `battlenet-namespace`, `cache-control`, `content-encoding`, `date`, `last-modified`; no rate-limit headers.
 
+## Cross-check with Forever AH (T3 step 6, Nov 19, 2026)
+For the hour both sources cover (Nov 19 04:00 UTC, series `all`), the pipeline's min, p10, median, quantity and listings agree with Forever AH's within 2% for all 136 materials (median ratio 1.000). The `fah` rows before T3 and the `bnet` rows after it measure the same thing; T4 needs no correction at the switch-over.
+
 ## Fixture
 - `index.json`: house index. The first probe's trimming cut it to 10 entries (fixed in the script); the other five (120, 121, 123, 124, 125) were restored from the same run's printed index, with the same `href` pattern.
 - `house-110.json`: 15 regular auctions (10 untracked, 5 bid-only), for the `buyout` shape.

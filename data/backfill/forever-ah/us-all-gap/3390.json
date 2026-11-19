@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:27:04.356Z",
+  "name": "Elixir of Lesser Agility",
+  "forever_name": "Elixir of Lesser Agility",
+  "item_id": 3390,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T05:25:12Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 443,
+        "median_unit": 1000,
+        "mean_unit": 1038,
+        "quantity": 1743,
+        "listings": 146
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 413,
+        "p10_unit": 434,
+        "median_unit": 1000,
+        "mean_unit": 1036,
+        "quantity": 1986,
+        "listings": 162
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 385,
+        "p10_unit": 443,
+        "median_unit": 888,
+        "mean_unit": 1001,
+        "quantity": 2240,
+        "listings": 171
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 549,
+        "median_unit": 850,
+        "mean_unit": 991,
+        "quantity": 2268,
+        "listings": 183
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 400,
+        "p10_unit": 524,
+        "median_unit": 845,
+        "mean_unit": 992,
+        "quantity": 2421,
+        "listings": 210
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 385,
+        "p10_unit": 479,
+        "median_unit": 917,
+        "mean_unit": 1012,
+        "quantity": 2132,
+        "listings": 174
+      }
+    ]
+  }
+}

@@ -19,6 +19,21 @@ import { validateBackup, buildBackup, backupData } from "../engine/backup";
 import { $, ago, toast, uid8, cacheLocal, readLocal, windows, whenTxt, perHour, zoneDossier, cx, gatherOptions, bestFarm, sellAdvice, todaySuggestions, sessionPlan, estimate, itemFor, lastPrice, recordPrice, deletePrices, S, char, saveState } from "./state";
 import { openSheet, closeSheet, sheetMat, sheetChar, sheetChars, plural, checkImport, cancelImport, applyBackup, showExport, copyBackup } from "./sheets";
 import { bindActions } from "./actions";
+import { asOf } from "../engine/market";
+import { asOfText } from "./prices";
+import { ensurePrices } from "./live";
+import { apiRow, homeSeries } from "../engine/market";
+
+// API prices for what this character gathers or needs (T3); nothing without API data
+function vMarket(c,relevant,sa){
+  const series=homeSeries(c);if(!series||!S.market)return "";
+  const names=[...relevant].filter(n=>apiRow(n,series,S.market)).sort();if(!names.length)return "";
+  return `<section class="card market">
+    <h2>Market</h2>
+    <p class="small muted" style="margin:0">Prices at your ${series==="alliance"?"Alliance":"Horde"} auction house, from Blizzard's auction data each hour: what the cheapest tenth of listings ask.</p>
+    <div class="list">${names.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">${e.source==="api"?"API":"you"} · ${ago(e.last.t)}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}</span></button>`}).join("")}</div>
+  </section>`;
+}
 
 /* ============ Rendering ============ */
 export const ICONS={
@@ -33,6 +48,8 @@ export function renderNav(){$("#nav").innerHTML=TABS.map(([k,l])=>`<button type=
 export function renderHeader(){
   const c=char();$("#charName").textContent=`${c.name} · ${c.level} ${c.cls}`;$("#charDot").style.background=CLASSES[c.cls]?.c||"#888";
   $("#sub").textContent=`${HOUSES[houseOf(c)].label} · budget ${plainMoney(budgetOf(c))}${c.gold==null?" (est.)":""}`;
+  ensurePrices();
+  const a=asOf(S.market,Date.now(),homeSeries(c));const el=$("#asof");el.textContent=asOfText(a,Date.now());el.classList.toggle("stale",!!a?.stale);
 }
 export function banners(c){
   let b="";
@@ -125,8 +142,9 @@ export function vPrices(c){
   <section class="card">
     <h2>Your prices</h2>
     <p class="small muted" style="margin:0">Type in a price whenever you see one in game. The app removes the conditions at the time you saw it and re-applies today's, so old prices stay useful.</p>
-    <div class="list">${tracked.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">seen ${ago(e.last.t)}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}<span class="pill">${e.n} price${e.n===1?"":"s"}</span></span></button>`}).join("")||'<div class="empty">No prices yet. Pick a material below to add one.</div>'}</div>
+    <div class="list">${tracked.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">${e.source==="api"?`API ${ago(e.last.t)} · yours ${ago(lastPrice(n).t)}`:`seen ${ago(e.last.t)}`}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}<span class="pill">${itemFor(n).hist.length} price${itemFor(n).hist.length===1?"":"s"}</span></span></button>`}).join("")||'<div class="empty">No prices yet. Pick a material below to add one.</div>'}</div>
   </section>
+  ${vMarket(c,relevant,sa)}
   <section class="card">
     <input id="matQ" placeholder="Find a material" value="${esc(S.q)}" aria-label="Find a material">
     <h3>${q?"Matches":"Relevant to you"}</h3>

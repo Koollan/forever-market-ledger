@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:24:01.230Z",
+  "name": "Black Whelp Scale",
+  "forever_name": "Black Whelp Scale",
+  "item_id": 7286,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 25,
+        "p10_unit": 25,
+        "median_unit": 30,
+        "mean_unit": 141,
+        "quantity": 6716,
+        "listings": 587
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 25,
+        "p10_unit": 25,
+        "median_unit": 30,
+        "mean_unit": 131,
+        "quantity": 7191,
+        "listings": 639
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 25,
+        "p10_unit": 25,
+        "median_unit": 27,
+        "mean_unit": 117,
+        "quantity": 7346,
+        "listings": 702
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 25,
+        "p10_unit": 25,
+        "median_unit": 27,
+        "mean_unit": 128,
+        "quantity": 7047,
+        "listings": 692
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 25,
+        "p10_unit": 25,
+        "median_unit": 27,
+        "mean_unit": 134,
+        "quantity": 7235,
+        "listings": 728
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 25,
+        "p10_unit": 25,
+        "median_unit": 28,
+        "mean_unit": 130,
+        "quantity": 7107,
+        "listings": 670
+      }
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:39.591Z",
+  "name": "Plaguebloom",
+  "forever_name": "Plaguebloom",
+  "item_id": 13466,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 2047,
+        "p10_unit": 2185,
+        "median_unit": 2673,
+        "mean_unit": 3029,
+        "quantity": 9390,
+        "listings": 566
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 1674,
+        "p10_unit": 2218,
+        "median_unit": 2700,
+        "mean_unit": 3143,
+        "quantity": 8733,
+        "listings": 546
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 2073,
+        "p10_unit": 2380,
+        "median_unit": 2700,
+        "mean_unit": 3047,
+        "quantity": 9181,
+        "listings": 585
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 2070,
+        "p10_unit": 2186,
+        "median_unit": 2537,
+        "mean_unit": 2924,
+        "quantity": 10043,
+        "listings": 675
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 2065,
+        "p10_unit": 2185,
+        "median_unit": 2794,
+        "mean_unit": 3014,
+        "quantity": 9074,
+        "listings": 627
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 1674,
+        "p10_unit": 2231,
+        "median_unit": 2681,
+        "mean_unit": 3031,
+        "quantity": 9284,
+        "listings": 600
+      }
+    ]
+  }
+}

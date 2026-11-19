@@ -17,7 +17,8 @@
     "skipLibCheck": true,
     "allowJs": false,
     "isolatedModules": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true
   },
   "include": [
     "src/engine",

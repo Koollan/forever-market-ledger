@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:23:10.804Z",
+  "name": "Khadgar's Whisker",
+  "forever_name": "Khadgar's Whisker",
+  "item_id": 3358,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 269,
+        "p10_unit": 392,
+        "median_unit": 492,
+        "mean_unit": 604,
+        "quantity": 11186,
+        "listings": 1185
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 300,
+        "p10_unit": 364,
+        "median_unit": 425,
+        "mean_unit": 537,
+        "quantity": 15090,
+        "listings": 1665
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 295,
+        "p10_unit": 318,
+        "median_unit": 415,
+        "mean_unit": 517,
+        "quantity": 15199,
+        "listings": 1648
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 295,
+        "p10_unit": 325,
+        "median_unit": 370,
+        "mean_unit": 505,
+        "quantity": 17853,
+        "listings": 1859
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 280,
+        "p10_unit": 310,
+        "median_unit": 368,
+        "mean_unit": 541,
+        "quantity": 18086,
+        "listings": 1929
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 269,
+        "p10_unit": 342,
+        "median_unit": 414,
+        "mean_unit": 541,
+        "quantity": 15483,
+        "listings": 1657
+      }
+    ]
+  }
+}

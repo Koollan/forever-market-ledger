@@ -1,0 +1,81 @@
+{
+  "source": "forever-ah",
+  "credit": "Forever AH (forever-ah.com), data from Blizzard's Battle.net API",
+  "fetched_at": "2026-11-19T05:25:08.728Z",
+  "name": "Linen Cloth",
+  "forever_name": "Linen Cloth",
+  "item_id": 2589,
+  "house": {
+    "house_key": 17,
+    "region": "us",
+    "ruleset_id": 2,
+    "house_id": 0,
+    "name": "All Auction Houses",
+    "last_snapshot": "2026-11-19T04:25:17Z",
+    "house_type": "unified"
+  },
+  "hourly": {
+    "resolution": "hour",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 17,
+        "p10_unit": 27,
+        "median_unit": 32,
+        "mean_unit": 255,
+        "quantity": 90754,
+        "listings": 2728
+      },
+      {
+        "ts": "2026-11-19T01:00:00Z",
+        "min_unit": 15,
+        "p10_unit": 28,
+        "median_unit": 32,
+        "mean_unit": 243,
+        "quantity": 89943,
+        "listings": 2595
+      },
+      {
+        "ts": "2026-11-19T02:00:00Z",
+        "min_unit": 23,
+        "p10_unit": 26,
+        "median_unit": 30,
+        "mean_unit": 224,
+        "quantity": 101772,
+        "listings": 2902
+      },
+      {
+        "ts": "2026-11-19T03:00:00Z",
+        "min_unit": 19,
+        "p10_unit": 25,
+        "median_unit": 30,
+        "mean_unit": 230,
+        "quantity": 111159,
+        "listings": 2954
+      },
+      {
+        "ts": "2026-11-19T04:00:00Z",
+        "min_unit": 11,
+        "p10_unit": 25,
+        "median_unit": 30,
+        "mean_unit": 244,
+        "quantity": 113732,
+        "listings": 3151
+      }
+    ]
+  },
+  "daily": {
+    "resolution": "day",
+    "points": [
+      {
+        "ts": "2026-11-19T00:00:00Z",
+        "min_unit": 11,
+        "p10_unit": 26,
+        "median_unit": 31,
+        "mean_unit": 239,
+        "quantity": 101472,
+        "listings": 2866
+      }
+    ]
+  }
+}
