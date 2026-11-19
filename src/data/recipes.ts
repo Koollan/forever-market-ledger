@@ -1,4 +1,4 @@
-// Recipes that turn one catalogued material into another (T8, process or sell), and vendor reagent prices.
+// Recipes that turn one catalogued material into another (T9, process or sell), and vendor reagent prices.
 // Sources: planning/process-or-sell/research/recipes.md and docs/SOURCES.md ("Recipes"). `est: true` marks a
 // number not confirmed for Forever (Classic value or a guess). Only catalogued outputs and inputs, so both
 // sides of a comparison can have a price.

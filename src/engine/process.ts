@@ -1,9 +1,10 @@
-// Process or sell (T8): compare selling materials raw with selling what the character can make from them.
+// Process or sell (T9): compare selling materials raw with selling what the character can make from them.
 // Pure: takes the character and a context of {now, items, toggles, market?}; reads no clock or storage.
 // Recipes and vendor prices: src/data/recipes.ts. Design: planning/process-or-sell/design/detailed-design.md.
 import { RECIPES, VENDOR, type Recipe } from "../data/recipes";
 import { estimate } from "./estimate";
 import { profOf, skillColor, cutFor, houseOf } from "./character";
+import { andList } from "./util";
 import type { Character } from "./types";
 import type { SugCtx } from "./suggestions";
 
@@ -118,7 +119,7 @@ export const verbOf = (r: Route) => {
   return vs.map((v, i) => (i ? v.toLowerCase() : v)).join(" and ");
 };
 export const routeLabel = (r: Route) => `${verbOf(r)} ${r.ins.map(([n, k]) => `${num(k)} ${n}`).join(" + ")} → ${num(r.n)} ${r.out}`;
-export const routeShort = (r: Route, from: string) => `${verbOf(r)} ${from} into ${r.out}`;
+export const routeShort = (r: Route) => `${verbOf(r)} ${andList(r.ins.map(([n]) => n))} into ${r.out}`;
 // Notes: recipe knowledge (with its source when `long`), where, cooldown, skill-ups
 export function routeNotes(r: Compared, long: boolean): string[] {
   const notes: string[] = [];

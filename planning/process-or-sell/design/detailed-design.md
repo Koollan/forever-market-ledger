@@ -1,10 +1,10 @@
-# Detailed design: T8, process or sell
+# Detailed design: T9, process or sell
 
 ## 1. Overview
 
 Forever Market Ledger's sell advice today looks at each material on its own: list now, or hold for a better window. It never asks whether the character would keep more gold by **processing** a material first, e.g. smelting ore into bars, brewing herbs into elixirs, or converting Light Leather into Medium.
 
-T8 adds that comparison. For each material the character holds or gathers, the engine lists the recipes the character can make from it, up to two steps (ore → bar → alloy). It compares gold kept per craft after the auction house cut: sell the inputs raw, or make the output and sell that. A recipe is recommended only when it clearly wins. The result shows in three places: the material sheet (full breakdown), a tag on Prices rows, and a "Process" card on Today.
+T9 adds that comparison. For each material the character holds or gathers, the engine lists the recipes the character can make from it, up to two steps (ore → bar → alloy). It compares gold kept per craft after the auction house cut: sell the inputs raw, or make the output and sell that. A recipe is recommended only when it clearly wins. The result shows in three places: the material sheet (full breakdown), a tag on Prices rows, and a "Process" card on Today.
 
 The engine stays pure (it takes `now` and the data it needs), makes no AI or network calls, and gives no market-manipulation advice. It never suggests buying inputs to craft and resell.
 
@@ -36,7 +36,7 @@ From the grill (Nov 18, 2026, rounds 1–3):
 10. **Skill-ups:** the comparison is gold only. When the final recipe is orange or yellow for the character, add "also gives skill-ups". (Q11)
 11. **Data sources:** every recipe ratio, skill and vendor price has a source. Forever where published, otherwise Classic marked `est: true`. (brief)
 12. **Tests and lock:** unit tests for the comparison, plus an e2e spec at 412×900. The behavior lock should not change, because no reference character has Mining, Alchemy or Leatherworking. If it does change, stop and explain. (Q15)
-13. **Delivery:** SPEC backlog entry T8, branch `t8/process-or-sell`, one PR, ask before pushing. (Q16)
+13. **Delivery:** SPEC backlog entry T9, branch `t9/process-or-sell`, one PR, ask before pushing. (Q16)
 
 ## 3. Architecture overview
 

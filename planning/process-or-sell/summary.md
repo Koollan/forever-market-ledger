@@ -1,4 +1,4 @@
-# Summary: T8, process or sell (planning)
+# Summary: T9, process or sell (planning)
 
 ## Artifacts
 - `rough-idea.md`: the brief.
@@ -18,4 +18,4 @@
 - First Aid healing potions and uncatalogued outputs go to T6.
 
 ## Next steps
-Owner approval of the design and plan, then implement step by step on `t8/process-or-sell`.
+Owner approval of the design and plan, then implement step by step on `t9/process-or-sell`.

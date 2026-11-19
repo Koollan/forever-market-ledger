@@ -33,9 +33,9 @@ Phone first. Below 720px: one column, header with the character chip, bottom tab
 ### Screens (tabs)
 | Tab | What it shows |
 |---|---|
-| Today | **Conditions now** (only conditions that move this character's materials, one line each: effect + what to do), **Do this** (farm / list / hold / buy / train suggestions), **Your materials today** (% shift vs a normal day) |
+| Today | **Conditions now** (only conditions that move this character's materials, one line each: effect + what to do), **Do this** (farm / list / hold / process / buy / train suggestions), **Your materials today** (% shift vs a normal day) |
 | Farm | Ranked zones with expandable **When / Where / Why** dossiers; per-gathering-profession node lists (skill color, zones, today's shift, gold/hr if priced); **Where to skin now** for skinners |
-| Prices | Manually entered prices with List now / Hold until… advice; **Market**: API prices (home faction house p10) for what the character gathers or needs, with the same advice; search to add prices for any catalogued material. The material sheet shows the active price and its source, min/median, a 24-hour line and a Blackwater hint |
+| Prices | Manually entered prices with List now / Hold until… advice; **Market**: API prices (home faction house p10) for what the character gathers or needs, with the same advice and a "Smelt first +N%"-style tag when processing pays (T9); search to add prices for any catalogued material. The material sheet shows the active price and its source, min/median, a 24-hour line, a Blackwater hint and **Process or sell** (each recipe the character can make from it, gold kept both ways) |
 | Professions | Per profession: skill bar, training-cap warnings, current bracket's materials marked **Farm it** (with zones, incl. mine-and-smelt) or **Buy** (cheapest window this week) |
 | Session | 30 / 60 / 120 min plan: AH step, gathering loop with expected yield, profession skill-ups |
 
@@ -53,6 +53,7 @@ Character sheet (header chip): name, class, level, region (US/EU), faction, Skyb
 | `src/data/consumables.ts` | `CONSUMABLES` (name, min level, class tag), `HOUSES` (AH cut: faction 5%, neutral Blackwater 15%) |
 | `src/data/professions.ts` | `RANKS` (training caps), `PATHS` (crafting material brackets) |
 | `src/data/skinSpots.ts` | `SKIN_SPOTS` |
+| `src/data/recipes.ts` | `RECIPES` (smelting, Transmute: Arcanite, mana potions and elixirs, leather conversions), `VENDOR` reagent prices (T9) |
 | `src/data/materials.ts` | `MATS` / `MAT`: 136 materials with category and tier (1–6 by level bracket); `LAUNCH` |
 | `src/engine/conditions.ts` | `RULES`, `ctxAt`, `shiftAt`, `windows` (best/worst 3-hour slots over the next N hours from `now`) |
 | `src/engine/estimate.ts` | `estimate` (see 4.2) |
@@ -60,7 +61,8 @@ Character sheet (header chip): name, class, level, region (US/EU), faction, Skyb
 | `src/engine/character.ts` | `canGather`, `rankBlock`, `needsFor`, skill colors, AH cut, gold per hour |
 | `src/engine/skinning.ts` | `skinReq`, `skinPlan`, `skinSpots`, `skinLine` |
 | `src/engine/dossier.ts` | `continentOf`, `zoneDossier` (When/Where/Why) |
-| `src/engine/suggestions.ts` | `gatherOptions`, `bestFarm`, `sellAdvice`, `todaySuggestions`, `sessionPlan`; each takes `{now, items, toggles}` |
+| `src/engine/suggestions.ts` | `gatherOptions`, `bestFarm`, `heldNames`, `sellAdvice`, `processAdvice`, `todaySuggestions`, `sessionPlan`; each takes `{now, items, toggles}` |
+| `src/engine/process.ts` | T9 process or sell: `canMake`, `routesFrom` (one or two steps), `compareRoute` (gold kept per craft after the cut, vendor reagents counted), `processOptions`, `processAdviceFrom` |
 | `src/engine/backup.ts` | `buildBackup`, `validateBackup`, `backupData` (T1) |
 | `src/engine/market.ts` | T3 API prices: `homeSeries`, `activePrice` (your price wins while newer than the API hour and under 24 h old), `history` (hourly p10), `blackwaterHint`, `asOf` (stale past 3 h); `estimate` takes an optional API context |
 | `src/data/items.ts` | `ITEM_ID`: catalog name → item ID, from `data/items.json` |
@@ -176,11 +178,18 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 - Skinning spots for Redridge, Stonetalon, Duskwood, Badlands, Swamp of Sorrows, Felwood, Silithus.
 - Herb and ore subzone hotspots (RankedBoost lists "most spots" per zone and bracket).
 - Forever crafting recipe ranges for `PATHS`.
+- First Aid healing potion recipes (Forever moved them from Alchemy; reagent counts and spice prices unconfirmed), then add them to `RECIPES`. Confirm the `est` recipe numbers in `src/data/recipes.ts`. Catalogue more crafted outputs (e.g. Stonescale Oil) so more recipes can be compared.
 - ✅ Each new datum has a source in a comment or `docs/SOURCES.md`.
 
 **T8. Responsive layout** (Nov 18, 2026; design and plan in `planning/responsive/`; done ahead of T4–T7)
 - Tablet (720–1099px) and desktop (≥ 1100px) layouts as in section 2, Layouts: side nav, columns per tab, sheets as centred dialogs. CSS behind min-width media queries plus text-free `.lanes`/`.lane` wrappers (`display:contents` on phones).
 - ✅ Every tab and sheet at 412px renders pixel-identical to before; the behavior lock is unchanged; screenshots at 412, 768, 1280 and 1920, light and dark; layout checks in `tests/e2e/responsive.spec.ts`.
+
+**T9. Process or sell** (Nov 18, 2026; grill, research, design and plan in `planning/process-or-sell/`)
+- For each material the character priced or gathers, compare selling it raw with selling what they can make from it (one or two steps): Mining smelting incl. Bronze, Steel and Dark Iron (level + reach ≥ 52), Transmute: Arcanite, Alchemy mana potions and elixirs, Leatherworking conversions Light → Rugged. Healing potions (First Aid in Forever) wait for T6.
+- Gold kept per craft after the home cut on both sides, at the active price (API p10 or yours), vendor reagents counted. Processing is recommended at > 10% and ≥ 1s more per craft; routes for Today and Prices use only inputs the character holds (no buying to craft).
+- Shown on the material sheet (all routes, including "No price for … yet"), as a Prices row pill and as a Today "Process" card (top two routes; their inputs leave the List now / Hold cards).
+- ✅ Every recipe number cites a source (`est` where Forever is unconfirmed); unit tests for routes, the comparison and thresholds; `tests/e2e/process.spec.ts` at 412px; the behavior lock is unchanged.
 
 **T7. Server time and region**
 - Use realm time zone and region-specific raid reset (US Tue / EU Wed).

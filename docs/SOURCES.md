@@ -26,7 +26,7 @@ Not yet checked: Azeroth Auctions, wowfah.com, AHledger, TheWoWDB, Forever Maste
 
 See `docs/SPEC.md` section 5 until each source moves here.
 
-## Recipes (T8, process or sell)
+## Recipes (T9, process or sell)
 
 Read Nov 18, 2026 (public guide and database pages, read by hand; nothing automated). Most Forever guides say they are based on the beta. `src/data/recipes.ts` cites each entry; full notes in `planning/process-or-sell/research/recipes.md`.
 

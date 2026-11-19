@@ -1,4 +1,4 @@
-# Rough idea: process or sell (T8)
+# Rough idea: process or sell (T9)
 
 The owner asked whether sale advice considers smelting ore into bars, refining herbs into potions, or converting leather to higher tiers. It doesn't: `sellAdvice` (`src/engine/suggestions.ts`) decides list now vs hold for each material on its own, from condition windows. `SMELT` (`src/data/gathering.ts`) only feeds `canGather` and the zone dossier. Nothing models recipes or compares input value with output value.
 

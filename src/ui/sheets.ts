@@ -20,11 +20,24 @@ import { $, ago, toast, uid8, cacheLocal, readLocal, windows, whenTxt, perHour, 
 import { ICONS, TABS, renderNav, renderHeader, banners, render, KIND_PILL, vToday, vFarm, vPrices, vSkills, vPlan } from "./views";
 import { bindActions } from "./actions";
 import { activePrice, blackwaterHint, history, homeSeries } from "../engine/market";
+import { processOptions } from "./state";
+import { routeLabel, routeNotes, verbOf } from "../engine/process";
 import { sparkPath } from "./spark";
 
 /* ============ Sheets ============ */
 export function openSheet(html){$("#sheetPanel").innerHTML=html;$("#sheet").classList.add("open");$("#sheetPanel").scrollTop=0}
 export function closeSheet(){$("#sheet").classList.remove("open");S.openMat=null}
+// Process or sell (T9): each route the character can make from this material, gold kept per craft both ways
+function procSection(name,c){
+  const po=processOptions(name,c);if(!po.length)return "";
+  return `<h3>Process or sell</h3><div class="list process">${po.map(o=>{
+    const pill=o.verdict==="process"?`<span class="pill good">${esc(verbOf(o))} first</span>`:o.verdict==="sell"?'<span class="pill">Sell raw</span>':'<span class="pill">No price</span>';
+    const line=o.verdict==="unpriced"?`No price for ${andList(o.missing)} yet: add one to compare.`
+      :`Keep ${plainMoney(o.keepProcess)} processed vs ${plainMoney(o.keepRaw)} selling raw${o.gain!=null?` (${pct(o.gain)})`:""}, per craft after the cut${o.vendorCost?` and ${plainMoney(o.vendorCost)} of vendor reagents`:""}.${o.verdict==="sell"&&(o.diff??0)>0?" Not worth it: processing pays when it keeps over 10% and at least 1s more.":""}`;
+    const others=o.ins.map(i=>i[0]).filter(n=>n!==name);
+    const notes=[...(others.length?[`also uses ${andList(others)}`]:[]),...routeNotes(o,true)];
+    return `<div class="item"><span class="nm">${esc(routeLabel(o))}</span><span class="right">${pill}</span><span class="meta small">${esc(line)}${notes.length?`<br><span class="muted">${esc(notes.join(" · "))}</span>`:""}</span></div>`}).join("")}</div>`;
+}
 export function sheetMat(name){
   S.openMat=name;
   const c=char();const m=MAT[name]||{name,cat:"Other",tier:3};const tg=S.state.toggles;
@@ -50,6 +63,7 @@ export function sheetMat(name){
     ${(c.region||"us")!=="us"?'<p class="small muted" style="margin:0">API prices are US only for now.</p>':""}
     <div class="banner">${ws.best.s>ws.now*1.03?`Sell: wait for ${esc(whenTxt(ws.best.t))} (${pct(ws.best.s/ws.now-1)} vs now).`:"Sell: now is about as good as this week gets."} ${wb.best.s<wb.now*0.97?`Buy: ${esc(whenTxt(wb.best.t))} is cheapest (${pct(wb.best.s/wb.now-1)}).`:"Buy: no better window this week."}</div>
     ${s.why.length?`<p class="small muted" style="margin:0">${esc(s.why.map(w=>`${pct(w.p/100)} ${w.why}`).join(" · "))}</p>`:""}
+    ${procSection(name,c)}
     ${g?`<p class="small" style="margin:0"><b>Where:</b> ${esc(g.zones.map(zl).join(", "))}</p>`:""}
     <form id="priceForm" class="card" style="padding:12px">
       <h3>Add a price you saw</h3>

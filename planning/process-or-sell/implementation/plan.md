@@ -1,15 +1,15 @@
-# Implementation plan: T8, process or sell
+# Implementation plan: T9, process or sell
 
 ## Checklist
 
-- [ ] Step 1: Recipe and vendor data with sources
-- [ ] Step 2: Compare one recipe (engine)
-- [ ] Step 3: Two-step routes and per-character advice (engine)
-- [ ] Step 4: "Process or sell" on the material sheet
-- [ ] Step 5: Process tags on Prices rows
-- [ ] Step 6: Process card on Today; docs; ship
+- [x] Step 1: Recipe and vendor data with sources
+- [x] Step 2: Compare one recipe (engine)
+- [x] Step 3: Two-step routes and per-character advice (engine)
+- [x] Step 4: "Process or sell" on the material sheet
+- [x] Step 5: Process tags on Prices rows
+- [x] Step 6: Process card on Today; docs; ship
 
-All steps are on branch `t8/process-or-sell`, one PR. One commit per step. `npm run check` stays green after every step, and the behavior lock (`tests/e2e/baseline.spec.ts`) is unchanged throughout. If it changes, stop and tell the owner why. Never push or open a PR without asking.
+All steps are on branch `t9/process-or-sell`, one PR. One commit per step. `npm run check` stays green after every step, and the behavior lock (`tests/e2e/baseline.spec.ts`) is unchanged throughout. If it changes, stop and tell the owner why. Never push or open a PR without asking.
 
 ---
 
@@ -92,7 +92,7 @@ All steps are on branch `t8/process-or-sell`, one PR. One commit per step. `npm 
 
 ## Step 6: Process card on Today; docs; ship
 
-**Objective:** the "Process" card in `todaySuggestions` (top 2 routes) and `KIND_PILL.Process`. Add **T8** to `docs/SPEC.md` with acceptance criteria, and update the architecture table. Add "First Aid potion recipes" and "rename the four elixirs" to T6.
+**Objective:** the "Process" card in `todaySuggestions` (top 2 routes) and `KIND_PILL.Process`. Add **T9** to `docs/SPEC.md` with acceptance criteria, and update the architecture table. Add "First Aid potion recipes" and "rename the four elixirs" to T6.
 
 **Tests (first):**
 - unit: the card appears with a fixture market and is absent for the three reference characters

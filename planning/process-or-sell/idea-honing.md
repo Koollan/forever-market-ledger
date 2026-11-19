@@ -1,4 +1,4 @@
-# Idea honing: process or sell (T8)
+# Idea honing: process or sell (T9)
 
 Decisions from the `/grill-me` session on Nov 18, 2026. Each question was put to the owner with a recommendation. Round 1: every recommendation accepted except Q2, which the owner widened. Round 2: "All good".
 
@@ -42,7 +42,7 @@ Decisions from the `/grill-me` session on Nov 18, 2026. Each question was put to
 
 **Q15. Behavior lock and tests?** None of the three reference characters has Mining, Alchemy or Leatherworking, so their baselines should not change. **Answer:** no fourth reference character. Unit tests for the comparison (each case, threshold, missing prices, skill and level gates, Dark Iron, Arcanite) and a new e2e spec for the material sheet section and Today card at 412×900 with a Mining/Alchemy test character. If the baseline changes, stop and tell the owner why before re-recording.
 
-**Q16. Backlog and branch?** **Answer:** add **T8. Process or sell** to `docs/SPEC.md` with acceptance criteria. One branch `t8/process-or-sell` from `main`, plans in `planning/process-or-sell/`, one PR, ask before pushing.
+**Q16. Backlog and branch?** **Answer:** add **T9. Process or sell** to `docs/SPEC.md` with acceptance criteria. One branch `t9/process-or-sell` from `main`, plans in `planning/process-or-sell/`, one PR, ask before pushing.
 
 ## Round 3 (after research, Nov 18, 2026)
 
@@ -55,3 +55,5 @@ Research notes: `research/recipes.md`, `research/existing-code.md`. The owner ac
 **Q19. Arcanite cooldown?** It was 48 h in Classic and removed in TBC. Forever is unconfirmed. **Answer:** show "once every 2 days (est.)" and record the source in `docs/SOURCES.md`.
 
 **Q20. Research enough?** **Answer:** yes, go to the design and plan. Bring both back for approval before code.
+
+**Note (implementation):** the backlog already had a T8 (responsive layout, merged to `main` the same day), so this task is **T9**. Early commits on the branch say T8.

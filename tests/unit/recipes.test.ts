@@ -1,4 +1,4 @@
-// T8 recipe data: every name is a catalogued material or a vendor reagent, numbers are sane, sources are named
+// T9 recipe data: every name is a catalogued material or a vendor reagent, numbers are sane, sources are named
 import { describe, expect, it } from "vitest";
 import { RECIPES, VENDOR } from "../../src/data/recipes";
 import { MAT } from "../../src/data/materials";

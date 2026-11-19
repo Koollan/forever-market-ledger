@@ -1,4 +1,4 @@
-// Process or sell (T8): routes from a material, gold kept per craft both ways, and per-character advice
+// Process or sell (T9): routes from a material, gold kept per craft both ways, and per-character advice
 import { describe, expect, it } from "vitest";
 import { canMake, compareRoute, routesFrom, processOptions, routeLabel, routeNotes, PROCESS_MIN_COPPER } from "../../src/engine/process";
 import { processAdvice, sellAdvice, type SugCtx } from "../../src/engine/suggestions";
@@ -138,5 +138,24 @@ describe("processAdvice", () => {
     const miner = char([["Mining", 150]]);
     expect(processAdvice(miner, { now, items: held("Copper Ore"), toggles: {} })).toEqual([]);
     expect(sellAdvice(miner, { now, items: held("Copper Ore"), toggles: {} }).map((x) => x.name)).toEqual(["Copper Ore"]);
+  });
+});
+
+describe("Today's Process card", () => {
+  const miner = char([["Mining", 150]], 30);
+  const prices = { "Copper Ore": 100, "Tin Ore": 100, "Copper Bar": 150, "Tin Bar": 150, "Bronze Bar": 400, "Silver Ore": 500 };
+  it("lists each route once and takes its inputs off the List now card", async () => {
+    const { todaySuggestions } = await import("../../src/engine/suggestions");
+    const s = todaySuggestions(miner, ctx(prices, held("Copper Ore", "Tin Ore", "Silver Ore")));
+    const p = s.find((x) => x.kind === "Process")!;
+    expect(p.title).toBe("Process before you sell");
+    expect(p.body).toBe("Smelt Copper Ore and Tin Ore into Bronze Bar: +300%, about 5s 70c more a craft. Prices are after the auction house cut and vendor reagents.");
+    const sell = [...s.filter((x) => x.kind === "Sell" || x.kind === "Hold").map((x) => x.body)].join(" ");
+    expect(sell).not.toMatch(/Copper Ore|Tin Ore/);
+  });
+  it("is absent for the reference characters (no Mining, Alchemy or Leatherworking)", async () => {
+    const { todaySuggestions } = await import("../../src/engine/suggestions");
+    const { CHARACTERS, PRICES } = await import("../fixtures/reference");
+    for (const c of CHARACTERS) expect(todaySuggestions(c as Character, { now, items: PRICES as Items, toggles: {} }).map((x) => x.kind)).not.toContain("Process");
   });
 });

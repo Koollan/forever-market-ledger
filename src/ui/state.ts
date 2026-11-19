@@ -15,6 +15,8 @@ import { profOf, canGather, needsFor, rankBlock, houseOf, cutFor, skillColor, pe
 import { skinReq, skinPlan, skinSpots, skinLine } from "../engine/skinning";
 import { continentOf, zoneDossier as zoneDossierAt } from "../engine/dossier";
 import { gatherOptions as gatherOptionsAt, bestFarm as bestFarmAt, sellAdvice as sellAdviceAt, todaySuggestions as todaySuggestionsAt, sessionPlan as sessionPlanAt } from "../engine/suggestions";
+import { processAdvice as processAdviceAt } from "../engine/suggestions";
+import { processOptions as processOptionsAt } from "../engine/process";
 import { validateBackup, buildBackup, backupData, type Backup } from "../engine/backup";
 import type { AppState, Items, Character } from "../engine/types";
 import type { Market } from "../engine/market";
@@ -49,6 +51,8 @@ export const bestFarm=c=>bestFarmAt(c,cx());
 export const sellAdvice=c=>sellAdviceAt(c,cx());
 export const todaySuggestions=c=>todaySuggestionsAt(c,cx());
 export const sessionPlan=(c,mins)=>sessionPlanAt(c,mins,cx());
+export const processAdvice=c=>processAdviceAt(c,cx());
+export const processOptions=(name,c)=>processOptionsAt(name,c,cx());
 export const estimate=(name,when?)=>estimateAt(name,S.items,S.state.toggles,when||Date.now(),{market:S.market,character:char()});
 
 /* ============ Prices you enter ============ */
