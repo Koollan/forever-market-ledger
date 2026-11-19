@@ -36,6 +36,11 @@ function vMarket(c,relevant,sa){
 }
 
 /* ============ Rendering ============ */
+// Column wrappers for tablet and desktop (T8). They hold no text and are display:contents below 720px,
+// so the phone layout and main's text (the behavior lock) are unchanged.
+const lanes=(tab,html)=>`<div class="lanes lanes-${tab}">${html}</div>`;
+const lane=html=>`<div class="lane">${html}</div>`;
+
 export const ICONS={
  today:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
  farm:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4-3 7-7 7-12a7 7 0 0 0-14 0c0 5 3 9 7 12z"/><path d="M12 22V10"/><path d="M12 14l-3-3M12 12l3-3"/></svg>',
@@ -80,7 +85,7 @@ export function vToday(c){
   if(ctx.prime)conds.push({t:"Evening prime time",fx:"about +3% when selling",act:"More buyers are online. A good hour to list."});
   if(ctx.offpeak)conds.push({t:"Quiet hours",fx:"about −3% when buying",act:"Overnight undercuts are still up. A good hour to buy."});
   const shifts=[...mine].map(n=>{const m=MAT[n];if(!m)return null;const s=shiftAt(m,Date.now(),tg);return{n,s,e:estimate(n)}}).filter(Boolean).filter(x=>Math.abs(x.s.mult-1)>=0.02).sort((a,b)=>b.s.mult-a.s.mult);
-  return `
+  return lanes("today",`
   <section class="card">
     <div class="row between"><h2>Conditions now</h2><span class="small muted">Day ${ctx.days} of Forever</span></div>
     <div class="list">${conds.map(x=>`<div class="cond"><span class="t">${esc(x.t)}</span><span class="fx">${esc(x.fx)}</span><span class="act">${esc(x.act)}</span></div>`).join("")||'<div class="empty">Nothing unusual for your materials right now.</div>'}</div>
@@ -93,7 +98,7 @@ export function vToday(c){
     <h2>Your materials today</h2>
     <p class="small muted" style="margin:0">How today's conditions push prices for what you gather or need, compared with a normal day.</p>
     <div class="list">${shifts.map(x=>`<button class="item" type="button" data-mat="${esc(x.n)}"><span class="nm">${esc(x.n)}</span><span class="right"><span class="pill ${x.s.mult>1?"good":"bad"}">${pct(x.s.mult-1)}</span>${x.e?`<span class="small muted">≈ ${plainMoney(x.e.now)}</span>`:""}</span><span class="meta small muted">${esc(x.s.why.map(w=>w.why).join("; "))}</span></button>`).join("")||'<div class="empty">No notable shifts for your materials right now.</div>'}</div>
-  </section>`;
+  </section>`);
 }
 
 export function vFarm(c){
@@ -138,18 +143,18 @@ export function vPrices(c){
   const relevant=new Set([...gatherOptions(c).map(o=>o.name),...needsFor(c).map(n=>n.name)]);
   const pool=MATS.filter(m=>!tracked.includes(m.name)&&(q?m.name.toLowerCase().includes(q):relevant.has(m.name)));
   const sa=Object.fromEntries(sellAdvice(c).map(x=>[x.name,x]));
-  return `
+  return lanes("prices",lane(`
   <section class="card">
     <h2>Your prices</h2>
     <p class="small muted" style="margin:0">Type in a price whenever you see one in game. The app removes the conditions at the time you saw it and re-applies today's, so old prices stay useful.</p>
     <div class="list">${tracked.map(n=>{const e=estimate(n);const x=sa[n];return `<button class="item" type="button" data-mat="${esc(n)}"><span class="nm">${esc(n)}</span><span class="right">${money(e.now)}<span class="small muted">${e.source==="api"?`API ${ago(e.last.t)} · yours ${ago(lastPrice(n).t)}`:`seen ${ago(e.last.t)}`}</span></span><span class="meta">${x?(x.action==="list"?'<span class="pill good">List now</span>':`<span class="pill warn">Hold: ${pct(x.gain)} ${esc(whenTxt(x.best.t))}</span>`):""}<span class="pill">${itemFor(n).hist.length} price${itemFor(n).hist.length===1?"":"s"}</span></span></button>`}).join("")||'<div class="empty">No prices yet. Pick a material below to add one.</div>'}</div>
   </section>
-  ${vMarket(c,relevant,sa)}
+  ${vMarket(c,relevant,sa)}`)+`
   <section class="card">
     <input id="matQ" placeholder="Find a material" value="${esc(S.q)}" aria-label="Find a material">
     <h3>${q?"Matches":"Relevant to you"}</h3>
     <div class="list">${pool.slice(0,30).map(m=>`<button class="item" type="button" data-mat="${esc(m.name)}"><span class="nm">${esc(m.name)}</span><span class="right"><span class="small muted">add price</span></span><span class="meta small muted">${esc(m.cat)} · tier ${m.tier}</span></button>`).join("")||'<div class="empty">No matches.</div>'}</div>
-  </section>`;
+  </section>`);
 }
 
 export function vSkills(c){

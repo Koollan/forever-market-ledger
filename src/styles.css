@@ -120,6 +120,8 @@ details.zone[open] summary .nm::before{content:"▾ "}
 .ww ul{margin:4px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:3px;font-size:14px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--ink);color:var(--surface);padding:10px 14px;border-radius:10px;font-size:14px;z-index:9;display:none;max-width:90%}
 .empty{padding:14px;text-align:center;color:var(--muted);font-size:14px}
+/* Column wrappers (T8): no boxes on phones, so cards stay in main's single column */
+.lanes,.lane{display:contents}
 @media (prefers-reduced-motion: no-preference){.sheet .panel{animation:up .18s ease-out}@keyframes up{from{transform:translateY(20px)}to{transform:none}}}
 
 /* ============ Tablet and desktop (T8). Phone rules above stay untouched. ============ */
@@ -140,6 +142,16 @@ details.zone[open] summary .nm::before{content:"▾ "}
   /* sheets become centred dialogs */
   .sheet{align-items:center;padding:24px}
   .sheet .panel{max-width:560px;max-height:85vh;border-radius:18px;padding:20px}
+  /* columns per tab: .lanes is the grid, a .lane stacks the cards of one column */
+  .lanes{display:grid;gap:16px;align-items:start;grid-template-columns:minmax(0,1fr)}
+  .lanes>*{min-width:0}
+  .lane{display:flex;flex-direction:column;gap:16px}
+  /* Today: Conditions with Your materials under it, Do this beside both (they aren't adjacent in the DOM) */
+  .lanes-today{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto 1fr}
+  .lanes-today>:nth-child(1){grid-area:1/1}
+  .lanes-today>:nth-child(2){grid-area:1/2/3/3}
+  .lanes-today>:nth-child(3){grid-area:2/1}
+  .lanes-prices{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (min-width:720px) and (prefers-reduced-motion: no-preference){
   .sheet .panel{animation:pop .16s ease-out}
@@ -149,4 +161,9 @@ details.zone[open] summary .nm::before{content:"▾ "}
   :root{--navw:220px}
   nav{padding:16px 12px}
   nav button{flex-direction:row;justify-content:flex-start;gap:12px;padding:10px 14px;font-size:15px}
+  .lanes-today{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto}
+  .lanes-today>:nth-child(n){grid-area:auto}
+  /* Prices: Your prices, Market (when there is one) and Find, one column each */
+  .lanes-prices{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+  .lanes-prices .lane{display:contents}
 }
