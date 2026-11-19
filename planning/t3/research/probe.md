@@ -15,8 +15,8 @@ Run by the owner in the app's terminal on Nov 19, 2026, 02:16 UTC (`node scripts
 - Response headers include `battlenet-namespace`, `cache-control`, `content-encoding`, `date`, `last-modified`; no rate-limit headers.
 
 ## Fixture
-- `index.json`: house index.
+- `index.json`: house index. The first probe's trimming cut it to 10 entries (fixed in the script); the other five (120, 121, 123, 124, 125) were restored from the same run's printed index, with the same `href` pattern.
 - `house-110.json`: 15 regular auctions (10 untracked, 5 bid-only), for the `buyout` shape.
-- `house-110-commodities.json`: 410 commodity listings across 85 tracked items (first 400 tracked plus 10 untracked).
+- `house-110-commodities.json`: 410 commodity listings: the first 400 tracked ones (76 materials) plus 10 untracked.
 - `house-112.json`, `house-112-commodities.json`: the empty house.
 Each file is `{headers: {last-modified, date}, body}`. This is public game data; nothing account-specific is in it.

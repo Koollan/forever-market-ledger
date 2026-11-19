@@ -7,10 +7,17 @@
 //   probe  read-only: token, ruleset index, house index, two houses with and without /commodities.
 //          Prints shapes, counts and header names. With --save-fixture <dir>, writes trimmed
 //          responses (tracked materials kept) for the pipeline's tests.
+//   run    reads each house's /commodities, reduces the tracked materials to stats and pools them
+//          into the four series. --fixtures <dir> reads saved responses (house-<id>-commodities.json;
+//          a missing file is a house not read) instead of the API. For now only --dry is supported:
+//          it prints a summary and sample rows and writes nothing (writing files arrives in step 3).
 
 import fs from "node:fs";
 import path from "node:path";
 import { getJson, getToken, type Deps, type JsonResult } from "../src/pipeline/http.ts";
+import { SERIES, SERIES_IDS } from "../src/pipeline/houses.ts";
+import { listingsFrom } from "../src/pipeline/reduce.ts";
+import { pool, type HouseListings } from "../src/pipeline/series.ts";
 
 const REGION = "us";
 const API = `https://${REGION}.api.blizzard.com`;
@@ -73,11 +80,12 @@ function trim(list: Auction[], ids: Set<number>): Auction[] {
   return [...mine, ...other, ...bidOnly].filter((a) => (seen.has(a.id) ? false : (seen.add(a.id), true)));
 }
 
-function saveFixture(dir: string, name: string, res: JsonResult, ids: Set<number>) {
+// `listings` is false for the house index, whose `auctions` key lists houses, not listings
+function saveFixture(dir: string, name: string, res: JsonResult, ids: Set<number>, listings = true) {
   const body = res.body as Record<string, unknown>;
   const out: Record<string, unknown> = { ...body };
-  if (Array.isArray(body.auctions)) out.auctions = trim(body.auctions as Auction[], ids);
-  if (Array.isArray(body.commodities)) out.commodities = trim(body.commodities as Auction[], ids);
+  if (listings && Array.isArray(body.auctions)) out.auctions = trim(body.auctions as Auction[], ids);
+  if (listings && Array.isArray(body.commodities)) out.commodities = trim(body.commodities as Auction[], ids);
   const headers = { "last-modified": res.headers.get("last-modified"), date: res.headers.get("date") };
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, `${name}.json`), JSON.stringify({ headers, body: out }, null, 2) + "\n");
@@ -102,7 +110,7 @@ async function probe() {
   if ("error" in index) { console.log(`house index: ${index.error}`); process.exit(1); }
   const houses = ((index.body as { auctions?: { id: number; name: string }[] }).auctions) ?? [];
   console.log(`house index (ruleset ${RULESET}): ${houses.length} houses: ${houses.map((h) => `${h.id} ${h.name}`).join("; ")}`);
-  if (fixtureDir) saveFixture(fixtureDir, "index", index, ids);
+  if (fixtureDir) saveFixture(fixtureDir, "index", index, ids, false);
 
   for (const house of PROBE_HOUSES) {
     for (const suffix of ["", "/commodities"]) {
@@ -123,6 +131,47 @@ async function probe() {
   console.log("probe done");
 }
 
+type HouseRead = { body: unknown; lastModified: string | null };
+
+// One house's commodities, from a saved fixture or the API. null = not read (missing file, or failed after retries).
+async function readHouse(house: number, source: { fixtures?: string; token?: string }): Promise<HouseRead | null> {
+  if (source.fixtures) {
+    const file = path.join(source.fixtures, `house-${house}-commodities.json`);
+    if (!fs.existsSync(file)) return null;
+    const saved = JSON.parse(fs.readFileSync(file, "utf8")) as { headers?: Record<string, string | null>; body: unknown };
+    return { body: saved.body, lastModified: saved.headers?.["last-modified"] ?? null };
+  }
+  const res = await tryGet(`${API}/data/wow/ruleset/${RULESET}/auctions/${house}/commodities?${NS}`, source.token as string);
+  if ("error" in res) { console.warn(`house ${house}: ${res.error}`); return null; }
+  return { body: res.body, lastModified: res.headers.get("last-modified") };
+}
+
+async function run() {
+  if (!process.argv.includes("--dry")) { console.error("run writes files from T3 step 3 on; use --dry for now"); process.exit(2); }
+  const ids = tracked();
+  const fixtures = arg("fixtures");
+  const source = fixtures ? { fixtures } : { token: await getToken(...credentials(), deps) };
+  const perHouse: HouseListings = new Map();
+  const snapshots: Record<number, string> = {};
+  for (const house of SERIES.all) {
+    const read = await readHouse(house, source);
+    if (!read) continue;
+    perHouse.set(house, listingsFrom(read.body, ids));
+    if (read.lastModified) snapshots[house] = new Date(read.lastModified).toISOString();
+  }
+  const items = [...ids];
+  const series = Object.fromEntries(SERIES_IDS.map((s) => [s, pool(perHouse, SERIES[s], items)]));
+  const latest = Object.values(snapshots).sort().pop() ?? "(no snapshot time)";
+  const priced = items.filter((id) => series.all.items[id]).length;
+  const missing = SERIES.all.filter((h) => !perHouse.has(h));
+  console.log(`${latest} ${perHouse.size}/${SERIES.all.length} houses, ${priced}/${items.length} items${missing.length ? ` (not read: ${missing.join(", ")})` : ""}`);
+  for (const s of SERIES_IDS) console.log(`  ${s}: ${series[s].houses}/${SERIES[s].length} houses`);
+  const names = Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync("data/items.json", "utf8")) as Record<string, unknown>).map(([k, v]) => [v, k]));
+  console.log("  sample rows (all), [min, p10, p25, median, qty, listings] in copper:");
+  for (const id of items.filter((id) => series.all.items[id]).slice(0, 5)) console.log(`    ${names[id]} (${id}): ${JSON.stringify(series.all.items[id])}`);
+}
+
 const mode = arg("mode");
 if (mode === "probe") await probe();
-else { console.error(`Unknown or missing --mode (${mode ?? "none"}). Available now: probe`); process.exit(2); }
+else if (mode === "run") await run();
+else { console.error(`Unknown or missing --mode (${mode ?? "none"}). Available now: probe, run --dry`); process.exit(2); }
