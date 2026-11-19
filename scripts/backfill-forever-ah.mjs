@@ -3,11 +3,10 @@
 // to "Forever AH" and Blizzard's Battle.net API). See docs/SOURCES.md.
 //
 // Usage: node scripts/backfill-forever-ah.mjs
-// Reads the material names from app/index.html, looks up each item ID, then saves the
+// Reads the material names from item-ids.json, looks up any missing item IDs, then saves the
 // hourly and daily history for the US "All Auction Houses" view into data/backfill/forever-ah/.
 
 import fs from "node:fs";
-import vm from "node:vm";
 import path from "node:path";
 
 const API = "https://forever-ah.com/v1";
@@ -43,14 +42,10 @@ async function get(url) {
   throw new Error(`gave up after retries: ${url}`);
 }
 
+// The catalog's names, as recorded by the first run (the single-file app it read them from is retired).
+// To add a material, add its catalog name to item-ids.json with a null ID; the run looks the ID up.
 function materialNames() {
-  const html = fs.readFileSync("app/index.html", "utf8");
-  const js = html.match(/<script>([\s\S]*?)<\/script>/)[1];
-  const cut = js.indexOf("const MAT=Object.fromEntries");
-  const ctx = { window: {}, localStorage: { getItem: () => null, setItem() {} }, document: {}, console };
-  vm.createContext(ctx);
-  vm.runInContext(js.slice(0, cut) + ";globalThis.__M=MATS;", ctx);
-  return ctx.__M.map((m) => m.name);
+  return Object.keys(JSON.parse(fs.readFileSync("data/backfill/forever-ah/item-ids.json", "utf8")));
 }
 
 fs.mkdirSync(OUT, { recursive: true });

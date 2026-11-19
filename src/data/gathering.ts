@@ -1,0 +1,10 @@
+// Gathering skill requirements, smelting and rough gather rates
+export type GatherEntry = [name: string, req: number];
+
+export const GATHER: Record<string, GatherEntry[]> = {
+ Herbalism:[["Peacebloom",1],["Silverleaf",1],["Earthroot",15],["Mageroyal",50],["Briarthorn",70],["Swiftthistle",70],["Stranglekelp",85],["Bruiseweed",100],["Wild Steelbloom",115],["Grave Moss",120],["Kingsblood",125],["Liferoot",150],["Fadeleaf",160],["Goldthorn",170],["Khadgar's Whisker",185],["Wintersbite",195],["Firebloom",205],["Purple Lotus",210],["Arthas' Tears",220],["Sungrass",230],["Blindweed",235],["Ghost Mushroom",245],["Gromsblood",250],["Golden Sansam",260],["Dreamfoil",270],["Mountain Silversage",280],["Plaguebloom",285],["Icecap",290],["Black Lotus",300]],
+ Skinning:[["Light Leather",1],["Light Hide",1],["Ruined Leather Scraps",1],["Deviate Scale",80],["Medium Leather",75],["Medium Hide",75],["Black Whelp Scale",100],["Green Whelp Scale",100],["Heavy Leather",125],["Heavy Hide",125],["Turtle Scale",175],["Thick Leather",175],["Thick Hide",175],["Scorpid Scale",200],["Worn Dragonscale",225],["Rugged Leather",215],["Rugged Hide",215],["Devilsaur Leather",270]],
+ Mining:[["Copper Ore",1],["Rough Stone",1],["Tin Ore",65],["Coarse Stone",65],["Silver Ore",75],["Iron Ore",125],["Heavy Stone",125],["Gold Ore",155],["Mithril Ore",175],["Solid Stone",175],["Truesilver Ore",230],["Dark Iron Ore",230],["Thorium Ore",245],["Dense Stone",245],["Arcane Crystal",275],["Heavy Thorium Ore",300]]
+};
+export const SMELT: Record<string, string[]> = {"Copper Bar":["Copper Ore"],"Tin Bar":["Tin Ore"],"Bronze Bar":["Copper Ore","Tin Ore"],"Silver Bar":["Silver Ore"],"Iron Bar":["Iron Ore"],"Gold Bar":["Gold Ore"],"Steel Bar":["Iron Ore"],"Mithril Bar":["Mithril Ore"],"Truesilver Bar":["Truesilver Ore"],"Thorium Bar":["Thorium Ore"],"Dark Iron Bar":["Dark Iron Ore"]};
+export const GATHER_RATE: Record<string, { nodes: number; yield: number }> = {Herbalism:{nodes:35,yield:2.3},Skinning:{nodes:25,yield:1.5},Mining:{nodes:20,yield:2.5}}; // rough per hour

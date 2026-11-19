@@ -1,0 +1,2233 @@
+{
+ "character": "ref-hunter-42",
+ "at": "2026-11-22T00:00:00Z",
+ "text": {
+  "today": "Using a typical budget for level 42. Set your gold\nConditions now\nDay 18 of Forever\nMost players are around level 35\n+12% Heavy Leather and Heavy Hide, +6% Thick Leather and Thick Hide, −4% Medium Leather and Medium Hide, −12% Light Leather and Light Hide\nSell what the crowd is leveling into; buy what they've moved past.\nWeekend\n−7% on Light Leather, Light Hide and Ruined Leather Scraps and 11 more\nBuy raw materials now; sell what you gather Tuesday to Thursday.\nEvening prime time\nabout +3% when selling\nMore buyers are online. A good hour to list.\nDo this\nGather in Feralas\nFarm\nThick Leather, Turtle Scale, Thick Hide. Thick Leather, Turtle Scale and Thick Hide still give skill-ups. Weekend prices for raw materials run low, so hold what you gather until Tuesday to Thursday.\nHold for a better window\nHold\nPeacebloom: +12% at Tue 7 PM; Briarthorn: +12% at Tue 7 PM.\nYour materials today\n\nHow today's conditions push prices for what you gather or need, compared with a normal day.\n\nHeavy Leather\n+4%\n≈ 10s 55c\nmost players are leveling through this bracket now; weekend farmers flood raw materials\nHeavy Hide\n+4%\nmost players are leveling through this bracket now; weekend farmers flood raw materials\nTurtle Scale\n+4%\nmost players are leveling through this bracket now; weekend farmers flood raw materials\nMedium Leather\n−11%\n≈ 3s 61c\nthe crowd is moving past this bracket; weekend farmers flood raw materials\nMedium Hide\n−11%\nthe crowd is moving past this bracket; weekend farmers flood raw materials\nLight Leather\n−18%\nmost players have outleveled this bracket; weekend farmers flood raw materials\nLight Hide\n−18%\nmost players have outleveled this bracket; weekend farmers flood raw materials\nRuined Leather Scraps\n−18%\nmost players have outleveled this bracket; weekend farmers flood raw materials\nDeviate Scale\n−18%\nmost players have outleveled this bracket; weekend farmers flood raw materials\nPeacebloom\n−18%\n≈ 81c\nmost players have outleveled this bracket; weekend farmers flood raw materials\nBriarthorn\n−18%\n≈ 2s 92c\nmost players have outleveled this bracket; weekend farmers flood raw materials",
+  "farm": "Using a typical budget for level 42. Set your gold\nZones for Ref Hunter 42\n\nRanked by skill-ups first, then by the prices you've entered and today's conditions. Only zones up to level 44 are included. Tap a zone for when, where and why.\n\n1. Feralas\n40–50\nHeavy Leather, Heavy Hide, Turtle Scale, Thick Leather, Thick Hide\nWHEN\nNow. Level 40–50 fits you, so you can quest here while you gather.\nSkinning skill-ups from Turtle Scale, Thick Leather and Thick Hide until about 225 (you're at 205).\nWeekends bring more farmers; weekday evenings are calmer.\nSell what you gather at Tue 7 PM (Heavy Leather +12% vs now).\nWHERE\nKalimdor, contested territory: watch for the other faction on PvP realms.\nSkin Longtooth Runners and Howlers, Ironfur Bears and Groddoc Thunderers (about level 40–45) around The Twin Colossals, Ruins of Isildien and Lower Wilds for Thick and Rugged Leather. Good skill-ups for you.\nWHY\n3 node types still give skill-ups.\nThick Leather is worth about 23s 14c each today, roughly 8g 24s an hour if you gathered only that.\nToday's conditions push Heavy Leather, Heavy Hide and Turtle Scale up.\n2. The Hinterlands\n40–50\nHeavy Leather, Heavy Hide, Turtle Scale, Thick Leather, Thick Hide\n3. Arathi Highlands\n30–40\nMedium Leather, Medium Hide, Heavy Leather, Heavy Hide, Thick Leather, Thick Hide\n4. Stranglethorn Vale\n30–45\nMedium Leather, Medium Hide, Heavy Leather, Heavy Hide, Thick Leather, Thick Hide\n5. Dustwallow Marsh\n35–45\nMedium Leather, Medium Hide, Heavy Leather, Heavy Hide, Thick Leather, Thick Hide\n6. Swamp of Sorrows\n35–45\nMedium Leather, Medium Hide, Heavy Leather, Heavy Hide, Turtle Scale, Thick Leather, Thick Hide\nSkinning\n205/300\nWhere to skin now\nStranglethorn Vale orange\nlvl 37–41\nShadowmaw Panthers, Stranglethorn Tigresses and Jungle Stalkers and Thunderers around Gurubashi Arena, Lake Nazferiti and Balia'mah Ruins. Heavy and Thick Leather.\nDustwallow Marsh orange\nlvl 37–41\nDrywallow Daggermaws, Crocolisks and Snappers and Young Murk Threshers around The Quagmire, Beezil's Wreck and Tidefury Cove. Heavy and Thick Leather.\nDustwallow Marsh orange\nlvl 39–43\nDrywallow Daggermaws, Bloodfen Lashtails and Murk Threshers around Wyrmbog, Tidefury Cove and Sentry Point. Thick Leather.\n\nBeast spots are from the original game and may differ in Forever.\n\nNext unlock: Worn Dragonscale at 225.\n\nRugged Hide needs 215\nadd price\nStranglethorn Vale, Dustwallow Marsh, Badlands +7\nRugged Leather needs 215\nadd price\nStranglethorn Vale, Dustwallow Marsh, Badlands +7\nWorn Dragonscale needs 225\nadd price\nDustwallow Marsh, Swamp of Sorrows · today +4%\nScorpid Scale orange\nadd price\nTanaris\nThick Hide yellow\nadd price\nThousand Needles, Alterac Mountains, Arathi Highlands +11\nThick Leather yellow\n23s 14c\n~8g 24s/hr\nThousand Needles, Alterac Mountains, Arathi Highlands +11\nTurtle Scale yellow\nadd price\nSwamp of Sorrows, Feralas, The Hinterlands · today +4%\nHeavy Hide green\nadd price\nThe Barrens, Stonetalon Mountains, Ashenvale +15 · today +4%\nHeavy Leather green\n10s 55c\n~3g 75s/hr\nThe Barrens, Stonetalon Mountains, Ashenvale +15 · today +4%\nGreen Whelp Scale gray\nadd price\nNot in your zones · today −11%\nBlack Whelp Scale gray\nadd price\nNot in your zones · today −18%\nMedium Hide gray\nadd price\nSilverpine Forest, The Barrens, Stonetalon Mountains +11 · today −11%\nMedium Leather gray\n3s 61c\n~1g 28s/hr\nSilverpine Forest, The Barrens, Stonetalon Mountains +11 · today −11%\nDeviate Scale gray\nadd price\nThe Barrens · today −18%\nRuined Leather Scraps gray\nadd price\nDurotar, Mulgore, Tirisfal Glades +6 · today −18%\nLight Hide gray\nadd price\nDurotar, Mulgore, Tirisfal Glades +6 · today −18%\nLight Leather gray\nadd price\nDurotar, Mulgore, Tirisfal Glades +6 · today −18%\n\nNode data follows Wowhead's Forever data where published. Zones marked (est.) are new Forever zones whose nodes aren't charted yet, so their herbs and ores are a best guess for their level.\n\nGold per hour is a rough guide: about 35 herb nodes, 25 skins or 20 mining nodes an hour, after the auction house cut.",
+  "prices": "Using a typical budget for level 42. Set your gold\nYour prices\n\nType in a price whenever you see one in game. The app removes the conditions at the time you saw it and re-applies today's, so old prices stay useful.\n\nBriarthorn\n2s 92c\nseen 4d ago\nHold: +12% Tue 7 PM\n2 prices\nHeavy Leather\n10s 55c\nseen 4d ago\nHold: +12% Tue 7 PM\n1 price\nMedium Leather\n3s 61c\nseen 5d ago\nHold: +12% Tue 7 PM\n2 prices\nPeacebloom\n81c\nseen 4d ago\nHold: +12% Tue 7 PM\n2 prices\nThick Leather\n23s 14c\nseen 4d ago\nHold: +12% Tue 7 PM\n2 prices\nRelevant to you\nLight Leather\nadd price\nLeather · tier 1\nLight Hide\nadd price\nHide · tier 1\nRuined Leather Scraps\nadd price\nLeather · tier 1\nDeviate Scale\nadd price\nScale · tier 2\nMedium Hide\nadd price\nHide · tier 3\nHeavy Hide\nadd price\nHide · tier 4\nTurtle Scale\nadd price\nScale · tier 4\nThick Hide\nadd price\nHide · tier 5\nScorpid Scale\nadd price\nScale · tier 5",
+  "skills": "Using a typical budget for level 42. Set your gold\nSkinning\n205/300\n\nSkill-ups now from Turtle Scale, Thick Leather, Thick Hide, Scorpid Scale. Worn Dragonscale unlocks at 225.\n\nMaterial paths follow Classic leveling routes. Forever may differ, for example First Aid now also makes healing potions.",
+  "plan": "Using a typical budget for level 42. Set your gold\nHow long can you play?\n30 min\n1 hr\n2 hrs\nYour 1-hour session\nGather in Feralas 60 min\n\nLoop for Thick Leather, Turtle Scale, Thick Hide. Expect roughly 38 skins, worth about 8g 24s if they were all Thick Leather. Skill-ups on the way."
+ },
+ "engine": {
+  "now": 1795305600000,
+  "reachZones": [
+   "Durotar",
+   "Mulgore",
+   "Tirisfal Glades",
+   "Silverpine Forest",
+   "The Barrens",
+   "Stonetalon Mountains",
+   "Ashenvale",
+   "Hillsbrad Foothills",
+   "Thousand Needles",
+   "Alterac Mountains",
+   "Arathi Highlands",
+   "Desolace",
+   "Stranglethorn Vale",
+   "Dustwallow Marsh",
+   "Badlands",
+   "Swamp of Sorrows",
+   "The Riverglades",
+   "Shen'dralas",
+   "Feralas",
+   "Tanaris",
+   "The Hinterlands",
+   "Searing Gorge"
+  ],
+  "budget": 1500000,
+  "gatherOptions": [
+   {
+    "prof": "Skinning",
+    "name": "Light Leather",
+    "req": 1,
+    "zones": [
+     "Durotar",
+     "Mulgore",
+     "Tirisfal Glades",
+     "Silverpine Forest",
+     "The Barrens",
+     "Stonetalon Mountains",
+     "Ashenvale",
+     "Hillsbrad Foothills",
+     "Thousand Needles"
+    ],
+    "col": "gray",
+    "colCls": "c-gray",
+    "est": null,
+    "shift": 0.8183999999999999,
+    "why": [
+     {
+      "p": -12,
+      "why": "most players have outleveled this bracket",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 0
+   },
+   {
+    "prof": "Skinning",
+    "name": "Light Hide",
+    "req": 1,
+    "zones": [
+     "Durotar",
+     "Mulgore",
+     "Tirisfal Glades",
+     "Silverpine Forest",
+     "The Barrens",
+     "Stonetalon Mountains",
+     "Ashenvale",
+     "Hillsbrad Foothills",
+     "Thousand Needles"
+    ],
+    "col": "gray",
+    "colCls": "c-gray",
+    "est": null,
+    "shift": 0.8183999999999999,
+    "why": [
+     {
+      "p": -12,
+      "why": "most players have outleveled this bracket",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 0
+   },
+   {
+    "prof": "Skinning",
+    "name": "Ruined Leather Scraps",
+    "req": 1,
+    "zones": [
+     "Durotar",
+     "Mulgore",
+     "Tirisfal Glades",
+     "Silverpine Forest",
+     "The Barrens",
+     "Stonetalon Mountains",
+     "Ashenvale",
+     "Hillsbrad Foothills",
+     "Thousand Needles"
+    ],
+    "col": "gray",
+    "colCls": "c-gray",
+    "est": null,
+    "shift": 0.8183999999999999,
+    "why": [
+     {
+      "p": -12,
+      "why": "most players have outleveled this bracket",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 0
+   },
+   {
+    "prof": "Skinning",
+    "name": "Deviate Scale",
+    "req": 80,
+    "zones": [
+     "The Barrens"
+    ],
+    "col": "gray",
+    "colCls": "c-gray",
+    "est": null,
+    "shift": 0.8183999999999999,
+    "why": [
+     {
+      "p": -12,
+      "why": "most players have outleveled this bracket",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 0
+   },
+   {
+    "prof": "Skinning",
+    "name": "Medium Leather",
+    "req": 75,
+    "zones": [
+     "Silverpine Forest",
+     "The Barrens",
+     "Stonetalon Mountains",
+     "Ashenvale",
+     "Hillsbrad Foothills",
+     "Thousand Needles",
+     "Alterac Mountains",
+     "Arathi Highlands",
+     "Desolace",
+     "Stranglethorn Vale",
+     "Dustwallow Marsh",
+     "Badlands",
+     "Swamp of Sorrows",
+     "The Riverglades"
+    ],
+    "col": "gray",
+    "colCls": "c-gray",
+    "est": {
+     "base": 404.7379032258064,
+     "now": 361,
+     "mult": 0.8927999999999999,
+     "why": [
+      {
+       "p": -4,
+       "why": "the crowd is moving past this bracket",
+       "id": "front"
+      },
+      {
+       "p": -7,
+       "why": "weekend farmers flood raw materials",
+       "id": "weekend"
+      }
+     ],
+     "n": 2,
+     "last": {
+      "t": 1794848400000,
+      "price": 455
+     }
+    },
+    "shift": 0.8927999999999999,
+    "why": [
+     {
+      "p": -4,
+      "why": "the crowd is moving past this bracket",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 0
+   },
+   {
+    "prof": "Skinning",
+    "name": "Medium Hide",
+    "req": 75,
+    "zones": [
+     "Silverpine Forest",
+     "The Barrens",
+     "Stonetalon Mountains",
+     "Ashenvale",
+     "Hillsbrad Foothills",
+     "Thousand Needles",
+     "Alterac Mountains",
+     "Arathi Highlands",
+     "Desolace",
+     "Stranglethorn Vale",
+     "Dustwallow Marsh",
+     "Badlands",
+     "Swamp of Sorrows",
+     "The Riverglades"
+    ],
+    "col": "gray",
+    "colCls": "c-gray",
+    "est": null,
+    "shift": 0.8927999999999999,
+    "why": [
+     {
+      "p": -4,
+      "why": "the crowd is moving past this bracket",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 0
+   },
+   {
+    "prof": "Skinning",
+    "name": "Heavy Leather",
+    "req": 125,
+    "zones": [
+     "The Barrens",
+     "Stonetalon Mountains",
+     "Ashenvale",
+     "Hillsbrad Foothills",
+     "Thousand Needles",
+     "Alterac Mountains",
+     "Arathi Highlands",
+     "Desolace",
+     "Stranglethorn Vale",
+     "Dustwallow Marsh",
+     "Badlands",
+     "Swamp of Sorrows",
+     "The Riverglades",
+     "Shen'dralas",
+     "Feralas",
+     "Tanaris",
+     "The Hinterlands",
+     "Searing Gorge"
+    ],
+    "col": "green",
+    "colCls": "c-green",
+    "est": {
+     "base": 1013.0494505494505,
+     "now": 1055,
+     "mult": 1.0416,
+     "why": [
+      {
+       "p": 12,
+       "why": "most players are leveling through this bracket now",
+       "id": "front"
+      },
+      {
+       "p": -7,
+       "why": "weekend farmers flood raw materials",
+       "id": "weekend"
+      }
+     ],
+     "n": 1,
+     "last": {
+      "t": 1794956400000,
+      "price": 1180
+     }
+    },
+    "shift": 1.0416,
+    "why": [
+     {
+      "p": 12,
+      "why": "most players are leveling through this bracket now",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 0
+   },
+   {
+    "prof": "Skinning",
+    "name": "Heavy Hide",
+    "req": 125,
+    "zones": [
+     "The Barrens",
+     "Stonetalon Mountains",
+     "Ashenvale",
+     "Hillsbrad Foothills",
+     "Thousand Needles",
+     "Alterac Mountains",
+     "Arathi Highlands",
+     "Desolace",
+     "Stranglethorn Vale",
+     "Dustwallow Marsh",
+     "Badlands",
+     "Swamp of Sorrows",
+     "The Riverglades",
+     "Shen'dralas",
+     "Feralas",
+     "Tanaris",
+     "The Hinterlands",
+     "Searing Gorge"
+    ],
+    "col": "green",
+    "colCls": "c-green",
+    "est": null,
+    "shift": 1.0416,
+    "why": [
+     {
+      "p": 12,
+      "why": "most players are leveling through this bracket now",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 0
+   },
+   {
+    "prof": "Skinning",
+    "name": "Turtle Scale",
+    "req": 175,
+    "zones": [
+     "Swamp of Sorrows",
+     "Feralas",
+     "The Hinterlands"
+    ],
+    "col": "yellow",
+    "colCls": "c-yellow",
+    "est": null,
+    "shift": 1.0416,
+    "why": [
+     {
+      "p": 12,
+      "why": "most players are leveling through this bracket now",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 1
+   },
+   {
+    "prof": "Skinning",
+    "name": "Thick Leather",
+    "req": 175,
+    "zones": [
+     "Thousand Needles",
+     "Alterac Mountains",
+     "Arathi Highlands",
+     "Desolace",
+     "Stranglethorn Vale",
+     "Dustwallow Marsh",
+     "Badlands",
+     "Swamp of Sorrows",
+     "The Riverglades",
+     "Shen'dralas",
+     "Feralas",
+     "Tanaris",
+     "The Hinterlands",
+     "Searing Gorge"
+    ],
+    "col": "yellow",
+    "colCls": "c-yellow",
+    "est": {
+     "base": 2347.7710410911873,
+     "now": 2314,
+     "mult": 0.9858,
+     "why": [
+      {
+       "p": 6,
+       "why": "the leveling crowd reaches this bracket soon",
+       "id": "front"
+      },
+      {
+       "p": -7,
+       "why": "weekend farmers flood raw materials",
+       "id": "weekend"
+      }
+     ],
+     "n": 2,
+     "last": {
+      "t": 1794945600000,
+      "price": 2450
+     }
+    },
+    "shift": 0.9858,
+    "why": [
+     {
+      "p": 6,
+      "why": "the leveling crowd reaches this bracket soon",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 1
+   },
+   {
+    "prof": "Skinning",
+    "name": "Thick Hide",
+    "req": 175,
+    "zones": [
+     "Thousand Needles",
+     "Alterac Mountains",
+     "Arathi Highlands",
+     "Desolace",
+     "Stranglethorn Vale",
+     "Dustwallow Marsh",
+     "Badlands",
+     "Swamp of Sorrows",
+     "The Riverglades",
+     "Shen'dralas",
+     "Feralas",
+     "Tanaris",
+     "The Hinterlands",
+     "Searing Gorge"
+    ],
+    "col": "yellow",
+    "colCls": "c-yellow",
+    "est": null,
+    "shift": 0.9858,
+    "why": [
+     {
+      "p": 6,
+      "why": "the leveling crowd reaches this bracket soon",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 1
+   },
+   {
+    "prof": "Skinning",
+    "name": "Scorpid Scale",
+    "req": 200,
+    "zones": [
+     "Tanaris"
+    ],
+    "col": "orange",
+    "colCls": "c-orange",
+    "est": null,
+    "shift": 0.9858,
+    "why": [
+     {
+      "p": 6,
+      "why": "the leveling crowd reaches this bracket soon",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "skillUp": 2
+   }
+  ],
+  "bestFarm": {
+   "top": "Feralas",
+   "ranking": [
+    {
+     "zone": "Feralas",
+     "score": 25.546322370327648
+    },
+    {
+     "zone": "The Hinterlands",
+     "score": 25.546322370327648
+    },
+    {
+     "zone": "Arathi Highlands",
+     "score": 23.824385226127397
+    },
+    {
+     "zone": "Stranglethorn Vale",
+     "score": 23.824385226127397
+    },
+    {
+     "zone": "Dustwallow Marsh",
+     "score": 23.824385226127397
+    },
+    {
+     "zone": "Swamp of Sorrows",
+     "score": 21.240385226127398
+    },
+    {
+     "zone": "Desolace",
+     "score": 20.824385226127397
+    },
+    {
+     "zone": "Tanaris",
+     "score": 17.988322370327648
+    },
+    {
+     "zone": "Alterac Mountains",
+     "score": 17.824385226127397
+    },
+    {
+     "zone": "Badlands",
+     "score": 17.824385226127397
+    },
+    {
+     "zone": "The Riverglades",
+     "score": 17.824385226127397
+    },
+    {
+     "zone": "Shen'dralas",
+     "score": 16.130322370327647
+    },
+    {
+     "zone": "Searing Gorge",
+     "score": 16.130322370327647
+    },
+    {
+     "zone": "Thousand Needles",
+     "score": 15.376385226127393
+    },
+    {
+     "zone": "Ashenvale",
+     "score": 2.613558733096435
+    },
+    {
+     "zone": "Hillsbrad Foothills",
+     "score": 2.613558733096435
+    },
+    {
+     "zone": "Stonetalon Mountains",
+     "score": 1.613558733096435
+    },
+    {
+     "zone": "The Barrens",
+     "score": 0.7975587330964342
+    },
+    {
+     "zone": "Silverpine Forest",
+     "score": -3.753937144200256
+    },
+    {
+     "zone": "Durotar",
+     "score": -5.448000000000003
+    },
+    {
+     "zone": "Mulgore",
+     "score": -5.448000000000003
+    },
+    {
+     "zone": "Tirisfal Glades",
+     "score": -5.448000000000003
+    }
+   ]
+  },
+  "dossiers": [
+   {
+    "zone": "Feralas",
+    "dossier": {
+     "when": [
+      "Now. Level 40–50 fits you, so you can quest here while you gather.",
+      "Skinning skill-ups from Turtle Scale, Thick Leather and Thick Hide until about 225 (you're at 205).",
+      "Weekends bring more farmers; weekday evenings are calmer.",
+      "Sell what you gather at Tue 7 PM (Heavy Leather +12% vs now)."
+     ],
+     "where": [
+      "Kalimdor, contested territory: watch for the other faction on PvP realms.",
+      "Skin Longtooth Runners and Howlers, Ironfur Bears and Groddoc Thunderers (about level 40–45) around The Twin Colossals, Ruins of Isildien and Lower Wilds for Thick and Rugged Leather. Good skill-ups for you."
+     ],
+     "why": [
+      "3 node types still give skill-ups.",
+      "Thick Leather is worth about 23s 14c each today, roughly 8g 24s an hour if you gathered only that.",
+      "Today's conditions push Heavy Leather, Heavy Hide and Turtle Scale up."
+     ]
+    }
+   },
+   {
+    "zone": "The Hinterlands",
+    "dossier": {
+     "when": [
+      "Now. Level 40–50 fits you, so you can quest here while you gather.",
+      "Skinning skill-ups from Turtle Scale, Thick Leather and Thick Hide until about 225 (you're at 205).",
+      "Weekends bring more farmers; weekday evenings are calmer.",
+      "Sell what you gather at Tue 7 PM (Heavy Leather +12% vs now)."
+     ],
+     "where": [
+      "Eastern Kingdoms, contested territory: watch for the other faction on PvP realms.",
+      "Skin Saltwater Snapjaws, Silvermane Stalkers and Wolves and Mangy Silvermanes (about level 41–45) around Shaol'watha, The Overlook Cliffs and Hiri'watha for Thick and Rugged Leather. Good skill-ups for you."
+     ],
+     "why": [
+      "3 node types still give skill-ups.",
+      "Thick Leather is worth about 23s 14c each today, roughly 8g 24s an hour if you gathered only that.",
+      "Today's conditions push Heavy Leather, Heavy Hide and Turtle Scale up."
+     ]
+    }
+   },
+   {
+    "zone": "Arathi Highlands",
+    "dossier": {
+     "when": [
+      "You've outleveled it (30–40), so mobs mostly ignore you and loops are fast.",
+      "Skinning skill-ups from Thick Leather and Thick Hide until about 225 (you're at 205).",
+      "Busy right now: most players are leveling around 35. Go early morning or on weekdays for untouched nodes.",
+      "Sell what you gather at Tue 7 PM (Heavy Leather +12% vs now)."
+     ],
+     "where": [
+      "Eastern Kingdoms, contested territory: watch for the other faction on PvP realms.",
+      "Skin Highland Striders and Thrashers, Giant Plains Creepers and Highland Fleshstalkers (about level 30–37) around Boulder'gor, Refuge Pointe and Circle of Inner Binding for Heavy and Thick Leather. Good skill-ups for you."
+     ],
+     "why": [
+      "2 node types still give skill-ups.",
+      "Thick Leather is worth about 23s 14c each today, roughly 8g 24s an hour if you gathered only that.",
+      "Today's conditions push Heavy Leather and Heavy Hide up."
+     ]
+    }
+   }
+  ],
+  "skinSpots": [
+   {
+    "sp": {
+     "zone": "Stranglethorn Vale",
+     "min": 37,
+     "max": 41,
+     "beasts": "Shadowmaw Panthers, Stranglethorn Tigresses and Jungle Stalkers and Thunderers",
+     "spots": [
+      "Gurubashi Arena",
+      "Lake Nazferiti",
+      "Balia'mah Ruins"
+     ],
+     "leather": "Heavy and Thick"
+    },
+    "lvl": 41,
+    "col": [
+     "orange",
+     "c-orange"
+    ],
+    "lo": 37,
+    "hi": 41,
+    "score": 341
+   },
+   {
+    "sp": {
+     "zone": "Dustwallow Marsh",
+     "min": 37,
+     "max": 41,
+     "beasts": "Drywallow Daggermaws, Crocolisks and Snappers and Young Murk Threshers",
+     "spots": [
+      "The Quagmire",
+      "Beezil's Wreck",
+      "Tidefury Cove"
+     ],
+     "leather": "Heavy and Thick"
+    },
+    "lvl": 41,
+    "col": [
+     "orange",
+     "c-orange"
+    ],
+    "lo": 37,
+    "hi": 41,
+    "score": 341
+   },
+   {
+    "sp": {
+     "zone": "Dustwallow Marsh",
+     "min": 39,
+     "max": 43,
+     "beasts": "Drywallow Daggermaws, Bloodfen Lashtails and Murk Threshers",
+     "spots": [
+      "Wyrmbog",
+      "Tidefury Cove",
+      "Sentry Point"
+     ],
+     "leather": "Thick"
+    },
+    "lvl": 41,
+    "col": [
+     "orange",
+     "c-orange"
+    ],
+    "lo": 39,
+    "hi": 43,
+    "score": 341
+   },
+   {
+    "sp": {
+     "zone": "Feralas",
+     "min": 40,
+     "max": 50,
+     "beasts": "Longtooth Runners and Howlers, Ironfur Bears and Groddoc Thunderers",
+     "spots": [
+      "The Twin Colossals",
+      "Ruins of Isildien",
+      "Lower Wilds"
+     ],
+     "leather": "Thick and Rugged"
+    },
+    "lvl": 41,
+    "col": [
+     "orange",
+     "c-orange"
+    ],
+    "lo": 40,
+    "hi": 45,
+    "score": 341
+   },
+   {
+    "sp": {
+     "zone": "The Hinterlands",
+     "min": 41,
+     "max": 50,
+     "beasts": "Saltwater Snapjaws, Silvermane Stalkers and Wolves and Mangy Silvermanes",
+     "spots": [
+      "Shaol'watha",
+      "The Overlook Cliffs",
+      "Hiri'watha"
+     ],
+     "leather": "Thick and Rugged"
+    },
+    "lvl": 41,
+    "col": [
+     "orange",
+     "c-orange"
+    ],
+    "lo": 41,
+    "hi": 45,
+    "score": 341
+   },
+   {
+    "sp": {
+     "zone": "Stranglethorn Vale",
+     "min": 40,
+     "max": 50,
+     "beasts": "Jungle Stalkers, Elder Mistvale and Skymane Gorillas and Ironjaw Basilisks",
+     "spots": [
+      "Mistvale Valley",
+      "Gurubashi Arena",
+      "Jaguero Isle"
+     ],
+     "leather": "Thick and Rugged"
+    },
+    "lvl": 41,
+    "col": [
+     "orange",
+     "c-orange"
+    ],
+    "lo": 40,
+    "hi": 45,
+    "score": 341
+   },
+   {
+    "sp": {
+     "zone": "Arathi Highlands",
+     "min": 30,
+     "max": 37,
+     "beasts": "Highland Striders and Thrashers, Giant Plains Creepers and Highland Fleshstalkers",
+     "spots": [
+      "Boulder'gor",
+      "Refuge Pointe",
+      "Circle of Inner Binding"
+     ],
+     "leather": "Heavy and Thick"
+    },
+    "lvl": 37,
+    "col": [
+     "orange",
+     "c-orange"
+    ],
+    "lo": 30,
+    "hi": 37,
+    "score": 337
+   },
+   {
+    "sp": {
+     "zone": "Desolace",
+     "min": 30,
+     "max": 36,
+     "beasts": "Gritjaw Basilisks, Raging Thunder Lizards and Scorpashi Snappers",
+     "spots": [
+      "Kodo Graveyard",
+      "Sargeron",
+      "Thunder Axe Fortress"
+     ],
+     "leather": "Heavy and Thick"
+    },
+    "lvl": 36,
+    "col": [
+     "yellow",
+     "c-yellow"
+    ],
+    "lo": 30,
+    "hi": 36,
+    "score": 236
+   },
+   {
+    "sp": {
+     "zone": "Thousand Needles",
+     "min": 30,
+     "max": 35,
+     "beasts": "Saltstone Crystalhides, Scorpid Reavers and Sparkleshell Snappers and Tortoises",
+     "spots": [
+      "The Shimmering Flats"
+     ],
+     "leather": "Heavy"
+    },
+    "lvl": 35,
+    "col": [
+     "yellow",
+     "c-yellow"
+    ],
+    "lo": 30,
+    "hi": 35,
+    "score": 235
+   },
+   {
+    "sp": {
+     "zone": "Ashenvale",
+     "min": 21,
+     "max": 27,
+     "beasts": "Ashenvale Bears, Elder Ashenvale Bears and Shadowhorn Stags",
+     "spots": [
+      "Mystral Lake",
+      "Night Run",
+      "Raynewood Retreat"
+     ],
+     "leather": "Medium and Heavy"
+    },
+    "lvl": 27,
+    "col": [
+     "green",
+     "c-green"
+    ],
+    "lo": 21,
+    "hi": 27,
+    "score": 127
+   },
+   {
+    "sp": {
+     "zone": "Hillsbrad Foothills",
+     "min": 21,
+     "max": 26,
+     "beasts": "Elder, Vicious and Gray Bears and Starving Mountain Lions",
+     "spots": [
+      "Southshore",
+      "Hillsbrad Fields",
+      "Durnholde Keep"
+     ],
+     "leather": "Medium and Heavy"
+    },
+    "lvl": 26,
+    "col": [
+     "green",
+     "c-green"
+    ],
+    "lo": 21,
+    "hi": 26,
+    "score": 126
+   },
+   {
+    "sp": {
+     "zone": "The Barrens",
+     "min": 20,
+     "max": 23,
+     "beasts": "Thunderheads, Stormhides, Hecklefang Stalkers and Zhevra Coursers",
+     "spots": [
+      "Field of Giants",
+      "Blackthorn Ridge",
+      "Camp Taurajo"
+     ],
+     "leather": "Medium and Heavy"
+    },
+    "lvl": 23,
+    "col": [
+     "green",
+     "c-green"
+    ],
+    "lo": 20,
+    "hi": 23,
+    "score": 123
+   },
+   {
+    "sp": {
+     "zone": "The Barrens",
+     "min": 15,
+     "max": 18,
+     "beasts": "Hecklefang Hyenas, Ornery Plainstriders, Sunscale Scytheclaws and Barrens Giraffes",
+     "spots": [
+      "Agama'gor",
+      "Lushwater Oasis",
+      "Bramblescar"
+     ],
+     "leather": "Light and Medium"
+    },
+    "lvl": 18,
+    "col": [
+     "gray",
+     "c-gray"
+    ],
+    "lo": 15,
+    "hi": 18,
+    "score": 18
+   },
+   {
+    "sp": {
+     "zone": "Tirisfal Glades",
+     "min": 3,
+     "max": 11,
+     "beasts": "Duskbats and Worgs",
+     "spots": [
+      "Brightwater Lake",
+      "Nightmare Vale",
+      "Balnir Farmstead"
+     ],
+     "leather": "Light"
+    },
+    "lvl": 11,
+    "col": [
+     "gray",
+     "c-gray"
+    ],
+    "lo": 3,
+    "hi": 11,
+    "score": 11
+   },
+   {
+    "sp": {
+     "zone": "Mulgore",
+     "min": 5,
+     "max": 10,
+     "beasts": "Prairie Stalkers, Prairie Wolves, Flatland Prowlers and Prairie Wolf Alphas",
+     "spots": [
+      "The Golden Plains",
+      "Bloodhoof Village",
+      "Thunder Bluff"
+     ],
+     "leather": "Light"
+    },
+    "lvl": 10,
+    "col": [
+     "gray",
+     "c-gray"
+    ],
+    "lo": 5,
+    "hi": 10,
+    "score": 10
+   },
+   {
+    "sp": {
+     "zone": "Durotar",
+     "min": 5,
+     "max": 9,
+     "beasts": "Elder and Dire Mottled Boars, Clattering and Armored Scorpids",
+     "spots": [
+      "Razormane Grounds",
+      "Thunder Ridge",
+      "Razor Hill"
+     ],
+     "leather": "Light"
+    },
+    "lvl": 9,
+    "col": [
+     "gray",
+     "c-gray"
+    ],
+    "lo": 5,
+    "hi": 9,
+    "score": 9
+   }
+  ],
+  "sellAdvice": [
+   {
+    "name": "Peacebloom",
+    "est": {
+     "base": 98.69163094969548,
+     "now": 81,
+     "mult": 0.8183999999999999,
+     "why": [
+      {
+       "p": -12,
+       "why": "most players have outleveled this bracket",
+       "id": "front"
+      },
+      {
+       "p": -7,
+       "why": "weekend farmers flood raw materials",
+       "id": "weekend"
+      }
+     ],
+     "n": 2,
+     "last": {
+      "t": 1794938400000,
+      "price": 80
+     }
+    },
+    "now": 0.8429519999999999,
+    "best": {
+     "t": 1795564800000,
+     "s": 0.942656
+    },
+    "gain": 0.11827956989247324,
+    "action": "hold"
+   },
+   {
+    "name": "Briarthorn",
+    "est": {
+     "base": 356.631216006216,
+     "now": 292,
+     "mult": 0.8183999999999999,
+     "why": [
+      {
+       "p": -12,
+       "why": "most players have outleveled this bracket",
+       "id": "front"
+      },
+      {
+       "p": -7,
+       "why": "weekend farmers flood raw materials",
+       "id": "weekend"
+      }
+     ],
+     "n": 2,
+     "last": {
+      "t": 1794942000000,
+      "price": 335
+     }
+    },
+    "now": 0.8429519999999999,
+    "best": {
+     "t": 1795564800000,
+     "s": 0.942656
+    },
+    "gain": 0.11827956989247324,
+    "action": "hold"
+   },
+   {
+    "name": "Heavy Leather",
+    "est": {
+     "base": 1013.0494505494505,
+     "now": 1055,
+     "mult": 1.0416,
+     "why": [
+      {
+       "p": 12,
+       "why": "most players are leveling through this bracket now",
+       "id": "front"
+      },
+      {
+       "p": -7,
+       "why": "weekend farmers flood raw materials",
+       "id": "weekend"
+      }
+     ],
+     "n": 1,
+     "last": {
+      "t": 1794956400000,
+      "price": 1180
+     }
+    },
+    "now": 1.072848,
+    "best": {
+     "t": 1795564800000,
+     "s": 1.1997440000000001
+    },
+    "gain": 0.11827956989247324,
+    "action": "hold"
+   },
+   {
+    "name": "Thick Leather",
+    "est": {
+     "base": 2347.7710410911873,
+     "now": 2314,
+     "mult": 0.9858,
+     "why": [
+      {
+       "p": 6,
+       "why": "the leveling crowd reaches this bracket soon",
+       "id": "front"
+      },
+      {
+       "p": -7,
+       "why": "weekend farmers flood raw materials",
+       "id": "weekend"
+      }
+     ],
+     "n": 2,
+     "last": {
+      "t": 1794945600000,
+      "price": 2450
+     }
+    },
+    "now": 1.015374,
+    "best": {
+     "t": 1795564800000,
+     "s": 1.135472
+    },
+    "gain": 0.11827956989247324,
+    "action": "hold"
+   },
+   {
+    "name": "Medium Leather",
+    "est": {
+     "base": 404.7379032258064,
+     "now": 361,
+     "mult": 0.8927999999999999,
+     "why": [
+      {
+       "p": -4,
+       "why": "the crowd is moving past this bracket",
+       "id": "front"
+      },
+      {
+       "p": -7,
+       "why": "weekend farmers flood raw materials",
+       "id": "weekend"
+      }
+     ],
+     "n": 2,
+     "last": {
+      "t": 1794848400000,
+      "price": 455
+     }
+    },
+    "now": 0.919584,
+    "best": {
+     "t": 1795564800000,
+     "s": 1.028352
+    },
+    "gain": 0.11827956989247301,
+    "action": "hold"
+   }
+  ],
+  "needs": [],
+  "today": [
+   {
+    "kind": "Farm",
+    "title": "Gather in Feralas",
+    "body": "Thick Leather, Turtle Scale, Thick Hide. Thick Leather, Turtle Scale and Thick Hide still give skill-ups. Weekend prices for raw materials run low, so hold what you gather until Tuesday to Thursday."
+   },
+   {
+    "kind": "Hold",
+    "title": "Hold for a better window",
+    "body": "Peacebloom: +12% at Tue 7 PM; Briarthorn: +12% at Tue 7 PM."
+   }
+  ],
+  "session": {
+   "30": [
+    {
+     "m": 30,
+     "t": "Gather in Feralas",
+     "b": "Loop for Thick Leather, Turtle Scale, Thick Hide. Expect roughly 19 skins, worth about 4g 12s if they were all Thick Leather. Skill-ups on the way."
+    }
+   ],
+   "60": [
+    {
+     "m": 60,
+     "t": "Gather in Feralas",
+     "b": "Loop for Thick Leather, Turtle Scale, Thick Hide. Expect roughly 38 skins, worth about 8g 24s if they were all Thick Leather. Skill-ups on the way."
+    }
+   ],
+   "120": [
+    {
+     "m": 120,
+     "t": "Gather in Feralas",
+     "b": "Loop for Thick Leather, Turtle Scale, Thick Hide. Expect roughly 75 skins, worth about 16g 48s if they were all Thick Leather. Skill-ups on the way."
+    }
+   ]
+  },
+  "shifts": [
+   {
+    "name": "Peacebloom",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Silverleaf",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Earthroot",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Mageroyal",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Briarthorn",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Swiftthistle",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Stranglekelp",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Bruiseweed",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Wild Steelbloom",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Grave Moss",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Kingsblood",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Liferoot",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Fadeleaf",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Goldthorn",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Khadgar's Whisker",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Wintersbite",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Firebloom",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Purple Lotus",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Arthas' Tears",
+    "mult": 0.9299999999999999,
+    "sell": 0.9579,
+    "buy": 0.9299999999999999
+   },
+   {
+    "name": "Sungrass",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Blindweed",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Ghost Mushroom",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Gromsblood",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Golden Sansam",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Dreamfoil",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Mountain Silversage",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Plaguebloom",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Icecap",
+    "mult": 0.9299999999999999,
+    "sell": 0.9579,
+    "buy": 0.9299999999999999
+   },
+   {
+    "name": "Black Lotus",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Light Leather",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Light Hide",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Ruined Leather Scraps",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Deviate Scale",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Medium Leather",
+    "mult": 0.8927999999999999,
+    "sell": 0.919584,
+    "buy": 0.8927999999999999
+   },
+   {
+    "name": "Medium Hide",
+    "mult": 0.8927999999999999,
+    "sell": 0.919584,
+    "buy": 0.8927999999999999
+   },
+   {
+    "name": "Black Whelp Scale",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Green Whelp Scale",
+    "mult": 0.8927999999999999,
+    "sell": 0.919584,
+    "buy": 0.8927999999999999
+   },
+   {
+    "name": "Heavy Leather",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Heavy Hide",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Turtle Scale",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Thick Leather",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Thick Hide",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Scorpid Scale",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Worn Dragonscale",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Rugged Leather",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Rugged Hide",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Devilsaur Leather",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Copper Ore",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Rough Stone",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Tin Ore",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Coarse Stone",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Silver Ore",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Iron Ore",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Heavy Stone",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Gold Ore",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Mithril Ore",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Solid Stone",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Truesilver Ore",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Dark Iron Ore",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Thorium Ore",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Dense Stone",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Arcane Crystal",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Heavy Thorium Ore",
+    "mult": 0.9299999999999999,
+    "sell": 0.9579,
+    "buy": 0.9299999999999999
+   },
+   {
+    "name": "Linen Cloth",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Wool Cloth",
+    "mult": 0.8183999999999999,
+    "sell": 0.8429519999999999,
+    "buy": 0.8183999999999999
+   },
+   {
+    "name": "Silk Cloth",
+    "mult": 0.8927999999999999,
+    "sell": 0.919584,
+    "buy": 0.8927999999999999
+   },
+   {
+    "name": "Mageweave Cloth",
+    "mult": 1.0416,
+    "sell": 1.072848,
+    "buy": 1.0416
+   },
+   {
+    "name": "Runecloth",
+    "mult": 0.9858,
+    "sell": 1.015374,
+    "buy": 0.9858
+   },
+   {
+    "name": "Felcloth",
+    "mult": 0.9299999999999999,
+    "sell": 0.9579,
+    "buy": 0.9299999999999999
+   },
+   {
+    "name": "Copper Bar",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Bronze Bar",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Tin Bar",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Silver Bar",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Iron Bar",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Gold Bar",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Steel Bar",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Mithril Bar",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Truesilver Bar",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Thorium Bar",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Dark Iron Bar",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   },
+   {
+    "name": "Arcanite Bar",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   },
+   {
+    "name": "Strange Dust",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Lesser Magic Essence",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Greater Magic Essence",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Lesser Astral Essence",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Soul Dust",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Greater Astral Essence",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Vision Dust",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Lesser Mystic Essence",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Greater Mystic Essence",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Dream Dust",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Lesser Nether Essence",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Greater Nether Essence",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Illusion Dust",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   },
+   {
+    "name": "Lesser Eternal Essence",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   },
+   {
+    "name": "Greater Eternal Essence",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   },
+   {
+    "name": "Small Brilliant Shard",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   },
+   {
+    "name": "Large Brilliant Shard",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   },
+   {
+    "name": "Minor Healing Potion",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Lesser Healing Potion",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Healing Potion",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Greater Healing Potion",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Superior Healing Potion",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Major Healing Potion",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Minor Mana Potion",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Lesser Mana Potion",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Mana Potion",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Greater Mana Potion",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Superior Mana Potion",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Major Mana Potion",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Elixir of Minor Agility",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Elixir of Lesser Agility",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Elixir of Agility",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Elixir of Greater Agility",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Elixir of the Mongoose",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Elixir of Lion's Strength",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Elixir of Ogre's Strength",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Elixir of Giants",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Elixir of Wisdom",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Elixir of Greater Intellect",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Arcane Elixir",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Greater Arcane Elixir",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Elixir of Fortitude",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Elixir of Superior Defense",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Rough Sharpening Stone",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Coarse Sharpening Stone",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Heavy Sharpening Stone",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Solid Sharpening Stone",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Dense Sharpening Stone",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Heavy Weightstone",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Solid Weightstone",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Dense Weightstone",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Flash Powder",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Arcane Powder",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   },
+   {
+    "name": "Sacred Candle",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   },
+   {
+    "name": "Symbol of Kings",
+    "mult": 1,
+    "sell": 1.03,
+    "buy": 1
+   }
+  ],
+  "estimates": {
+   "Peacebloom": {
+    "base": 98.69163094969548,
+    "now": 81,
+    "mult": 0.8183999999999999,
+    "why": [
+     {
+      "p": -12,
+      "why": "most players have outleveled this bracket",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "n": 2,
+    "last": {
+     "t": 1794938400000,
+     "price": 80
+    }
+   },
+   "Briarthorn": {
+    "base": 356.631216006216,
+    "now": 292,
+    "mult": 0.8183999999999999,
+    "why": [
+     {
+      "p": -12,
+      "why": "most players have outleveled this bracket",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "n": 2,
+    "last": {
+     "t": 1794942000000,
+     "price": 335
+    }
+   },
+   "Medium Leather": {
+    "base": 404.7379032258064,
+    "now": 361,
+    "mult": 0.8927999999999999,
+    "why": [
+     {
+      "p": -4,
+      "why": "the crowd is moving past this bracket",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "n": 2,
+    "last": {
+     "t": 1794848400000,
+     "price": 455
+    }
+   },
+   "Heavy Leather": {
+    "base": 1013.0494505494505,
+    "now": 1055,
+    "mult": 1.0416,
+    "why": [
+     {
+      "p": 12,
+      "why": "most players are leveling through this bracket now",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "n": 1,
+    "last": {
+     "t": 1794956400000,
+     "price": 1180
+    }
+   },
+   "Thick Leather": {
+    "base": 2347.7710410911873,
+    "now": 2314,
+    "mult": 0.9858,
+    "why": [
+     {
+      "p": 6,
+      "why": "the leveling crowd reaches this bracket soon",
+      "id": "front"
+     },
+     {
+      "p": -7,
+      "why": "weekend farmers flood raw materials",
+      "id": "weekend"
+     }
+    ],
+    "n": 2,
+    "last": {
+     "t": 1794945600000,
+     "price": 2450
+    }
+   }
+  },
+  "windows": {
+   "Peacebloom": {
+    "sell": {
+     "now": 0.8429519999999999,
+     "best": {
+      "t": 1795564800000,
+      "s": 0.942656
+     }
+    },
+    "buy": {
+     "now": 0.8183999999999999,
+     "best": {
+      "t": 1795338000000,
+      "s": 0.7938479999999999
+     }
+    }
+   },
+   "Briarthorn": {
+    "sell": {
+     "now": 0.8429519999999999,
+     "best": {
+      "t": 1795564800000,
+      "s": 0.942656
+     }
+    },
+    "buy": {
+     "now": 0.8183999999999999,
+     "best": {
+      "t": 1795338000000,
+      "s": 0.7938479999999999
+     }
+    }
+   },
+   "Medium Leather": {
+    "sell": {
+     "now": 0.919584,
+     "best": {
+      "t": 1795564800000,
+      "s": 1.028352
+     }
+    },
+    "buy": {
+     "now": 0.8927999999999999,
+     "best": {
+      "t": 1795856400000,
+      "s": 0.7938479999999999
+     }
+    }
+   },
+   "Heavy Leather": {
+    "sell": {
+     "now": 1.072848,
+     "best": {
+      "t": 1795564800000,
+      "s": 1.1997440000000001
+     }
+    },
+    "buy": {
+     "now": 1.0416,
+     "best": {
+      "t": 1795856400000,
+      "s": 0.8660159999999999
+     }
+    }
+   },
+   "Thick Leather": {
+    "sell": {
+     "now": 1.015374,
+     "best": {
+      "t": 1795564800000,
+      "s": 1.135472
+     }
+    },
+    "buy": {
+     "now": 0.9858,
+     "best": {
+      "t": 1795338000000,
+      "s": 0.956226
+     }
+    }
+   }
+  }
+ }
+}

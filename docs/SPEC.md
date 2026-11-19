@@ -10,7 +10,7 @@ This document is the hand-off from the prototype built in chat (Nov 18, 2026) to
 
 **Goals**
 - Personalized, actionable suggestions for a single character, readable on a phone in under a minute.
-- Works with **no AI calls** for core features. Claude is optional (one "Ask Claude" button).
+- Works with **no AI calls**. (The optional "Ask Claude" button was removed in T2.)
 - Market data comes from the player's own sources: manual prices now, an in-game addon and/or the Blizzard Game Data API later.
 - Realistic for the character: suggestions must fit their gold, level and reachable zones.
 
@@ -21,18 +21,16 @@ This document is the hand-off from the prototype built in chat (Nov 18, 2026) to
 
 ---
 
-## 2. Current state (prototype)
+## 2. Current state
 
-`app/index.html`: one self-contained HTML file (~900 lines: CSS, data and JS inline). It was hosted as a claude.ai artifact, which provided:
-- `db` capability: per-user private document store (characters and prices sync across devices).
-- `sample` capability: the optional "Ask Claude" button.
+A static site on GitHub Pages (https://koollan.github.io/forever-market-ledger/), built with Vite from TypeScript modules (T2, Nov 2026). It started as one ~900-line HTML file hosted as a claude.ai artifact; that file and its claude.ai features (private sync, Ask Claude) are retired.
 
-Both are optional at runtime. `window.claude` is absent outside claude.ai, so the app falls back to `localStorage` and the button reports Claude as unavailable. **Standalone hosting works today, minus sync** (see task T1).
+Data stays on the device in `localStorage` (key `fml-cache`). The character sheet's **Backup** section exports everything as versioned JSON and imports it all-or-nothing after a confirm (T1). There is no sync across devices (decided Nov 18, 2026).
 
 ### Screens (bottom tabs)
 | Tab | What it shows |
 |---|---|
-| Today | **Conditions now** (only conditions that move this character's materials, one line each: effect + what to do), **Do this** (farm / list / hold / buy / train suggestions), **Your materials today** (% shift vs a normal day), optional Ask Claude plan |
+| Today | **Conditions now** (only conditions that move this character's materials, one line each: effect + what to do), **Do this** (farm / list / hold / buy / train suggestions), **Your materials today** (% shift vs a normal day) |
 | Farm | Ranked zones with expandable **When / Where / Why** dossiers; per-gathering-profession node lists (skill color, zones, today's shift, gold/hr if priced); **Where to skin now** for skinners |
 | Prices | Manually entered prices with List now / Hold until… advice; search to add prices for any catalogued material |
 | Professions | Per profession: skill bar, training-cap warnings, current bracket's materials marked **Farm it** (with zones, incl. mine-and-smelt) or **Buy** (cheapest window this week) |
@@ -42,21 +40,28 @@ Character sheet (header chip): name, class, level, region (US/EU), faction, Skyb
 
 ---
 
-## 3. Architecture of the prototype (code sections in `app/index.html`)
+## 3. Architecture
 
-| Section | Responsibility |
+| Module | Responsibility |
 |---|---|
-| Reference data | `CLASSES`, `PROFS`, `GATHER` (node → skill req), `ZONES` (level range, faction, herbs, ores, flags), `STONE_OF`, `LEATHER_TIERS`, `SKIN_SPECIAL`, budget estimate, `reachZones`, `whereGather` |
-| Consumables / houses | `CONSUMABLES` (name, min level, class tag), `CONS_TAGS`, `HOUSES` (AH cut: faction 5%, neutral Blackwater 15%) |
-| Storage | `Store`: claude.ai `db` when available, `localStorage` cache always |
-| Materials catalog | `MATS` / `MAT`: ~135 materials with category and tier (1–6 by level bracket) |
-| Conditions engine | `RULES`, `ctxAt`, `shiftAt`, `windows` (best/worst 3-hour slots over the next N hours) |
-| Prices | `recordPrice`, `estimate` (see 4.2) |
-| Character helpers | `RANKS` (training caps), `PATHS` (crafting material brackets), `SMELT`, `GATHER_RATE`, `canGather`, `rankBlock` |
-| Suggestions | `gatherOptions`, `bestFarm`, `sellAdvice`, `needsFor`, `todaySuggestions`, `sessionPlan` |
-| Skinning spots | `SKIN_SPOTS`, `skinReq`, `skinPlan`, `skinSpots`, `skinLine` |
-| Zone dossiers | `continentOf`, `DENSITY`, `zoneDossier` (When/Where/Why) |
-| Rendering / sheets / actions / boot | Views `vToday`, `vFarm`, `vPrices`, `vSkills`, `vPlan`; sheets for materials and characters |
+| `src/data/classes.ts` | `CLASSES`, `PROFS`, `CONS_TAGS` |
+| `src/data/gathering.ts` | `GATHER` (node → skill req), `SMELT`, `GATHER_RATE` |
+| `src/data/zones.ts` | `ZONES` (level range, faction, herbs, ores, flags), `ZONE`, `STONE_OF`, `LEATHER_TIERS`, `SKIN_SPECIAL`, `KALIMDOR`, `DENSITY` |
+| `src/data/consumables.ts` | `CONSUMABLES` (name, min level, class tag), `HOUSES` (AH cut: faction 5%, neutral Blackwater 15%) |
+| `src/data/professions.ts` | `RANKS` (training caps), `PATHS` (crafting material brackets) |
+| `src/data/skinSpots.ts` | `SKIN_SPOTS` |
+| `src/data/materials.ts` | `MATS` / `MAT`: 136 materials with category and tier (1–6 by level bracket); `LAUNCH` |
+| `src/engine/conditions.ts` | `RULES`, `ctxAt`, `shiftAt`, `windows` (best/worst 3-hour slots over the next N hours from `now`) |
+| `src/engine/estimate.ts` | `estimate` (see 4.2) |
+| `src/engine/farm.ts` | budget estimate, `reachZones`, `whereGather`, zone labels |
+| `src/engine/character.ts` | `canGather`, `rankBlock`, `needsFor`, skill colors, AH cut, gold per hour |
+| `src/engine/skinning.ts` | `skinReq`, `skinPlan`, `skinSpots`, `skinLine` |
+| `src/engine/dossier.ts` | `continentOf`, `zoneDossier` (When/Where/Why) |
+| `src/engine/suggestions.ts` | `gatherOptions`, `bestFarm`, `sellAdvice`, `todaySuggestions`, `sessionPlan`; each takes `{now, items, toggles}` |
+| `src/engine/backup.ts` | `buildBackup`, `validateBackup`, `backupData` (T1) |
+| `src/ui/*`, `src/main.ts` | State and `localStorage`, the five tabs, sheets (material, characters, Backup), events, boot |
+
+The engine is pure: no DOM, storage or clock. The UI reads the clock once per call and passes it in.
 
 ---
 
@@ -132,12 +137,12 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 - Forever renamed four catalogued elixirs (same item IDs): Lion's Strength → Elixir of Minor Strength (2454), Ogre's Strength → Elixir of Ogre Strength (3391), Giants → Elixir of Greater Strength (9206), Superior Defense → Elixir of Greater Defense (13445). Fix the catalog names in T6.
 - After T3 exists, convert these files to T3's format so T4 has history from Nov 13.
 
-**T1. Standalone mode** (GitHub Pages)
+**T1. Standalone mode** (GitHub Pages) (done Nov 18, 2026, PR #1)
 - Hide the Ask Claude card when `window.claude` is absent.
 - Export / Import characters and prices as JSON (copy/paste box; file picker as a bonus, since it is blocked inside the claude.ai viewer).
 - ✅ App loads from `https://<user>.github.io/forever-market-ledger/` with no console errors; data survives reload; export → clear → import round-trips exactly.
 
-**T2. Split into modules and add tests**
+**T2. Split into modules and add tests** (done Nov 18, 2026; design and plan in `planning/t1-t2/`)
 - `src/data/*` (zones, gather, skin spots, consumables, paths), `src/engine/*` (conditions, estimate, farm, skinning, suggestions), `src/ui/*`.
 - Unit tests for: `skinReq`, `skinPlan`, `whereGather`, `reachZones`, `shiftAt` (weekend/midweek/raid), `estimate` de-conditioning, `flip`/sell windows, `sessionPlan` allocation.
 - Visual check: Playwright screenshots at 412px wide for every tab (regression: the "Conditions now" squeeze bug).
@@ -170,10 +175,10 @@ Each task has acceptance criteria. Suggested order: T0 → T1 → T2 → T3 → 
 
 ---
 
-## 8. Open questions (good `grill-me` material)
-1. Is sync across devices needed in the standalone version? (Options: none, a GitHub Gist, a tiny backend.)
-2. Faction house only, or also Blackwater (neutral, 15% cut) for buy/sell advice?
-3. Should the Blizzard pipeline track all items or only the catalogued materials (~135)? Storage vs usefulness.
-4. Addon scope: AH scans only, or also bags/bank and gathered-node logging (which would also fix the node data)?
-5. Does the app stay single-character focused, or compare characters (e.g. which alt should farm)?
-6. Keep the Ask Claude button at all once the rules are calibrated?
+## 8. Open questions (answered in the grill session, Nov 18, 2026)
+1. Sync across devices in the standalone version? **No.** Backup export/import only; revisit if switching devices gets tedious.
+2. Faction house only, or also Blackwater? **One home house per character** (faction by default), with a hint when Blackwater beats it after its 15% cut. Not built yet.
+3. Should the Blizzard pipeline track all items or only the catalogued materials? **Only the catalogued materials.**
+4. Addon scope? **AH scans only** first; bags/bank and node logging later.
+5. Single character or compare alts? **Single character**; comparing alts waits for T3 and T5 data.
+6. Keep Ask Claude? **No.** Removed in T2.

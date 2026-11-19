@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forever Market Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@700;800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script type="module" src="/src/main.ts"></script>
+
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">Forever Market Ledger<small id="sub">WoW Forever market and play planner</small></div>
+    <button class="charchip" id="charBtn" type="button" aria-label="Switch or edit character"><i class="dot" id="charDot"></i><span id="charName">Character</span></button>
+  </header>
+  <main id="view"></main>
+</div>
+<nav><div class="in" id="nav"></div></nav>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="panel" id="sheetPanel"></div></div>
+<div class="toast" id="toast" role="status"></div>
+</body>
+</html>
