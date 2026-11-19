@@ -16,7 +16,7 @@ import { profOf, canGather, needsFor, rankBlock, houseOf, cutFor, skillColor, pe
 import { skinReq, skinPlan, skinSpots, skinLine } from "./engine/skinning";
 import { continentOf, zoneDossier as zoneDossierAt } from "./engine/dossier";
 import { gatherOptions as gatherOptionsAt, bestFarm as bestFarmAt, sellAdvice as sellAdviceAt, todaySuggestions as todaySuggestionsAt, sessionPlan as sessionPlanAt } from "./engine/suggestions";
-import { validateBackup, buildBackup, backupData, staleKeys } from "./engine/backup";
+import { validateBackup, buildBackup, backupData } from "./engine/backup";
 "use strict";
 /* ============ Reference data (Classic-era rules used by WoW Forever) ============ */
 /* A flip only counts if it fits the budget, has real margin and won't need to corner the market */
@@ -25,37 +25,8 @@ const $=s=>document.querySelector(s);
 function ago(t){const m=Math.round((Date.now()-t)/60000);if(m<60)return m+"m ago";const h=Math.round(m/60);if(h<48)return h+"h ago";return Math.round(h/24)+"d ago"}
 function toast(msg){const t=$("#toast");t.textContent=msg;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",3200)}
 const uid8=()=>Math.random().toString(36).slice(2,10);
-// True only inside claude.ai, where the optional Ask Claude call and private sync exist
-const inClaude=()=>!!(window.claude&&typeof window.claude.use==="function");
 
-/* ============ Storage: private per-viewer db, local cache as fallback ============ */
-const Store={db:null,uid:null,mode:"local",q:{},
-  async init(){
-    if(!(window.claude&&typeof window.claude.use==="function"))return;
-    try{
-      const [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);
-      const id=user?await user.id():null;
-      if(db&&id){this.db=db;this.uid=id;this.mode="db"}
-    }catch(e){}
-  },
-  col(){return this.db.collection("data/users/"+this.uid)},
-  async load(){
-    if(this.mode!=="db")return null;
-    const timer=new Promise((_,rej)=>setTimeout(()=>rej(new Error("timeout")),10000));
-    const snap=await Promise.race([this.col().get(),timer]);
-    const out={state:null,items:{}};
-    snap.docs.forEach(d=>{if(!d.exists)return;const v=d.data();if(d.id==="state")out.state=JSON.parse(JSON.stringify(v));else if(d.id.startsWith("item~"))out.items[d.id]=JSON.parse(JSON.stringify(v))});
-    return out;
-  },
-  save(id,body){ // one write at a time per doc
-    cacheLocal();
-    if(this.mode!=="db")return Promise.resolve();
-    const prev=this.q[id]||Promise.resolve();
-    const next=prev.then(()=>this.col().doc(id).set(body)).catch(e=>{if(e&&e.code==="quota_exceeded")toast("Storage is full. Remove old items in Settings.");});
-    this.q[id]=next;return next;
-  },
-  remove(id){if(this.mode!=="db")return Promise.resolve();return this.col().doc(id).delete().catch(()=>{})}
-};
+/* ============ Storage: this device only (localStorage) ============ */
 function cacheLocal(){try{localStorage.setItem("fml-cache",JSON.stringify({state:S.state,items:S.items}))}catch(e){}}
 function readLocal(){try{return JSON.parse(localStorage.getItem("fml-cache")||"null")}catch(e){return null}}
 
@@ -83,9 +54,9 @@ function lastPrice(name){const it=itemFor(name);const h=it?.hist||[];return h.le
 async function recordPrice(name,copper){
   const key=keyOf(name);const it=S.items[key]||{key,name,hist:[]};
   it.hist=(it.hist||[]).filter(p=>Date.now()-p.t>10*6e4).concat([{t:Date.now(),price:copper}]).slice(-60);
-  S.items[key]=it;cacheLocal();await Store.save(key,it);
+  S.items[key]=it;cacheLocal();
 }
-async function deletePrices(name){const key=keyOf(name);delete S.items[key];cacheLocal();await Store.remove(key)}
+async function deletePrices(name){const key=keyOf(name);delete S.items[key];cacheLocal()}
 
 /* ============ Character helpers ============ */
 
@@ -97,10 +68,10 @@ async function deletePrices(name){const key=keyOf(name);delete S.items[key];cach
 /* ============ App state ============ */
 const S={
   state:{characters:[{id:"ex",name:"Example rogue",cls:"Rogue",level:15,faction:"Alliance",region:"us",gold:null,stretch:2,profs:[{name:"Herbalism",skill:90},{name:"Skinning",skill:80}],example:true}],activeId:"ex",toggles:{}},
-  items:{},tab:"today",sample:null,brief:null,mins:60,q:""
+  items:{},tab:"today",mins:60,q:""
 };
 const char=()=>S.state.characters.find(c=>c.id===S.state.activeId)||S.state.characters[0];
-function saveState(){return Store.save("state",S.state)}
+function saveState(){cacheLocal();return Promise.resolve()}
 
 /* ============ Rendering ============ */
 const ICONS={
@@ -158,11 +129,7 @@ function vToday(c){
     <h2>Your materials today</h2>
     <p class="small muted" style="margin:0">How today's conditions push prices for what you gather or need, compared with a normal day.</p>
     <div class="list">${shifts.map(x=>`<button class="item" type="button" data-mat="${esc(x.n)}"><span class="nm">${esc(x.n)}</span><span class="right"><span class="pill ${x.s.mult>1?"good":"bad"}">${pct(x.s.mult-1)}</span>${x.e?`<span class="small muted">≈ ${plainMoney(x.e.now)}</span>`:""}</span><span class="meta small muted">${esc(x.s.why.map(w=>w.why).join("; "))}</span></button>`).join("")||'<div class="empty">No notable shifts for your materials right now.</div>'}</div>
-  </section>${inClaude()?`
-  <section class="card">
-    <div class="row between"><h2>Written plan</h2><button class="btn small" type="button" data-act="brief">Ask Claude</button></div>
-    <div id="briefOut" class="out small muted">${S.brief?esc(S.brief):"Optional. One short Claude call that turns the suggestions above into a plan. Everything else on this page uses no Claude."}</div>
-  </section>`:""}`;
+  </section>`;
 }
 
 function vFarm(c){
@@ -334,7 +301,7 @@ function sheetChars(){
       <span class="right"><span class="btns"><button class="btn small ${c.id===S.state.activeId?"primary":""}" type="button" data-act="useChar" data-id="${esc(c.id)}">${c.id===S.state.activeId?"Active":"Use"}</button><button class="btn small" type="button" data-act="editChar" data-id="${esc(c.id)}">Edit</button></span></span>
       <span class="meta small muted">Level ${c.level} ${esc(c.cls)} · ${esc(c.faction)} · ${c.profs.map(p=>esc(p.name)+" "+p.skill).join(", ")||"no professions"}</span></div>`).join("")}</div>
     <button class="btn primary" type="button" data-act="editChar" data-id="new">Add character</button>
-    <p class="small muted" style="margin:0">${Store.mode==="db"?"Saved privately to your account, so it follows you across devices.":inClaude()?"Saved on this device only. Sign in to claude.ai to sync across devices.":"Saved on this device only. Use Backup below to move it to another device."}</p>
+    <p class="small muted" style="margin:0">Saved on this device only. Use Backup below to move it to another device.</p>
     <h3>Backup</h3>
     <p class="small muted" style="margin:0">Export copies your characters and prices as text you can keep or paste into the app on another device.</p>
     <div class="btns"><button class="btn" type="button" data-act="exportData">Export</button></div>
@@ -361,13 +328,9 @@ function checkImport(){
 }
 function cancelImport(){S.pendingImport=null;const box=$("#bkConfirm");if(box){box.hidden=true;box.innerHTML=""}}
 async function applyBackup(b){
-  const d=backupData(b),stale=staleKeys(S.items,d.items);
-  S.state=d.state;S.items=d.items;S.brief=null;S.pendingImport=null;
+  const d=backupData(b);
+  S.state=d.state;S.items=d.items;S.pendingImport=null;
   cacheLocal();
-  if(Store.mode!=="db")return;
-  try{
-    await Promise.all([saveState(),...Object.keys(S.items).map(k=>Store.save(k,S.items[k])),...stale.map(k=>Store.remove(k))]);
-  }catch(e){toast("Imported on this device. Your claude.ai copy may be out of date until the next save.")}
 }
 function showExport(){
   const box=$("#bkExport"),out=$("#bkOut");if(!box||!out)return;
@@ -381,21 +344,6 @@ async function copyBackup(){
 }
 
 
-/* ============ Claude brief (optional, one short call) ============ */
-async function getSample(){if(S.sample!==null)return S.sample;try{S.sample=(window.claude&&await claude.use("sample"))||false}catch(e){S.sample=false}return S.sample}
-async function doBrief(){
-  const out=$("#briefOut");const s=await getSample();
-  if(!s){out.textContent="Claude isn't available in this view.";return}
-  const c=char();const sug=todaySuggestions(c).map(x=>`${x.kind}: ${x.title}. ${x.body}`).join("\n");
-  const ctx=ctxAt(Date.now(),S.state.toggles);
-  const prompt=`Rewrite these WoW: Forever suggestions as a friendly plan of at most 5 short "• " bullets for a level ${c.level} ${c.cls} (${c.profs.map(p=>p.name+" "+p.skill).join(", ")||"no professions"}, budget ${plainMoney(budgetOf(c))}). Keep every number and zone exactly as given. Add nothing that isn't below. No market manipulation.
-Conditions: day ${ctx.days} since launch, ${ctx.weekend?"weekend":"weekday"}.
-${sug}`;
-  out.textContent="Thinking…";
-  try{const r=await s(prompt,{modelTier:"quick",onText:({text})=>{out.textContent=text}});S.brief=r.text;out.textContent=r.text}
-  catch(e){out.textContent=e&&e.code==="rate_limited"?"Claude is busy. Try again in a minute.":"Couldn't get a plan right now."}
-}
-
 /* ============ Actions ============ */
 document.addEventListener("click",e=>{
   if(e.target.id==="sheet"){closeSheet();return}
@@ -404,7 +352,6 @@ document.addEventListener("click",e=>{
   if(el.dataset.mat&&!el.dataset.act){sheetMat(el.dataset.mat);return}
   const a=el.dataset.act;
   if(a==="close")closeSheet();
-  else if(a==="brief")doBrief();
   else if(a==="mins"){S.mins=+el.dataset.m;render()}
   else if(a==="clearPrices"){deletePrices(el.dataset.name).then(()=>{closeSheet();render();toast("Prices deleted")})}
   else if(a==="editChar")sheetChar(el.dataset.id);
@@ -413,7 +360,7 @@ document.addEventListener("click",e=>{
   else if(a==="checkImport")checkImport();
   else if(a==="cancelImport")cancelImport();
   else if(a==="applyImport"&&S.pendingImport){applyBackup(S.pendingImport).then(()=>{closeSheet();render();toast("Backup imported")})}
-  else if(a==="useChar"){S.state.activeId=el.dataset.id;S.brief=null;saveState();closeSheet();render()}
+  else if(a==="useChar"){S.state.activeId=el.dataset.id;saveState();closeSheet();render()}
   else if(a==="delChar"){S.state.characters=S.state.characters.filter(c=>c.id!==el.dataset.id);S.state.activeId=S.state.characters[0].id;saveState();closeSheet();render()}
 });
 document.addEventListener("input",e=>{if(e.target.id==="matQ"){S.q=e.target.value;const pos=e.target.selectionStart;render();const i=$("#matQ");if(i){i.focus();try{i.setSelectionRange(pos,pos)}catch(_){}}}});
@@ -428,16 +375,6 @@ window.addEventListener("unhandledrejection",e=>toast("Something broke: "+((e.re
   const clean=items=>Object.fromEntries(Object.entries(items||{}).filter(([k,v])=>v&&Array.isArray(v.hist)&&v.hist.every(p=>p.price!=null)));
   if(loc&&loc.state){S.state=Object.assign(S.state,loc.state,{toggles:loc.state.toggles||{}});S.items=clean(loc.items)}
   render();
-  setTimeout(async()=>{
-    await Store.init();if(Store.mode!=="db")return;
-    try{
-      const d=await Store.load();
-      if(d&&d.state){S.state=Object.assign({toggles:{}},d.state);S.items=clean(d.items);
-        // drop leftovers from the old import-based version
-        for(const k of Object.keys(d.items))if(!S.items[k])Store.remove(k);
-        cacheLocal();render()}
-    }catch(e){toast("Couldn't reach your saved data. Showing what's on this device.")}
-  },0);
 })();
 
 // Test hook: as a module, the script's functions are no longer globals, so the behavior lock
