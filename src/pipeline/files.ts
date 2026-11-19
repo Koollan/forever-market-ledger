@@ -20,33 +20,44 @@ export type HourlyFile = Header & {
 
 const header = (meta: Meta): Header => ({ v: 1, region: meta.region, series: meta.series, fields: [...FIELDS] });
 
-// Insert a point by hour, or replace that hour. A Forever AH point never replaces a Blizzard one.
-export function mergeHourly(file: HourlyFile | null, point: Point, meta: Meta): HourlyFile {
-  const date = point.ts.slice(0, 10);
-  if (file && file.date !== date) throw new Error(`point ${point.ts} is not on ${file.date}`);
-  const f: HourlyFile = file
-    ? { ...file, ts: [...file.ts], src: [...file.src], houses: [...file.houses], items: Object.fromEntries(Object.entries(file.items).map(([k, v]) => [k, [...v]])) }
-    : { ...header(meta), date, ts: [], src: [], houses: [], items: {} };
+type Columnar = { ts: string[]; items: Record<number, (FileRow | null)[]> };
 
-  let i = f.ts.indexOf(point.ts);
-  if (i >= 0) {
-    if (f.src[i] === "bnet" && point.src === "fah") return file as HourlyFile;
-  } else {
-    i = f.ts.findIndex((t) => t > point.ts);
+// Copy a columnar file deep enough to edit its columns and rows
+function copyColumns<F extends Columnar>(file: F, cols: (keyof F)[]): F {
+  const f = { ...file, ts: [...file.ts], items: Object.fromEntries(Object.entries(file.items).map(([k, v]) => [k, [...v]])) };
+  for (const c of cols) (f as Record<keyof F, unknown>)[c] = [...(file[c] as unknown[])];
+  return f;
+}
+
+// Put one entry at `ts` (in time order), or replace the entry already there: set each per-entry column,
+// and set every item's row, padding items missing on either side with null.
+function upsert<F extends Columnar>(f: F, ts: string, values: Partial<Record<keyof F, unknown>>, items: Record<number, FileRow | null>): void {
+  const cols = Object.keys(values) as (keyof F)[];
+  const column = (c: keyof F) => f[c] as unknown as unknown[];
+  let i = f.ts.indexOf(ts);
+  if (i < 0) {
+    i = f.ts.findIndex((t) => t > ts);
     if (i < 0) i = f.ts.length;
-    f.ts.splice(i, 0, point.ts);
-    f.src.splice(i, 0, point.src);
-    f.houses.splice(i, 0, point.houses);
+    f.ts.splice(i, 0, ts);
+    for (const c of cols) column(c).splice(i, 0, null);
     for (const rows of Object.values(f.items)) rows.splice(i, 0, null);
   }
-  f.src[i] = point.src;
-  f.houses[i] = point.houses;
+  for (const c of cols) column(c)[i] = values[c];
   for (const rows of Object.values(f.items)) rows[i] = null;
-  for (const [id, row] of Object.entries(point.items)) {
+  for (const [id, row] of Object.entries(items)) {
     const key = Number(id);
     if (!f.items[key]) f.items[key] = f.ts.map(() => null);
     f.items[key][i] = row;
   }
+}
+
+// Insert a point by hour, or replace that hour. A Forever AH point never replaces a Blizzard one.
+export function mergeHourly(file: HourlyFile | null, point: Point, meta: Meta): HourlyFile {
+  const date = point.ts.slice(0, 10);
+  if (file && file.date !== date) throw new Error(`point ${point.ts} is not on ${file.date}`);
+  if (file && point.src === "fah" && file.src[file.ts.indexOf(point.ts)] === "bnet") return file;
+  const f: HourlyFile = file ? copyColumns(file, ["src", "houses"]) : { ...header(meta), date, ts: [], src: [], houses: [], items: {} };
+  upsert(f, point.ts, { src: point.src, houses: point.houses }, point.items);
   return f;
 }
 
@@ -94,36 +105,23 @@ export function dayRow(hourly: HourlyFile | null, provider: DailyRow | null): Da
 export function mergeDaily(file: DailyFile | null, row: DailyRow, meta: Meta): DailyFile {
   const month = row.ts.slice(0, 7);
   if (file && file.month !== month) throw new Error(`day ${row.ts} is not in ${file.month}`);
-  const f: DailyFile = file
-    ? { ...file, ts: [...file.ts], src: [...file.src], n: [...file.n], items: Object.fromEntries(Object.entries(file.items).map(([k, v]) => [k, [...v]])) }
-    : { ...header(meta), month, ts: [], src: [], n: [], items: {} };
-  let i = f.ts.indexOf(row.ts);
-  if (i < 0) {
-    i = f.ts.findIndex((t) => t > row.ts);
-    if (i < 0) i = f.ts.length;
-    f.ts.splice(i, 0, row.ts);
-    f.src.splice(i, 0, row.src);
-    f.n.splice(i, 0, row.n);
-    for (const rows of Object.values(f.items)) rows.splice(i, 0, null);
-  }
-  f.src[i] = row.src;
-  f.n[i] = row.n;
-  for (const rows of Object.values(f.items)) rows[i] = null;
-  for (const [id, r] of Object.entries(row.items)) {
-    const key = Number(id);
-    if (!f.items[key]) f.items[key] = f.ts.map(() => null);
-    f.items[key][i] = r;
-  }
+  const f: DailyFile = file ? copyColumns(file, ["src", "n"]) : { ...header(meta), month, ts: [], src: [], n: [], items: {} };
+  upsert(f, row.ts, { src: row.src, n: row.n }, row.items);
   return f;
 }
 
 export type Latest = {
   v: 1; region: string; ts: string; generated_at: string; snapshots: Record<number, string>; fields: string[];
-  series: Record<SeriesId, { houses: number | null; items: Record<number, FileRow | null> }>;
+  series: Record<SeriesId, { ts: string; houses: number | null; items: Record<number, FileRow | null> }>;
 };
 
-export function buildLatest(region: string, points: Record<SeriesId, Point>, snapshots: Record<number, string>, generatedAt: string): Latest {
-  const series = Object.fromEntries(Object.entries(points).map(([s, p]) => [s, { houses: p.houses, items: p.items }])) as Latest["series"];
+// The newest point of every series. A series none of whose houses was read this run keeps its entry
+// from `prev`, so one faction's outage doesn't blank its prices; each entry carries its own hour.
+export function buildLatest(region: string, points: Record<SeriesId, Point>, snapshots: Record<number, string>, generatedAt: string, prev: Latest | null): Latest {
+  const series = Object.fromEntries(Object.entries(points).map(([s, p]) => {
+    const kept = !p.houses ? prev?.series?.[s as SeriesId] : undefined;
+    return [s, kept ?? { ts: p.ts, houses: p.houses, items: p.items }];
+  })) as Latest["series"];
   return { v: 1, region, ts: points.all.ts, generated_at: generatedAt, snapshots, fields: [...FIELDS], series };
 }
 

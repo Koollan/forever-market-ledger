@@ -20,10 +20,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { getJson, getToken, type Deps, type JsonResult } from "../src/pipeline/http.ts";
-import { SERIES, SERIES_IDS } from "../src/pipeline/houses.ts";
+import { SERIES, SERIES_IDS, indexDiff } from "../src/pipeline/houses.ts";
 import { listingsFrom } from "../src/pipeline/reduce.ts";
 import { pool, type HouseListings, type SeriesPoint } from "../src/pipeline/series.ts";
-import { changed, pointHour } from "../src/pipeline/snapshot.ts";
+import { changed, newest, pointHour, snapshotOf } from "../src/pipeline/snapshot.ts";
 import { buildLatest, dayRow, formatFile, mergeDaily, mergeHourly, type DailyFile, type DailyRow, type HourlyFile, type Latest, type Point } from "../src/pipeline/files.ts";
 import type { SeriesId } from "../src/pipeline/houses.ts";
 import { convertT0, type T0File } from "../src/pipeline/convert-t0.ts";
@@ -50,9 +50,11 @@ const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 // Space requests out (about one a second) on top of the retry pauses
 const deps: Deps = { fetch: async (url, init) => { await sleep(DELAY_MS); return fetch(url, init); }, sleep };
 
-function tracked(): Set<number> {
+// The catalogued materials: item IDs to track, and their catalog names (keys starting with _ are notes)
+function catalog(): { ids: Set<number>; names: Map<number, string> } {
   const map = JSON.parse(fs.readFileSync("data/items.json", "utf8")) as Record<string, unknown>;
-  return new Set(Object.entries(map).filter(([k]) => !k.startsWith("_")).map(([, v]) => v as number));
+  const names = new Map(Object.entries(map).filter(([k]) => !k.startsWith("_")).map(([k, v]) => [v as number, k]));
+  return { ids: new Set(names.keys()), names };
 }
 
 function credentials(): [string, string] {
@@ -93,12 +95,15 @@ function trim(list: Auction[], ids: Set<number>): Auction[] {
   return [...mine, ...other, ...bidOnly].filter((a) => (seen.has(a.id) ? false : (seen.add(a.id), true)));
 }
 
-// `listings` is false for the house index, whose `auctions` key lists houses, not listings
-function saveFixture(dir: string, name: string, res: JsonResult, ids: Set<number>, listings = true) {
+// Listings have an item and a quantity; the house index's `auctions` lists houses and is kept whole
+const isListings = (list: unknown): list is Auction[] =>
+  Array.isArray(list) && list.length > 0 && list.every((a) => a && typeof a === "object" && "item" in a && "quantity" in a);
+
+function saveFixture(dir: string, name: string, res: JsonResult, ids: Set<number>) {
   const body = res.body as Record<string, unknown>;
   const out: Record<string, unknown> = { ...body };
-  if (listings && Array.isArray(body.auctions)) out.auctions = trim(body.auctions as Auction[], ids);
-  if (listings && Array.isArray(body.commodities)) out.commodities = trim(body.commodities as Auction[], ids);
+  if (isListings(body.auctions)) out.auctions = trim(body.auctions, ids);
+  if (isListings(body.commodities)) out.commodities = trim(body.commodities, ids);
   const headers = { "last-modified": res.headers.get("last-modified"), date: res.headers.get("date") };
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, `${name}.json`), JSON.stringify({ headers, body: out }, null, 2) + "\n");
@@ -107,7 +112,7 @@ function saveFixture(dir: string, name: string, res: JsonResult, ids: Set<number
 
 async function probe() {
   const [id, secret] = credentials();
-  const ids = tracked();
+  const { ids } = catalog();
   const fixtureDir = arg("save-fixture");
   const token = await getToken(id, secret, deps);
   console.log("token: ok");
@@ -123,7 +128,7 @@ async function probe() {
   if ("error" in index) { console.log(`house index: ${index.error}`); process.exit(1); }
   const houses = ((index.body as { auctions?: { id: number; name: string }[] }).auctions) ?? [];
   console.log(`house index (ruleset ${RULESET}): ${houses.length} houses: ${houses.map((h) => `${h.id} ${h.name}`).join("; ")}`);
-  if (fixtureDir) saveFixture(fixtureDir, "index", index, ids, false);
+  if (fixtureDir) saveFixture(fixtureDir, "index", index, ids);
 
   for (const house of PROBE_HOUSES) {
     for (const suffix of ["", "/commodities"]) {
@@ -145,6 +150,17 @@ async function probe() {
 }
 
 type HouseRead = { body: unknown; lastModified: string | null };
+
+// Blizzard's house index, from a saved fixture or the API; null if it could not be read
+async function readIndex(source: { fixtures?: string; token?: string }): Promise<unknown | null> {
+  if (source.fixtures) {
+    const file = path.join(source.fixtures, "index.json");
+    return fs.existsSync(file) ? (JSON.parse(fs.readFileSync(file, "utf8")) as { body: unknown }).body : null;
+  }
+  const res = await tryGet(`${API}/data/wow/ruleset/${RULESET}/auctions/?${NS}`, source.token as string);
+  if ("error" in res) { console.log(`::warning::house index: ${res.error}`); return null; }
+  return res.body;
+}
 
 // One house's commodities, from a saved fixture or the API. null = not read (missing file, or failed after retries).
 async function readHouse(house: number, source: { fixtures?: string; token?: string }): Promise<HouseRead | null> {
@@ -192,31 +208,43 @@ async function run() {
   const dry = process.argv.includes("--dry");
   const out = arg("out");
   if (!dry && !out) { console.error("run needs --out <dir> (or --dry)"); process.exit(2); }
-  const ids = tracked();
+  const { ids, names } = catalog();
   const fixtures = arg("fixtures");
   const source = fixtures ? { fixtures } : { token: await getToken(...credentials(), deps) };
+  const now = Date.now();
+
+  // A house Blizzard adds or drops shows as a warning on the run (and in its commit message)
+  const index = await readIndex(source);
+  const diff = index ? indexDiff(index, SERIES.all) : null;
+  const indexNote = diff && (diff.added.length || diff.missing.length)
+    ? `house index differs: new houses: ${diff.added.join(", ") || "none"}; not listed: ${diff.missing.join(", ") || "none"}` : "";
+  if (indexNote) console.log(`::warning::${indexNote}`);
+
   const perHouse: HouseListings = new Map();
   const snapshots: Record<number, string> = {};
+  const noHeader: number[] = [];
   for (const house of SERIES.all) {
     const read = await readHouse(house, source);
     if (!read) continue;
     perHouse.set(house, listingsFrom(read.body, ids));
-    if (read.lastModified) snapshots[house] = new Date(read.lastModified).toISOString();
+    const snap = snapshotOf(read.lastModified, now);
+    snapshots[house] = snap.iso;
+    if (snap.fallback) noHeader.push(house);
   }
+  if (noHeader.length) console.log(`::warning::no Last-Modified: ${noHeader.join(", ")} (using the run's hour)`);
   if (!perHouse.size) { console.error("no house could be read"); process.exit(1); }
   const items = [...ids];
   const series = Object.fromEntries(SERIES_IDS.map((s) => [s, pool(perHouse, SERIES[s], items)])) as Record<SeriesId, SeriesPoint>;
-  const ts = pointHour(snapshots) ?? new Date().toISOString().slice(0, 13) + ":00:00Z";
+  const ts = pointHour(snapshots) as string; // every house read has a snapshot time (real or the run's hour)
   const priced = items.filter((id) => series.all.items[id]).length;
   const missing = SERIES.all.filter((h) => !perHouse.has(h));
-  const summary = `${ts} ${perHouse.size}/${SERIES.all.length} houses, ${priced}/${items.length} items${missing.length ? ` (not read: ${missing.join(", ")})` : ""}`;
+  const summary = `${ts} ${perHouse.size}/${SERIES.all.length} houses, ${priced}/${items.length} items${missing.length ? ` (not read: ${missing.join(", ")})` : ""}${noHeader.length ? ` (no Last-Modified: ${noHeader.join(", ")})` : ""}${indexNote ? ` (${indexNote})` : ""}`;
 
   if (dry) {
     console.log(summary);
     for (const s of SERIES_IDS) console.log(`  ${s}: ${series[s].houses}/${SERIES[s].length} houses`);
-    const names = Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync("data/items.json", "utf8")) as Record<string, unknown>).map(([k, v]) => [v, k]));
     console.log("  sample rows (all), [min, p10, p25, median, qty, listings] in copper:");
-    for (const id of items.filter((id) => series.all.items[id]).slice(0, 5)) console.log(`    ${names[id]} (${id}): ${JSON.stringify(series.all.items[id])}`);
+    for (const id of items.filter((id) => series.all.items[id]).slice(0, 5)) console.log(`    ${names.get(id)} (${id}): ${JSON.stringify(series.all.items[id])}`);
     return;
   }
 
@@ -225,7 +253,7 @@ async function run() {
   if (!changed(prev?.snapshots ?? null, snapshots)) { console.log(`${summary}: no new snapshot, nothing written`); return; }
   const points = Object.fromEntries(SERIES_IDS.map((s) => [s, { ts, src: "bnet", houses: series[s].houses, items: series[s].houses ? series[s].items : {} }])) as Record<SeriesId, Point>;
   for (const s of SERIES_IDS) if (series[s].houses) writeSeries(out as string, s, points[s]);
-  writeFile(latestPath, buildLatest(REGION, points, { ...(prev?.snapshots ?? {}), ...snapshots }, new Date().toISOString()));
+  writeFile(latestPath, buildLatest(REGION, points, newest(prev?.snapshots ?? null, snapshots), new Date(now).toISOString(), prev));
   console.log(summary);
 }
 

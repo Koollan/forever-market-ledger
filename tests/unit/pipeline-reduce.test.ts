@@ -1,7 +1,7 @@
 // The price pipeline's pure reduction: houses → listings → stats → series (no network)
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { SERIES } from "../../src/pipeline/houses.ts";
+import { SERIES, indexDiff } from "../../src/pipeline/houses.ts";
 import { listingsFrom, stats } from "../../src/pipeline/reduce.ts";
 import { pool } from "../../src/pipeline/series.ts";
 
@@ -23,6 +23,21 @@ describe("SERIES", () => {
     expect(SERIES.all).toHaveLength(15);
     const factionIds = [...SERIES.alliance, ...SERIES.horde, ...SERIES.blackwater].sort();
     expect(factionIds).toEqual([...SERIES.all].sort());
+  });
+});
+
+describe("indexDiff", () => {
+  it("finds no difference between the recorded index and the house list", () => {
+    expect(indexDiff(fixture("index"), SERIES.all)).toEqual({ added: [], missing: [] });
+  });
+
+  it("names houses Blizzard added or no longer lists", () => {
+    const index = { auctions: [...SERIES.all.filter((h) => h !== 112), 126].map((id) => ({ id, name: "x" })) };
+    expect(indexDiff(index, SERIES.all)).toEqual({ added: [126], missing: [112] });
+  });
+
+  it("reports every known house missing from an index without houses", () => {
+    expect(indexDiff({}, [110, 111]).missing).toEqual([110, 111]);
   });
 });
 

@@ -15,3 +15,14 @@ export const SERIES: Record<SeriesId, number[]> = {
   blackwater,
   all: [...alliance, ...horde, ...blackwater].sort((a, b) => a - b),
 };
+
+// Compare Blizzard's house index (/data/wow/ruleset/2/auctions/) with the fixed house list, so a run can
+// flag a house Blizzard added or dropped instead of silently missing it.
+export function indexDiff(index: unknown, known: number[]): { added: number[]; missing: number[] } {
+  const list = (index as { auctions?: { id?: unknown }[] })?.auctions;
+  const ids = new Set(Array.isArray(list) ? list.map((h) => h.id).filter((id): id is number => typeof id === "number") : []);
+  return {
+    added: [...ids].filter((id) => !known.includes(id)).sort((a, b) => a - b),
+    missing: known.filter((id) => !ids.has(id)),
+  };
+}

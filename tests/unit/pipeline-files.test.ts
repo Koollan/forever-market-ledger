@@ -1,6 +1,6 @@
 // The price pipeline's files: snapshot hours, hourly merge, daily roll-up, latest (no network)
 import { describe, expect, it } from "vitest";
-import { changed, pointHour } from "../../src/pipeline/snapshot.ts";
+import { changed, newest, pointHour, snapshotOf } from "../../src/pipeline/snapshot.ts";
 import { buildLatest, dayRow, mergeDaily, mergeHourly, rollDay, type HourlyFile, type Point } from "../../src/pipeline/files.ts";
 
 describe("pointHour", () => {
@@ -37,6 +37,38 @@ describe("changed", () => {
   it("is false when nothing was read", () => {
     expect(changed(prev, {})).toBe(false);
     expect(changed(null, {})).toBe(false);
+  });
+
+  it("is false when a house serves an older snapshot than the one stored (a stale cache)", () => {
+    expect(changed(prev, { ...prev, 110: "2026-11-19T00:25:08.000Z" })).toBe(false);
+  });
+});
+
+describe("snapshotOf", () => {
+  const now = Date.parse("2026-11-19T03:41:07Z");
+
+  it("reads Last-Modified as the snapshot time", () => {
+    expect(snapshotOf("Thu, 19 Nov 2026 03:25:08 GMT", now)).toEqual({ iso: "2026-11-19T03:25:08.000Z", fallback: false });
+  });
+
+  it("falls back to the run's hour when the header is missing or malformed, so the run still records", () => {
+    expect(snapshotOf(null, now)).toEqual({ iso: "2026-11-19T03:00:00.000Z", fallback: true });
+    expect(snapshotOf("", now)).toEqual({ iso: "2026-11-19T03:00:00.000Z", fallback: true });
+    expect(snapshotOf("not a date", now)).toEqual({ iso: "2026-11-19T03:00:00.000Z", fallback: true });
+  });
+
+  it("with no headers at all, a run in the next hour is still new", () => {
+    const first = { 110: snapshotOf(null, now).iso };
+    const second = { 110: snapshotOf(null, now + 36e5).iso };
+    expect(changed(first, second)).toBe(true);
+  });
+});
+
+describe("newest", () => {
+  it("keeps each house's newest snapshot, so a stale read never moves latest.json backwards", () => {
+    const prev = { 110: "2026-11-19T02:25:08.000Z", 111: "2026-11-19T02:25:10.000Z" };
+    const next = { 110: "2026-11-19T01:25:08.000Z", 113: "2026-11-19T02:25:11.000Z" };
+    expect(newest(prev, next)).toEqual({ 110: "2026-11-19T02:25:08.000Z", 111: "2026-11-19T02:25:10.000Z", 113: "2026-11-19T02:25:11.000Z" });
   });
 });
 
@@ -142,20 +174,30 @@ describe("mergeDaily", () => {
 });
 
 describe("buildLatest", () => {
-  it("holds the newest point of every series with the snapshots it came from", () => {
-    const p: Point = { ts: "2026-11-20T15:00:00Z", src: "bnet", houses: 5, items: { 2447: [1, 2, 3, 4, 5, 6] } };
-    const l = buildLatest("us", { alliance: p, horde: p, blackwater: p, all: { ...p, houses: 15 } }, { 110: "2026-11-20T15:25:08.000Z" }, "2026-11-20T15:41:00.000Z");
+  const p: Point = { ts: "2026-11-20T15:00:00Z", src: "bnet", houses: 5, items: { 2447: [1, 2, 3, 4, 5, 6] } };
+
+  it("holds the newest point of every series, each with its own hour, and the snapshots it came from", () => {
+    const l = buildLatest("us", { alliance: p, horde: p, blackwater: p, all: { ...p, houses: 15 } }, { 110: "2026-11-20T15:25:08.000Z" }, "2026-11-20T15:41:00.000Z", null);
     expect(l).toEqual({
       v: 1, region: "us", ts: "2026-11-20T15:00:00Z", generated_at: "2026-11-20T15:41:00.000Z",
       snapshots: { 110: "2026-11-20T15:25:08.000Z" },
       fields: ["min", "p10", "p25", "median", "qty", "listings"],
       series: {
-        alliance: { houses: 5, items: { 2447: [1, 2, 3, 4, 5, 6] } },
-        horde: { houses: 5, items: { 2447: [1, 2, 3, 4, 5, 6] } },
-        blackwater: { houses: 5, items: { 2447: [1, 2, 3, 4, 5, 6] } },
-        all: { houses: 15, items: { 2447: [1, 2, 3, 4, 5, 6] } },
+        alliance: { ts: "2026-11-20T15:00:00Z", houses: 5, items: { 2447: [1, 2, 3, 4, 5, 6] } },
+        horde: { ts: "2026-11-20T15:00:00Z", houses: 5, items: { 2447: [1, 2, 3, 4, 5, 6] } },
+        blackwater: { ts: "2026-11-20T15:00:00Z", houses: 5, items: { 2447: [1, 2, 3, 4, 5, 6] } },
+        all: { ts: "2026-11-20T15:00:00Z", houses: 15, items: { 2447: [1, 2, 3, 4, 5, 6] } },
       },
     });
+  });
+
+  it("keeps a series' last good entry when none of its houses could be read this run", () => {
+    const prev = buildLatest("us", { alliance: p, horde: p, blackwater: p, all: p }, {}, "2026-11-20T15:41:00.000Z", null);
+    const next: Point = { ...p, ts: "2026-11-20T16:00:00Z" };
+    const l = buildLatest("us", { alliance: next, horde: { ...next, houses: 0, items: {} }, blackwater: next, all: next }, {}, "2026-11-20T16:41:00.000Z", prev);
+    expect(l.ts).toBe("2026-11-20T16:00:00Z");
+    expect(l.series.alliance.ts).toBe("2026-11-20T16:00:00Z");
+    expect(l.series.horde).toEqual({ ts: "2026-11-20T15:00:00Z", houses: 5, items: { 2447: [1, 2, 3, 4, 5, 6] } });
   });
 });
 

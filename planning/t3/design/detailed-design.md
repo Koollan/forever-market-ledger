@@ -85,7 +85,7 @@ To run under Node's type stripping, these files use only erasable TypeScript (no
 ```
 node scripts/fetch-prices.ts --mode run|probe|import --out <prices checkout> [--region us]
 ```
-- **run:** token → each of the 15 houses' `/commodities` (the house list is fixed in `houses.ts`, so the index is not read) (sequential, about 1 per second; snapshot from the `Last-Modified` header, else run time floored to the hour) → if `changed`, reduce, pool, merge files, write → exit 0. The step-1 probe (Nov 19, 2026) found every tracked material under `/commodities` (`unit_price` per item) and none in the house's regular `auctions`, so the regular lists are not read. Prints one summary line, e.g. `2026-11-20T15:00Z 15/15 houses, 131/136 items`.
+- **run:** token → house index (compared with the fixed list in `houses.ts`; a difference is a `::warning::` on the run and in its commit message) → each of the 15 houses' `/commodities` (sequential, about 1 per second; snapshot from the `Last-Modified` header, else run time floored to the hour) → if `changed`, reduce, pool, merge files, write → exit 0. The step-1 probe (Nov 19, 2026) found every tracked material under `/commodities` (`unit_price` per item) and none in the house's regular `auctions`, so the regular lists are not read. Prints one summary line, e.g. `2026-11-20T15:00Z 15/15 houses, 131/136 items`.
 - **probe:** token → index → one house and its `/commodities` sub-path; logs top-level keys, auction counts, whether tracked items appear in `auctions` or `commodities`, and response header names. Writes nothing.
 - **import:** reads the T0 and gap backfill files from the `main` checkout, converts them and merges them into `us/all`, then rebuilds the affected daily rows.
 - Credentials come only from the environment (`BNET_CLIENT_ID`, `BNET_CLIENT_SECRET`) and are never printed. The token is kept in memory only.
@@ -148,7 +148,7 @@ Same header, with `date` replaced by `month`, `ts` holding day starts (`2026-11-
   "v": 1, "region": "us", "ts": "2026-11-20T15:00:00Z", "generated_at": "2026-11-20T15:18:02Z",
   "snapshots": { "110": "2026-11-20T15:04:11Z" },
   "fields": ["min", "p10", "p25", "median", "qty", "listings"],
-  "series": { "alliance": { "houses": 5, "items": { "2447": [12, 15, 18, 25, 4210, 96] } } }
+  "series": { "alliance": { "ts": "2026-11-20T15:00:00Z", "houses": 5, "items": { "2447": [12, 15, 18, 25, 4210, 96] } } }
 }
 ```
 
@@ -164,6 +164,11 @@ About 100 KB per series per day uncompressed (136 items × 24 rows), so about 12
 |---|---|
 | Token request fails (bad secret, outage) | Retry ×3, then exit 1, nothing written; GitHub emails the owner |
 | No house can be read | Exit 1, nothing written; GitHub emails the owner |
+| House index differs from the house list, or can't be read | `::warning::` naming new and unlisted houses; the run continues with the fixed list |
+| `Last-Modified` missing or malformed | That house's snapshot is the run's hour (warning on the run), so collection never stops silently |
+| A house serves an older snapshot than the one stored (stale cache) | Not new: nothing written; `latest.json` keeps each house's newest snapshot |
+| Network error, timeout (60 s) or a body that isn't JSON | Retried like a 5xx; `Retry-After` waits are capped at 60 s |
+| Every house of one series fails | That series keeps its previous entry in `latest.json` (each entry has its own `ts`) |
 | One house fails after retries | Run continues; series record `houses` below their full count (5 or 15); summary line names the missing houses |
 | Response missing `auctions` (houses 112, 115, 118 at times) | Treated as zero listings for that house, which still counts as included |
 | 429 | Wait for `Retry-After` (default 10 s), counts as a retry |

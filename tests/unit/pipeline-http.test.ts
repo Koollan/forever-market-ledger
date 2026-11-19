@@ -88,4 +88,36 @@ describe("getJson", () => {
     await expect(getJson(url, "t", { fetch, sleep: noSleep })).rejects.toThrow("404");
     expect(calls).toHaveLength(1);
   });
+
+  it("caps a long Retry-After at a minute, so a run never outlasts its job", async () => {
+    const waits: number[] = [];
+    const { fetch } = fakeFetch([json({}, 429, { "retry-after": "3600" }), json({ ok: 1 })]);
+    await getJson(url, "t", { fetch, sleep: async (ms) => void waits.push(ms) });
+    expect(waits).toEqual([60000]);
+  });
+
+  it("retries a network error and a body that is not JSON", async () => {
+    let n = 0;
+    const fetch = async () => {
+      n++;
+      if (n === 1) throw new TypeError("fetch failed: ECONNRESET");
+      if (n === 2) return new Response("<html>gateway</html>", { status: 200 });
+      return json({ ok: 1 });
+    };
+    expect((await getJson(url, "t", { fetch, sleep: noSleep })).body).toEqual({ ok: 1 });
+    expect(n).toBe(3);
+  });
+
+  it("gives up on a network error after 3 retries", async () => {
+    let n = 0;
+    const fetch = async (): Promise<Response> => { n++; throw new TypeError("fetch failed"); };
+    await expect(getJson(url, "t", { fetch, sleep: noSleep })).rejects.toThrow("fetch failed");
+    expect(n).toBe(4);
+  });
+
+  it("sends every request with a timeout signal", async () => {
+    const { fetch, calls } = fakeFetch([json({ ok: 1 })]);
+    await getJson(url, "t", { fetch, sleep: noSleep });
+    expect(calls[0].init?.signal).toBeInstanceOf(AbortSignal);
+  });
 });

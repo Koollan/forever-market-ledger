@@ -12,15 +12,27 @@ export const RETRIES = 3; // after the first try
 const backoffMs = (retry: number) => 2000 * 2 ** retry; // 2 s, 4 s, 8 s
 const retryable = (status: number) => status === 429 || status >= 500;
 
-// One request with retries on 429 (honoring Retry-After) and 5xx. `label` names it in errors,
-// so callers choose what is safe to print (never a secret).
+export const TIMEOUT_MS = 60_000; // per request; a busy house is ~9 MB
+export const MAX_WAIT_MS = 60_000; // longest pause between tries, whatever Retry-After asks
+
+// One request with retries on 429 (honoring Retry-After, capped), 5xx, network errors, timeouts and bodies
+// that are not JSON. `label` names it in errors, so callers choose what is safe to print (never a secret).
 async function request(url: string, init: RequestInit, label: string, deps: Deps): Promise<JsonResult> {
   for (let retry = 0; ; retry++) {
-    const res = await deps.fetch(url, init);
-    if (res.ok) return { body: await res.json(), headers: res.headers, status: res.status };
-    if (!retryable(res.status) || retry >= RETRIES) throw new Error(`${res.status} ${label}`);
-    const after = Number(res.headers.get("retry-after"));
-    await deps.sleep(res.status === 429 && after > 0 ? after * 1000 : backoffMs(retry));
+    let wait = backoffMs(retry), failure: string;
+    try {
+      const res = await deps.fetch(url, { ...init, signal: AbortSignal.timeout(TIMEOUT_MS) });
+      if (res.ok) return { body: await res.json(), headers: res.headers, status: res.status };
+      if (!retryable(res.status)) throw new Error(`${res.status} ${label}`, { cause: "final" });
+      failure = `${res.status} ${label}`;
+      const after = Number(res.headers.get("retry-after"));
+      if (res.status === 429 && after > 0) wait = after * 1000;
+    } catch (e) {
+      if ((e as Error).cause === "final") throw e;
+      failure = `${(e as Error).message} (${label})`; // network error, timeout, or a body that is not JSON
+    }
+    if (retry >= RETRIES) throw new Error(failure);
+    await deps.sleep(Math.min(wait, MAX_WAIT_MS));
   }
 }
 
