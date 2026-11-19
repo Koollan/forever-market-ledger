@@ -1,5 +1,6 @@
 // Backup: export and import all saved data as versioned JSON (T1). Pure: no DOM, storage or clock.
 import { CLASSES } from "../data/classes";
+import { rulesetOf } from "../data/rulesets";
 import type { AppState, Character, Items } from "./types";
 
 export const BACKUP_APP = "forever-market-ledger";
@@ -19,7 +20,7 @@ export type ValidateResult =
   | { ok: true; backup: Backup; counts: { characters: number; prices: number } }
   | { ok: false; error: string };
 
-const CHARACTER_FIELDS = ["id", "name", "cls", "level", "faction", "region", "gold", "stretch", "skyborne", "example"] as const;
+const CHARACTER_FIELDS = ["id", "name", "cls", "level", "faction", "region", "ruleset", "gold", "stretch", "skyborne", "example"] as const;
 const isObject = (v: unknown): v is Record<string, any> => !!v && typeof v === "object" && !Array.isArray(v);
 
 /** Checks a pasted backup as a whole. Any problem returns one plain message; nothing is partly accepted. */
@@ -62,8 +63,11 @@ export function validateBackup(text: string): ValidateResult {
     app: BACKUP_APP,
     version: b.version,
     exportedAt: Number.isFinite(b.exportedAt) ? b.exportedAt : null,
-    characters: b.characters.map((c: any) => Object.assign(pick(c, CHARACTER_FIELDS),
-      { profs: c.profs.map((p: any) => ({ name: p.name, skill: p.skill })) }) as Character),
+    characters: b.characters.map((c: any) => {
+      const out = Object.assign(pick(c, CHARACTER_FIELDS), { profs: c.profs.map((p: any) => ({ name: p.name, skill: p.skill })) });
+      if (!rulesetOf(out.ruleset)) delete out.ruleset; // an unknown ruleset means "not set", never a failed import
+      return out as Character;
+    }),
     activeId: b.activeId,
     toggles: isObject(b.toggles) ? b.toggles : {},
     prices: Object.fromEntries(Object.entries<any>(b.prices).map(([k, it]) =>

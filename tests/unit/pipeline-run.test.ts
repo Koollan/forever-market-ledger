@@ -1,7 +1,7 @@
 // End to end: the fetch script runs the recorded house responses into a folder (no network)
 import { describe, expect, it } from "vitest";
 import { execFileSync } from "node:child_process";
-import { cpSync, existsSync, mkdtempSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
@@ -53,7 +53,7 @@ describe("fetch-prices --mode run on the recorded fixtures", () => {
     expect(existsSync(path.join(out, "us/house-113"))).toBe(false);
   });
 
-  it("writes a series per house read, kept out of latest.json (T10)", () => {
+  it("writes a series per house read (T10)", () => {
     const busy = read(out, "us/house-110/hourly/2026-11-19.json");
     expect(busy).toMatchObject({ v: 1, region: "us", series: "house-110", date: "2026-11-19" });
     expect(busy.ts).toEqual(["2026-11-19T01:00:00Z"]);
@@ -66,7 +66,26 @@ describe("fetch-prices --mode run on the recorded fixtures", () => {
     expect(empty.houses).toEqual([1]);
     expect(Object.values(empty.items).every((rows) => (rows as unknown[]).every((r) => r === null))).toBe(true);
 
-    expect(Object.keys(read(out, "us/latest.json").series).sort()).toEqual(["all", "alliance", "blackwater", "horde"]);
+  });
+
+  it("lists every house in latest.json, read or not, beside the pooled series (T10)", () => {
+    const series = read(out, "us/latest.json").series;
+    expect(Object.keys(series)).toHaveLength(4 + 15);
+    expect(series["house-110"]).toMatchObject({ ts: "2026-11-19T01:00:00Z", houses: 1 });
+    expect(series["house-110"].items["2447"]).toEqual([7999, 7999, 7999, 7999, 20, 1]);
+    expect(series["house-113"]).toEqual({ ts: "2026-11-19T01:00:00Z", houses: 0, items: {} });
+  });
+
+  it("keeps a house's previous latest entry when that house isn't read (T10)", () => {
+    const keep = mkdtempSync(path.join(tmpdir(), "fml-prices-"));
+    run(keep);
+    // A newer snapshot from house 112 only: 110 isn't read, so its entry stays as it was
+    const only112 = fixturesWith("house-112-commodities.json", (f) => { f.headers["last-modified"] = "Thu, 19 Nov 2026 02:25:08 GMT"; });
+    rmSync(path.join(only112, "house-110-commodities.json"));
+    run(keep, only112);
+    const series = read(keep, "us/latest.json").series;
+    expect(series["house-110"]).toMatchObject({ ts: "2026-11-19T01:00:00Z", houses: 1 });
+    expect(series["house-112"]).toMatchObject({ ts: "2026-11-19T02:00:00Z", houses: 1 });
   });
 
   it("writes nothing on a second run with the same snapshots", () => {

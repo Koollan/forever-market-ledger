@@ -147,3 +147,13 @@ test("importing a backup gives exactly its characters, active character, switche
   assert.deepEqual(d.state, { characters: [rogue, hunter], activeId: "h1", toggles: {} });
   assert.deepEqual(d.items, items());
 });
+
+test("a character's ruleset survives a backup; an unknown ruleset reads back as not set (T10)", () => {
+  const b = valid();
+  b.characters[0].ruleset = "pvp";
+  b.characters[1].ruleset = "hardcore";
+  const r = roundTrip(b);
+  assert.equal(r.ok, true);
+  assert.equal(r.backup.characters[0].ruleset, "pvp");
+  assert.equal("ruleset" in r.backup.characters[1], false);
+});

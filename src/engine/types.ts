@@ -1,4 +1,5 @@
 // The app's stored data (see planning/t1-t2/design/detailed-design.md, section 5)
+import type { RulesetKey } from "../data/rulesets";
 
 export type Character = {
   id: string;
@@ -7,6 +8,7 @@ export type Character = {
   level: number; // 1–60
   faction: "Alliance" | "Horde";
   region?: string; // "us" | "eu"
+  ruleset?: RulesetKey; // T10: unset = prices pool every ruleset's houses
   gold?: number | null; // copper; null = estimate by level
   stretch?: number; // zone reach +0..+5, default 2
   skyborne?: boolean;

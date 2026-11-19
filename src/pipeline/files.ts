@@ -2,7 +2,7 @@
 // function takes a file (or null) and returns a new one. Columnar: `ts`, `src`, `houses`/`n` and every
 // item's rows line up by index, sorted by `ts`, so T4 can slice by weekday and hour.
 import { FIELDS } from "./reduce.ts";
-import type { SeriesId, StoredSeries } from "./houses.ts";
+import type { HouseSeriesId, SeriesId, StoredSeries } from "./houses.ts";
 
 export type Source = "bnet" | "fah"; // Blizzard Game Data API, or Forever AH (T0 backfill)
 // [min, p10, p25, median, qty, listings]; p25 is null in Forever AH rows
@@ -110,16 +110,20 @@ export function mergeDaily(file: DailyFile | null, row: DailyRow, meta: Meta): D
   return f;
 }
 
+export type LatestEntry = { ts: string; houses: number | null; items: Record<number, FileRow | null> };
+// The four pooled series, plus one entry per house (T10; absent from files written before it)
 export type Latest = {
   v: 1; region: string; ts: string; generated_at: string; snapshots: Record<number, string>; fields: string[];
-  series: Record<SeriesId, { ts: string; houses: number | null; items: Record<number, FileRow | null> }>;
+  series: Record<SeriesId, LatestEntry> & Partial<Record<HouseSeriesId, LatestEntry>>;
 };
+export type LatestPoints = Record<SeriesId, Point> & Partial<Record<HouseSeriesId, Point>>;
 
 // The newest point of every series. A series none of whose houses was read this run keeps its entry
 // from `prev`, so one faction's outage doesn't blank its prices; each entry carries its own hour.
-export function buildLatest(region: string, points: Record<SeriesId, Point>, snapshots: Record<number, string>, generatedAt: string, prev: Latest | null): Latest {
-  const series = Object.fromEntries(Object.entries(points).map(([s, p]) => {
-    const kept = !p.houses ? prev?.series?.[s as SeriesId] : undefined;
+export function buildLatest(region: string, points: LatestPoints, snapshots: Record<number, string>, generatedAt: string, prev: Latest | null): Latest {
+  const entries = Object.entries(points).filter((e): e is [string, Point] => e[1] != null);
+  const series = Object.fromEntries(entries.map(([s, p]) => {
+    const kept = !p.houses ? prev?.series?.[s as StoredSeries] : undefined;
     return [s, kept ?? { ts: p.ts, houses: p.houses, items: p.items }];
   })) as Latest["series"];
   return { v: 1, region, ts: points.all.ts, generated_at: generatedAt, snapshots, fields: [...FIELDS], series };

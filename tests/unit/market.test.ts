@@ -4,7 +4,7 @@ import { activePrice, asOf, blackwaterHint, history, homeSeries, type Market } f
 import { estimate } from "../../src/engine/estimate";
 import { shiftAt } from "../../src/engine/conditions";
 import type { Character, Items } from "../../src/engine/types";
-import type { HourlyFile, Latest } from "../../src/pipeline/files";
+import type { HourlyFile, Latest, LatestEntry } from "../../src/pipeline/files";
 
 const PEACEBLOOM = 2447;
 const horde: Character = { id: "h", name: "Hunter", cls: "Hunter", level: 24, faction: "Horde", region: "us", profs: [] };
@@ -208,5 +208,43 @@ describe("review fixes: times, numbers and age of API prices", () => {
     l.series.horde = { ts: "2026-11-20T04:00:00Z", houses: 5, items: {} };
     expect(asOf(market(l), at("2026-11-20T08:40:00Z"), "horde")).toEqual({ ts: at("2026-11-20T04:00:00Z"), stale: true });
     expect(asOf(market(l), at("2026-11-20T08:40:00Z"), "alliance")).toEqual({ ts: at("2026-11-20T08:00:00Z"), stale: false });
+  });
+});
+
+describe("rulesets (T10)", () => {
+  const normalHorde: Character = { ...horde, ruleset: "normal" };
+  const rpAlliance: Character = { ...alliance, ruleset: "rp" };
+  const row = (p10: number): LatestEntry => ({ ts: "2026-11-20T15:00:00Z", houses: 1, items: { [PEACEBLOOM]: [0, p10, 0, 0, 0, 0] } });
+  // Pooled Horde at 100 and pooled Blackwater at 100; the Normal ruleset's houses (113, 116) differ
+  const withHouses = (series: Record<string, LatestEntry>): Market => {
+    const l = latest("2026-11-20T15:00:00Z", { horde: [0, 100, 0, 0, 0, 0], alliance: [0, 100, 0, 0, 0, 0], blackwater: [0, 100, 0, 0, 0, 0] });
+    return market({ ...l, series: { ...l.series, ...series } });
+  };
+  const now = at("2026-11-20T16:00:00Z");
+
+  it("homeSeries is the ruleset's own faction house; unset or unknown rulesets keep the pooled series", () => {
+    expect(homeSeries(normalHorde)).toBe("house-113");
+    expect(homeSeries(rpAlliance)).toBe("house-119");
+    expect(homeSeries({ ...horde, ruleset: "hardcore" as never })).toBe("horde");
+    expect(homeSeries({ ...normalHorde, region: "eu" })).toBeNull();
+  });
+
+  it("the active price comes from the ruleset's house", () => {
+    const m = withHouses({ "house-113": row(80) });
+    expect(activePrice("Peacebloom", { items: {}, market: m, character: normalHorde, now })?.price).toBe(80);
+    expect(activePrice("Peacebloom", { items: {}, market: m, character: horde, now })?.price).toBe(100);
+  });
+
+  it("falls back to the pooled faction series when latest.json has no entry for the house, or it was never read", () => {
+    expect(activePrice("Peacebloom", { items: {}, market: withHouses({}), character: normalHorde, now })?.price).toBe(100);
+    const unread = withHouses({ "house-113": { ts: "2026-11-20T15:00:00Z", houses: 0, items: {} } });
+    expect(activePrice("Peacebloom", { items: {}, market: unread, character: normalHorde, now })?.price).toBe(100);
+  });
+
+  it("the Blackwater hint compares the ruleset's own Blackwater house", () => {
+    // home 100 → 95 kept; the ruleset's Blackwater 130 → 110.5 kept; the pooled one (100) would show nothing
+    const m = withHouses({ "house-113": row(100), "house-116": row(130) });
+    expect(blackwaterHint("Peacebloom", "sell", { market: m, character: normalHorde })?.price).toBe(111);
+    expect(blackwaterHint("Peacebloom", "sell", { market: m, character: horde })).toBeNull();
   });
 });

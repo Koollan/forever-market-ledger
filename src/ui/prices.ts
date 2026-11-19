@@ -3,7 +3,7 @@
 // neither. Files: planning/t3/design/detailed-design.md, section 5.
 import type { Market } from "../engine/market";
 import type { HourlyFile, Latest } from "../pipeline/files";
-import type { SeriesId } from "../pipeline/houses";
+import type { StoredSeries } from "../pipeline/houses";
 
 export const PRICES_URL = "https://raw.githubusercontent.com/Koollan/forever-market-ledger/prices/";
 export const PRICES_KEY = "fml-prices"; // separate from fml-cache, so Backup doesn't carry it
@@ -12,7 +12,7 @@ const TIMEOUT_MS = 10_000;
 
 type Storage = { getItem(k: string): string | null; setItem(k: string, v: string): void };
 type Fetch = (url: string, init?: RequestInit) => Promise<Response>;
-export type PriceCache = { v: 1; fetchedAt: number; region: string; series: SeriesId; latest: Latest; hourly: HourlyFile[] };
+export type PriceCache = { v: 1; fetchedAt: number; region: string; series: StoredSeries; latest: Latest; hourly: HourlyFile[] };
 
 export function readCache(storage: Storage): PriceCache | null {
   try {
@@ -27,7 +27,7 @@ export function writeCache(storage: Storage, cache: PriceCache): void {
   try { storage.setItem(PRICES_KEY, JSON.stringify(cache)); } catch { /* full or blocked: keep going without a cache */ }
 }
 
-const fromCache = (c: PriceCache | null, series: SeriesId): Market | null =>
+const fromCache = (c: PriceCache | null, series: StoredSeries): Market | null =>
   c ? { latest: c.latest, hourly: c.series === series ? { [series]: c.hourly } : {} } : null;
 
 const isLatest = (x: unknown): x is Latest => !!x && (x as Latest).v === 1 && typeof (x as Latest).ts === "string" && !!(x as Latest).series;
@@ -40,9 +40,10 @@ async function getJson(fetch: Fetch, url: string): Promise<unknown> {
   } catch { return null; }
 }
 
-// latest.json plus today's and yesterday's hourly file (UTC) for the home series. Returns the fresh copy
+// latest.json plus today's and yesterday's hourly file (UTC) for the home series (a house series with a
+// ruleset set, T10). Returns the fresh copy
 // and caches it, or the cached copy if latest.json can't be had, or null. Never throws.
-export async function loadPrices(x: { fetch: Fetch; storage: Storage; now: number; region: string; series: SeriesId | null; base?: string }): Promise<Market | null> {
+export async function loadPrices(x: { fetch: Fetch; storage: Storage; now: number; region: string; series: StoredSeries | null; base?: string }): Promise<Market | null> {
   if (x.region !== "us" || !x.series) return null; // API prices are US only for now
   const base = x.base ?? PRICES_URL, series = x.series;
   const day = (offset: number) => new Date(x.now - offset * 864e5).toISOString().slice(0, 10);
