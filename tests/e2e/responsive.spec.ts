@@ -144,3 +144,81 @@ test.describe("Prices", () => {
     });
   });
 });
+
+test.describe("Farm", () => {
+  test.describe("at 1280px", () => {
+    test.use({ viewport: { width: 1280, height: 900 } });
+    test("zones on the left, profession cards stacked on the right", async ({ page }) => {
+      await openAs(page, rogue15, "farm");
+      const [zones, herb, skin] = await cards(page);
+      expect(herb.x).toBeGreaterThan(zones.x + zones.width - 1);
+      expect(zones.width).toBeGreaterThan(herb.width);
+      expect(Math.round(skin.x)).toBe(Math.round(herb.x));
+      expect(skin.y).toBeGreaterThan(herb.y + herb.height - 1);
+    });
+  });
+  test.describe("at 768px", () => {
+    test.use({ viewport: { width: 768, height: 900 } });
+    test("zones full width, profession cards two across under it", async ({ page }) => {
+      await openAs(page, rogue15, "farm");
+      const [zones, herb, skin] = await cards(page);
+      const [grid] = await boxes(page, "main > .lanes");
+      expect(Math.round(zones.width)).toBe(Math.round(grid.width));
+      expect(herb.y).toBeGreaterThan(zones.y + zones.height - 1);
+      expect(Math.round(skin.y)).toBe(Math.round(herb.y));
+      expect(skin.x).toBeGreaterThan(herb.x + herb.width - 1);
+    });
+  });
+});
+
+test.describe("Professions", () => {
+  const crafter = { ...rogue15, id: "crafter", profs: [{ name: "Herbalism", skill: 90 }, { name: "Alchemy", skill: 60 }, { name: "First Aid", skill: 40 }] };
+  for (const [width, cols] of [[768, 2], [1280, 3]] as const) {
+    test.describe(`at ${width}px`, () => {
+      test.use({ viewport: { width, height: 900 } });
+      test(`profession cards in ${cols} columns`, async ({ page }) => {
+        await openAs(page, crafter, "skills");
+        expect(columnsOf(await cards(page))).toBe(cols);
+      });
+    });
+  }
+});
+
+test.describe("Session", () => {
+  test.describe("at 1280px", () => {
+    test.use({ viewport: { width: 1280, height: 900 } });
+    test("length picker beside the steps", async ({ page }) => {
+      await openAs(page, rogue15, "plan");
+      const [pick, steps] = await cards(page);
+      expect(Math.round(pick.width)).toBe(320);
+      expect(steps.x).toBeGreaterThan(pick.x + pick.width - 1);
+    });
+  });
+  test.describe("at 768px", () => {
+    test.use({ viewport: { width: 768, height: 900 } });
+    test("stacked, at most 760px wide", async ({ page }) => {
+      await openAs(page, rogue15, "plan");
+      const bs = await cards(page);
+      expect(columnsOf(bs)).toBe(1);
+      for (const b of bs) expect(b.width).toBeLessThanOrEqual(760);
+    });
+  });
+});
+
+test.describe("empty states", () => {
+  const nobody = { ...rogue15, id: "nobody", profs: [] };
+  for (const width of [768, 1280]) {
+    test.describe(`at ${width}px`, () => {
+      test.use({ viewport: { width, height: 900 } });
+      for (const tab of ["farm", "skills"]) {
+        test(`${tab} with no professions shows one full-width card`, async ({ page }) => {
+          await openAs(page, nobody, tab);
+          const bs = await cards(page);
+          const [main] = await boxes(page, "main");
+          expect(bs).toHaveLength(1);
+          expect(bs[0].width).toBeGreaterThan(main.width - 2 * 24 - 20);
+        });
+      }
+    });
+  }
+});

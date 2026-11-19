@@ -105,7 +105,7 @@ export function vFarm(c){
   const gp=c.profs.filter(p=>GATHER[p.name]);
   if(!gp.length)return `<section class="card"><h2>No gathering professions</h2><p class="small muted" style="margin:0">Add Herbalism, Skinning or Mining to your character to get a farm plan.</p><button class="btn" type="button" data-act="editChar" data-id="${c.id}">Edit character</button></section>`;
   const f=bestFarm(c);const tg=S.state.toggles;
-  let h="";
+  let h="",profCards="";
   if(f&&f.list.length){
     const sec=(t,a)=>`<div class="ww"><b>${t}</b><ul>${a.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
     h+=`<section class="card"><h2>Zones for ${esc(c.name)}</h2>
@@ -116,6 +116,7 @@ export function vFarm(c){
       ${sec("When",d.when)}${sec("Where",d.where)}${sec("Why",d.why)}</details>`}).join("")}</div></section>`;
   }
   for(const p of gp){
+    let h="";
     const rows=GATHER[p.name].map(([n,req])=>({n,req,col:skillColor(p.skill,req),w:whereGather(n,p.name,c),e:estimate(n),s:shiftAt(MAT[n],Date.now(),tg)}));
     const next=rows.find(r=>r.req>p.skill);const rb=rankBlock(c,p);
     h+=`<section class="card">
@@ -133,8 +134,9 @@ export function vFarm(c){
           <span class="right">${r.e?money(r.e.now):'<span class="small muted">add price</span>'}${ph?`<span class="small muted">~${plainMoney(ph)}/hr</span>`:""}</span>
           <span class="meta small muted">${esc(zt)}${Math.abs(r.s.mult-1)>=.02?` · today ${pct(r.s.mult-1)}`:""}</span></button>`}).join("")}</div>
     </section>`;
+    profCards+=h;
   }
-  return h+`<p class="small muted">Node data follows Wowhead's Forever data where published. Zones marked (est.) are new Forever zones whose nodes aren't charted yet, so their herbs and ores are a best guess for their level.</p><p class="small muted">Gold per hour is a rough guide: about ${GATHER_RATE.Herbalism.nodes} herb nodes, ${GATHER_RATE.Skinning.nodes} skins or ${GATHER_RATE.Mining.nodes} mining nodes an hour, after the auction house cut.</p>`;
+  return lanes("farm",h+lane(profCards))+`<p class="small muted">Node data follows Wowhead's Forever data where published. Zones marked (est.) are new Forever zones whose nodes aren't charted yet, so their herbs and ores are a best guess for their level.</p><p class="small muted">Gold per hour is a rough guide: about ${GATHER_RATE.Herbalism.nodes} herb nodes, ${GATHER_RATE.Skinning.nodes} skins or ${GATHER_RATE.Mining.nodes} mining nodes an hour, after the auction house cut.</p>`;
 }
 
 export function vPrices(c){
@@ -160,7 +162,7 @@ export function vPrices(c){
 export function vSkills(c){
   if(!c.profs.length)return `<section class="card"><h2>No professions</h2><button class="btn" type="button" data-act="editChar" data-id="${c.id}">Add professions</button></section>`;
   const tg=S.state.toggles;
-  return c.profs.map(p=>{
+  return lanes("skills",c.profs.map(p=>{
     const rb=rankBlock(c,p);const path=PATHS[p.name];
     let body="";
     if(GATHER[p.name]){
@@ -180,12 +182,12 @@ export function vSkills(c){
       ${rb?`<div class="banner">${esc(rb.msg)}</div>`:""}
       ${path?`<h3>Skill ${(path.find(x=>p.skill>=x[0]&&p.skill<x[1])||path[path.length-1]).slice(0,2).join("–")}</h3>`:""}
       ${body}
-    </section>`}).join("")+`<p class="small muted">Material paths follow Classic leveling routes. Forever may differ, for example First Aid now also makes healing potions.</p>`;
+    </section>`}).join(""))+`<p class="small muted">Material paths follow Classic leveling routes. Forever may differ, for example First Aid now also makes healing potions.</p>`;
 }
 
 export function vPlan(c){
   const steps=sessionPlan(c,S.mins);
-  return `
+  return lanes("plan",`
   <section class="card">
     <h2>How long can you play?</h2>
     <div class="tabs" role="group" aria-label="Session length">${[30,60,120].map(m=>`<button type="button" data-act="mins" data-m="${m}" aria-pressed="${S.mins===m}">${m<60?m+" min":m/60+" hr"+(m>60?"s":"")}</button>`).join("")}</div>
@@ -193,5 +195,5 @@ export function vPlan(c){
   <section class="card">
     <h2>Your ${S.mins<60?S.mins+"-minute":S.mins/60+"-hour"} session</h2>
     <ol class="steps">${steps.map(s=>`<li><div><b>${esc(s.t)}</b> <span class="small muted">${s.m} min</span><p class="small" style="margin:4px 0 0">${esc(s.b)}</p></div></li>`).join("")}</ol>
-  </section>`;
+  </section>`);
 }

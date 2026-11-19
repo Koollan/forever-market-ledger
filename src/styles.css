@@ -152,6 +152,10 @@ details.zone[open] summary .nm::before{content:"▾ "}
   .lanes-today>:nth-child(2){grid-area:1/2/3/3}
   .lanes-today>:nth-child(3){grid-area:2/1}
   .lanes-prices{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* Farm: zones full width, profession cards side by side under it */
+  .lanes-farm>.lane{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:start}
+  .lanes-skills{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .lanes-plan{max-width:760px}
 }
 @media (min-width:720px) and (prefers-reduced-motion: no-preference){
   .sheet .panel{animation:pop .16s ease-out}
@@ -166,4 +170,9 @@ details.zone[open] summary .nm::before{content:"▾ "}
   /* Prices: Your prices, Market (when there is one) and Find, one column each */
   .lanes-prices{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
   .lanes-prices .lane{display:contents}
+  /* Farm: zones (3fr) beside the stacked profession cards (2fr); without zones the cards share the width */
+  .lanes-farm{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
+  .lanes-farm>.lane{display:flex}
+  .lanes-farm>.lane:only-child{display:grid;grid-column:1/-1}
+  .lanes-plan{grid-template-columns:320px minmax(0,1fr);max-width:none}
 }
