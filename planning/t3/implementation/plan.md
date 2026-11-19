@@ -6,7 +6,7 @@
 - [x] Step 2: Reduce listings to stats and pool into series (PR A)
 - [x] Step 3: Hourly, daily and latest files written by a full run (PR A)
 - [x] Step 4: Convert the T0 backfill (PR A)
-- [ ] Step 5: The hourly workflow and the `prices` branch; ship PR A (PR A)
+- [x] Step 5: The hourly workflow and the `prices` branch; ship PR A (PR A). Code done; PR A, merge and the first dispatches pending
 - [ ] Step 6: Close the gap after T0 (PR B)
 - [ ] Step 7: Market rules in the engine (PR B)
 - [ ] Step 8: Load and cache prices; "prices as of" line (PR B)

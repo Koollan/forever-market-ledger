@@ -1,0 +1,87 @@
+name: Prices
+# T3: hourly WoW Forever auction prices from the Blizzard Game Data API into the orphan `prices` branch.
+# Design: planning/t3/design/detailed-design.md. The only workflow with write access; it writes only to
+# `prices`, never to `main`. Pushes made with GITHUB_TOKEN start no other workflow (no CI, no deploy).
+on:
+  schedule:
+    - cron: "40 * * * *" # hourly run; Blizzard's snapshots land about :25
+    - cron: "47 0 1 * *" # 1st of each month: replace the prices branch history with one commit
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "run (fetch prices), probe (read-only check), import (T0 backfill into us/all), squash"
+        type: choice
+        options: [run, probe, import, squash]
+        default: run
+permissions:
+  contents: write
+concurrency:
+  group: prices # runs and the squash never overlap
+  cancel-in-progress: false
+jobs:
+  prices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash # explicit bash means -eo pipefail, so `node … | tee` still fails the step when node fails
+    env:
+      MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '47 0 1 * *' && 'squash' || 'run') }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24 # runs scripts/fetch-prices.ts directly (built-in TypeScript support)
+
+      - name: Check out the prices branch (created empty on the first run)
+        run: |
+          if git ls-remote --exit-code --heads origin prices > /dev/null; then
+            git fetch --depth=1 origin prices
+            git worktree add --detach prices FETCH_HEAD
+            git -C prices rev-parse HEAD > prices-base.txt
+          else
+            git worktree add --orphan -b prices prices
+            echo "" > prices-base.txt
+          fi
+
+      - name: Fetch prices
+        if: env.MODE == 'run' || env.MODE == 'probe'
+        env:
+          BNET_CLIENT_ID: ${{ secrets.BNET_CLIENT_ID }}
+          BNET_CLIENT_SECRET: ${{ secrets.BNET_CLIENT_SECRET }}
+        run: |
+          if [ "$MODE" = probe ]; then
+            node scripts/fetch-prices.ts --mode probe
+          else
+            node scripts/fetch-prices.ts --mode run --out prices | tee summary.txt
+          fi
+
+      - name: Import the Forever AH backfill
+        if: env.MODE == 'import'
+        run: |
+          from="--from data/backfill/forever-ah/us-all"
+          if [ -d data/backfill/forever-ah/us-all-gap ]; then from="$from --from data/backfill/forever-ah/us-all-gap"; fi
+          node scripts/fetch-prices.ts --mode import $from --out prices | tee summary.txt
+
+      - name: Commit and push changed prices
+        if: env.MODE == 'run' || env.MODE == 'import'
+        working-directory: prices
+        run: |
+          git add -A
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "prices: $(tail -n 1 ../summary.txt)"
+          git push origin HEAD:refs/heads/prices
+
+      - name: Squash the prices branch history
+        if: env.MODE == 'squash'
+        working-directory: prices
+        run: |
+          base=$(cat ../prices-base.txt)
+          if [ -z "$base" ]; then echo "no prices branch yet"; exit 0; fi
+          git checkout -q --orphan squashed
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "prices: history squashed $(date -u +%F)"
+          # Only if nobody pushed to prices since this job read it
+          git push --force-with-lease="refs/heads/prices:$base" origin HEAD:refs/heads/prices
