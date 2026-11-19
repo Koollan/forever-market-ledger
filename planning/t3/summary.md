@@ -11,7 +11,7 @@ Planned Nov 18, 2026 with the `/pdd` workflow, after a `/grill-me` session that 
 - `implementation/plan.md`: 10 steps with checklist
 
 ## Design in brief
-- An hourly GitHub Actions job (`prices.yml`, minute :17) reads all 15 US houses (`dynamic-forever-us`, ruleset 2), keeps the 136 catalogued materials, and stores `min, p10, p25, median, qty, listings` for four series: Alliance, Horde, Blackwater, All.
+- An hourly GitHub Actions job (`prices.yml`, minute :40) reads all 15 US houses (`dynamic-forever-us`, ruleset 2), keeps the 136 catalogued materials, and stores `min, p10, p25, median, qty, listings` for four series: Alliance, Horde, Blackwater, All.
 - Data lives on an orphan `prices` branch: `us/latest.json`, hourly files per UTC day and daily files per month, columnar and tagged by source. History is squashed monthly.
 - The app fetches from `raw.githubusercontent.com` at runtime, caches in `fml-prices`, uses the home faction's `p10` unless a manual entry is newer and under 24 h old, and shows a 24-point sparkline, a Blackwater hint and a stale label.
 - The T0 backfill and a gap run are converted into `us/all`, so T4 has data from Nov 13.

@@ -21,7 +21,7 @@ T3 ships as two pull requests in sequence: **PR A** (`t3/pipeline`) starts data 
 2. **Houses:** read all 15 US houses every run and store **four series**: `alliance` (110, 111, 112, 119, 123), `horde` (113, 114, 115, 120, 124), `blackwater` (116, 117, 118, 121, 125), and `all` (the 15 pooled). A series pools the listings of its houses; it never averages per-house stats. Per-house series are not stored (no public mapping tells a player which of the five faction houses they use).
 3. **Items:** only the 136 catalogued materials, by item ID from `data/items.json` (catalog name → item ID). No calls to Blizzard's static item API.
 4. **Stats per item per point:** `min, p10, p25, median, qty, listings`. Unit prices in copper. Percentiles are weighted by quantity. Only listings with a buyout count (bid-only skipped); a regular auction's unit price is `buyout / quantity`, a commodity's is `unit_price`. `listings` is the number of auctions, `qty` the sum of their quantities. Items with no listings in a series get `null`.
-5. **Schedule:** hourly at minute :17 UTC, plus manual `workflow_dispatch`. A point is keyed by Blizzard's snapshot hour, not the run time. If no house's snapshot changed since the last stored point, the run writes nothing.
+5. **Schedule:** hourly at minute :40 UTC (snapshots land about :25; changed from :17 after the step-1 probe), plus manual `workflow_dispatch`. A point is keyed by Blizzard's snapshot hour, not the run time. If no house's snapshot changed since the last stored point, the run writes nothing.
 6. **Storage:** an orphan `prices` branch with `us/latest.json`, `us/{series}/hourly/{yyyy-mm-dd}.json` and `us/{series}/daily/{yyyy-mm}.json` (section 5). Hourly files are kept indefinitely. Each run rebuilds the daily rows for yesterday and today (UTC) from the hourly files.
 7. **Repo size:** on the 1st of each month the workflow replaces the `prices` branch history with a single commit of its current files (force-push to `prices` only, never `main`).
 8. **Failures:** each request retries 3 times with backoff (429 and 5xx retryable, honoring `Retry-After`). A house that still fails is left out of the run; each point records how many houses it pooled. If the token or the house index fails, nothing is written and the run fails, so GitHub emails the repository owner. No other alerting. Gaps stay gaps; nothing is interpolated.
@@ -35,7 +35,7 @@ T3 ships as two pull requests in sequence: **PR A** (`t3/pipeline`) starts data 
 14. **Advice:** buy and sell windows use the active price as their base, with the same conditions engine on top (T4 recalibrates the conditions).
 15. **Material sheet:** active price with its source ("API · 40 min ago" or "You · 2 h ago"), `min` and `median` for context, a 24-point `p10` sparkline of the home series, and the Blackwater hint when Blackwater beats the home house by more than 5%: selling, "Blackwater: 1g 20s after 15% cut, 8% better"; buying, "Blackwater: 1g 02s, 6% cheaper".
 16. **Prices tab:** manual entries as now, plus a **Market** list of API prices for the materials this character gathers or needs for their professions (not all 136).
-17. **Freshness:** a "prices as of 14:17" line; past 3 h it reads as stale ("prices from 5 h ago").
+17. **Freshness:** a "prices as of 14:40" line; past 3 h it reads as stale ("prices from 5 h ago").
 18. **Mobile:** every new element checked at 412 px wide, light and dark.
 
 ### Acceptance
@@ -91,7 +91,7 @@ node scripts/fetch-prices.ts --mode run|probe|import --out <prices checkout> [--
 - Credentials come only from the environment (`BNET_CLIENT_ID`, `BNET_CLIENT_SECRET`) and are never printed. The token is kept in memory only.
 
 ### 4.3 `.github/workflows/prices.yml`
-- Triggers: `schedule: '17 * * * *'` (run), `schedule: '47 0 1 * *'` (squash), `workflow_dispatch` with input `mode` (`run`, `probe`, `import`, `squash`).
+- Triggers: `schedule: '40 * * * *'` (run), `schedule: '47 0 1 * *'` (squash), `workflow_dispatch` with input `mode` (`run`, `probe`, `import`, `squash`).
 - `permissions: contents: write`, the only workflow with write access. `concurrency: {group: prices, cancel-in-progress: false}` so runs and the squash never overlap. `timeout-minutes: 15`.
 - Steps: check out `main`; check out `prices` into `./prices`, or create it as an orphan if it doesn't exist; set up Node 24; run the script; if `git status` shows changes, commit as `github-actions[bot]` with the summary line and push to `prices`.
 - **Squash:** in `./prices`, create an orphan commit of the current tree ("prices: history squashed <date>"), then `git push --force-with-lease origin HEAD:prices`.

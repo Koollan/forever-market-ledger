@@ -11,7 +11,7 @@ Run by the owner in the app's terminal on Nov 19, 2026, 02:16 UTC (`node scripts
 ## Other findings
 - House 112 has no `auctions` field, and its `/commodities` returns only `_links` (no `auctions` key at all). The pipeline must treat a missing `auctions` key as zero listings, and the house still counts as read. 115 and 118 are probably the same (one empty house per faction).
 - The house response links to its commodities: `commodities: {href: …/auctions/110/commodities?namespace=dynamic-forever-us}`.
-- Snapshots land at about :25 past the hour (01:25:08 for 110, 01:24:54 for 112). A run at :17 would read a snapshot about 52 minutes old. **Recommendation:** move the cron to minute :40, still away from the top of the hour, so each run gets that hour's snapshot about 15 minutes after it lands.
+- Snapshots land at about :25 past the hour (01:25:08 for 110, 01:24:54 for 112). A run at :17 would read a snapshot about 52 minutes old. **Decided (user, Nov 19):** the cron runs at minute :40, still away from the top of the hour, so each run gets that hour's snapshot about 15 minutes after it lands.
 - Response headers include `battlenet-namespace`, `cache-control`, `content-encoding`, `date`, `last-modified`; no rate-limit headers.
 
 ## Fixture

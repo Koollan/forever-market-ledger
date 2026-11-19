@@ -13,6 +13,7 @@ Decisions from the `/grill-me` session on Nov 18, 2026. Each question was put to
 **Q3. Region?** **Answer:** US only. The region is a parameter, so EU is a config change later.
 
 **Q4. Cron frequency?** **Answer:** hourly at minute :17, plus `workflow_dispatch`. Points are keyed by Blizzard's snapshot time, not the run time; an unchanged snapshot writes nothing.
+**Update (Nov 19, after the step-1 probe):** snapshots land about :25 past the hour, so the user moved the run to minute :40 to read each hour's snapshot about 15 minutes after it lands.
 
 **Q5. Stats per item and series?** **Answer:** `min, p10, p25, median, qty, listings`; percentiles weighted by quantity, buyout per unit only (bid-only listings skipped), copper. `mean` dropped (outliers). Converted T0 points get `p25: null`.
 
