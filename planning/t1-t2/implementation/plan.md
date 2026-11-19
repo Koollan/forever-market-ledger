@@ -2,10 +2,10 @@
 
 ## Checklist
 
-- [ ] Step 1: Backup build and validate, tested (T1)
-- [ ] Step 2: Export in the character sheet; hide Ask Claude outside claude.ai (T1)
-- [ ] Step 3: Import with confirm and replace; ship T1 (T1)
-- [ ] Step 4: Project tooling and CI around the unchanged app (T2)
+- [x] Step 1: Backup build and validate, tested (T1)
+- [x] Step 2: Export in the character sheet; hide Ask Claude outside claude.ai (T1)
+- [x] Step 3: Import with confirm and replace; ship T1 (T1)
+- [x] Step 4: Project tooling and CI around the unchanged app (T2)
 - [ ] Step 5: Record and lock the baseline (T2)
 - [ ] Step 6: Serve the app from a Vite build of the legacy script (T2)
 - [ ] Step 7: Move the data tables into `src/data` (T2)

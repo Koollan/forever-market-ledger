@@ -1,6 +1,6 @@
-import { test } from "node:test";
+import { test } from "vitest";
 import assert from "node:assert/strict";
-import { loadApp } from "./load-app.mjs";
+import { loadApp } from "../load-app.mjs";
 
 const { validateBackup, buildBackup, backupData, staleKeys } =
   loadApp(["validateBackup", "buildBackup", "backupData", "staleKeys"]);
