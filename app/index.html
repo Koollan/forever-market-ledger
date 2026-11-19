@@ -641,6 +641,12 @@ function validateBackup(text){
     prices:Object.fromEntries(Object.entries(b.prices).map(([k,it])=>[k,{key:k,name:it.name,hist:it.hist.map(p=>({t:p.t,price:p.price}))}]))};
   return{ok:true,backup,counts:{characters:backup.characters.length,prices:Object.keys(backup.prices).length}};
 }
+// A validated backup as the app's own data
+function backupData(b){
+  return JSON.parse(JSON.stringify({state:{characters:b.characters,activeId:b.activeId,toggles:b.toggles||{}},items:b.prices}));
+}
+// Saved price records the incoming data doesn't have (deleted from claude.ai storage on import)
+function staleKeys(oldItems,newItems){return Object.keys(oldItems||{}).filter(k=>!Object.hasOwn(newItems,k))}
 function buildBackup(state,items,now){
   return JSON.parse(JSON.stringify({app:BACKUP_APP,version:BACKUP_VERSION,exportedAt:now,
     characters:state.characters,activeId:state.activeId,toggles:state.toggles||{},prices:items}));
@@ -894,7 +900,32 @@ function sheetChars(){
       <textarea id="bkOut" readonly aria-label="Backup text"></textarea>
       <div class="btns" style="margin-top:8px"><button class="btn primary" type="button" data-act="copyBackup">Copy</button></div>
       <p id="bkMsg" class="small muted" style="margin:6px 0 0"></p>
-    </div>`);
+    </div>
+    <p class="small muted" style="margin:0">Import replaces everything on this device with a backup you paste here.</p>
+    <textarea id="bkIn" aria-label="Paste a backup" placeholder="Paste a backup here"></textarea>
+    <div class="btns"><button class="btn" type="button" data-act="checkImport">Import</button></div>
+    <div id="bkConfirm" class="card" role="alert" hidden></div>`);
+}
+const plural=(n,w)=>n+" "+w+(n===1?"":"s");
+function checkImport(){
+  const box=$("#bkConfirm");if(!box)return;
+  const r=validateBackup($("#bkIn").value);
+  box.hidden=false;
+  if(!r.ok){S.pendingImport=null;box.innerHTML=`<p class="small" style="margin:0">${esc(r.error)}</p>`;return}
+  S.pendingImport=r.backup;
+  box.innerHTML=`<p style="margin:0"><b>Replace with ${plural(r.counts.characters,"character")} and ${plural(r.counts.prices,"price")}?</b></p>
+    <p class="small muted" style="margin:0">The characters and prices on this device are removed.</p>
+    <div class="btns"><button class="btn primary" type="button" data-act="applyImport">Replace</button><button class="btn" type="button" data-act="cancelImport">Cancel</button></div>`;
+}
+function cancelImport(){S.pendingImport=null;const box=$("#bkConfirm");if(box){box.hidden=true;box.innerHTML=""}}
+async function applyBackup(b){
+  const d=backupData(b),stale=staleKeys(S.items,d.items);
+  S.state=d.state;S.items=d.items;S.brief=null;S.pendingImport=null;
+  cacheLocal();
+  if(Store.mode!=="db")return;
+  try{
+    await Promise.all([saveState(),...Object.keys(S.items).map(k=>Store.save(k,S.items[k])),...stale.map(k=>Store.remove(k))]);
+  }catch(e){toast("Imported on this device. Your claude.ai copy may be out of date until the next save.")}
 }
 function showExport(){
   const box=$("#bkExport"),out=$("#bkOut");if(!box||!out)return;
@@ -937,6 +968,9 @@ document.addEventListener("click",e=>{
   else if(a==="editChar")sheetChar(el.dataset.id);
   else if(a==="exportData")showExport();
   else if(a==="copyBackup")copyBackup();
+  else if(a==="checkImport")checkImport();
+  else if(a==="cancelImport")cancelImport();
+  else if(a==="applyImport"&&S.pendingImport){applyBackup(S.pendingImport).then(()=>{closeSheet();render();toast("Backup imported")})}
   else if(a==="useChar"){S.state.activeId=el.dataset.id;S.brief=null;saveState();closeSheet();render()}
   else if(a==="delChar"){S.state.characters=S.state.characters.filter(c=>c.id!==el.dataset.id);S.state.activeId=S.state.characters[0].id;saveState();closeSheet();render()}
 });

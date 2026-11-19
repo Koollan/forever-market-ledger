@@ -2,7 +2,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { loadApp } from "./load-app.mjs";
 
-const { validateBackup, buildBackup } = loadApp(["validateBackup", "buildBackup"]);
+const { validateBackup, buildBackup, backupData, staleKeys } =
+  loadApp(["validateBackup", "buildBackup", "backupData", "staleKeys"]);
 
 // A known-good app state: two characters (one with Skyborne), two priced materials
 const rogue = { id: "r1", name: "Vexa", cls: "Rogue", level: 15, faction: "Alliance", region: "us", gold: null,
@@ -139,4 +140,18 @@ test("a paste that isn't JSON is refused with the incomplete-backup message", ()
   const r = validateBackup("not a backup {");
   assert.equal(r.ok, false);
   assert.equal(r.error, "That isn't a complete backup. Copy the whole text from Export and try again.");
+});
+
+test("importing a backup gives exactly its characters, active character, switches and prices", () => {
+  const { backup } = roundTrip(buildBackup(state(), items(), NOW));
+  const d = backupData(backup);
+  assert.deepEqual(d.state, { characters: [rogue, hunter], activeId: "h1", toggles: {} });
+  assert.deepEqual(d.items, items());
+});
+
+test("after an import, saved prices the backup doesn't have are the ones to delete", () => {
+  const old = { "item~peacebloom": {}, "item~iron-ore": {}, "item~runecloth": {} };
+  const incoming = { "item~peacebloom": {}, "item~medium-leather": {} };
+  assert.deepEqual(staleKeys(old, incoming), ["item~iron-ore", "item~runecloth"]);
+  assert.deepEqual(staleKeys({}, incoming), []);
 });
