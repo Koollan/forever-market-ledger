@@ -6,7 +6,9 @@
 // Modes (more arrive in later T3 steps):
 //   probe  read-only: token, ruleset index, house index, two houses with and without /commodities.
 //          Prints shapes, counts and header names. With --save-fixture <dir>, writes trimmed
-//          responses (tracked materials kept) for the pipeline's tests.
+//          responses (tracked materials kept) for the pipeline's tests. With --coverage (T11), reads
+//          every house's /commodities instead of the two probe houses and prints the catalogued items
+//          found in no house, the number of distinct untracked commodity IDs and per-house counts.
 //   run    reads each house's /commodities, reduces the tracked materials to stats and pools them
 //          into the four series. --fixtures <dir> reads saved responses (house-<id>-commodities.json;
 //          a missing file is a house not read) instead of the API. --out <dir> merges the point into
@@ -28,6 +30,7 @@ import { changed, newest, pointHour, snapshotOf } from "../src/pipeline/snapshot
 import { buildLatest, dayRow, formatFile, mergeDaily, mergeHourly, type DailyFile, type DailyRow, type HourlyFile, type Latest, type LatestPoints, type Point } from "../src/pipeline/files.ts";
 import type { SeriesId, StoredSeries } from "../src/pipeline/houses.ts";
 import { convertT0, type T0File } from "../src/pipeline/convert-t0.ts";
+import { coverage, formatCoverage, itemIds, type HouseIds } from "../src/pipeline/coverage.ts";
 
 const REGION = "us";
 const API = `https://${REGION}.api.blizzard.com`;
@@ -130,6 +133,19 @@ async function probe() {
   const houses = ((index.body as { auctions?: { id: number; name: string }[] }).auctions) ?? [];
   console.log(`house index (ruleset ${RULESET}): ${houses.length} houses: ${houses.map((h) => `${h.id} ${h.name}`).join("; ")}`);
   if (fixtureDir) saveFixture(fixtureDir, "index", index, ids);
+
+  if (process.argv.includes("--coverage")) {
+    // T11: is every catalogued item a commodity in at least one house?
+    const read: HouseIds[] = [];
+    for (const h of houses) {
+      const res = await tryGet(`${API}/data/wow/ruleset/${RULESET}/auctions/${h.id}/commodities?${NS}`, token);
+      if ("error" in res) { console.log(`house ${h.id}: ${res.error}`); continue; }
+      read.push({ id: h.id, ids: itemIds(res.body) });
+    }
+    for (const line of formatCoverage(coverage(read, ids), catalog().names, read.length, houses.length)) console.log(line);
+    console.log("probe done");
+    return;
+  }
 
   for (const house of PROBE_HOUSES) {
     for (const suffix of ["", "/commodities"]) {
