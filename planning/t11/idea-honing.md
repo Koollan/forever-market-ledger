@@ -46,3 +46,7 @@ Q1, Q2, Q3 and Q5 were asked again in round 2, in light of Q4.
 
 **Q11. Fix the four renamed elixirs now?**
 **Answer:** No, leave them in T6.
+
+## Later decision (step 3 task 02, Nov 19, 2026)
+**Q10 revisited: the behavior lock changed.** Each baseline's `engine.shifts` lists every catalog material, so all nine files gained the 109 goods' entries (additions only; tab text and the existing 136 entries unchanged). The agent stopped and asked as agreed.
+**Answer:** the owner said "Yes, re-record". Re-recorded in 7eb16b5, with the reason in the commit.
