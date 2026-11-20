@@ -7,6 +7,9 @@
 //   The T3 gap run: --from 2026-11-19T00:00:00Z --out data/backfill/forever-ah/us-all-gap
 // Reads the material names from data/items.json, looks up any missing item IDs, then saves the
 // hourly and daily history for the US "All Auction Houses" view into data/backfill/forever-ah/.
+//   --ids <file>  the name → ID file to read and update (default data/items.json)
+//   --ids-only    look up missing IDs and stop: no history requests, nothing written under --out.
+//                 T11 (Nov 19, 2026, owner-approved): node scripts/backfill-forever-ah.mjs --ids-only --ids planning/t11/research/ids.json
 
 import fs from "node:fs";
 import path from "node:path";
@@ -19,6 +22,8 @@ const TO = new Date().toISOString().slice(0, 13) + ":00:00Z";
 const OUT = opt("out", "data/backfill/forever-ah/us-all");
 if (Number.isNaN(Date.parse(FROM))) throw new Error(`--from is not a time: ${FROM}`);
 const DELAY_MS = 1100;
+const IDS_FILE = opt("ids", "data/items.json");
+const IDS_ONLY = process.argv.includes("--ids-only");
 
 // Classic item IDs for catalog names that Forever renamed (search finds no exact match)
 const KNOWN_IDS = {
@@ -49,11 +54,11 @@ async function get(url) {
 // The catalog's names, as recorded by the first run (the single-file app it read them from is retired).
 // To add a material, add its catalog name to data/items.json with a null ID; the run looks the ID up.
 function materialNames() {
-  return Object.keys(JSON.parse(fs.readFileSync("data/items.json", "utf8"))).filter((k) => !k.startsWith("_"));
+  return Object.keys(JSON.parse(fs.readFileSync(IDS_FILE, "utf8"))).filter((k) => !k.startsWith("_"));
 }
 
-fs.mkdirSync(OUT, { recursive: true });
-const idsFile = "data/items.json";
+if (!IDS_ONLY) fs.mkdirSync(OUT, { recursive: true });
+const idsFile = IDS_FILE;
 const ids = fs.existsSync(idsFile) ? JSON.parse(fs.readFileSync(idsFile, "utf8")) : {};
 const missing = [];
 
@@ -66,11 +71,13 @@ for (const name of materialNames()) {
       const item = await get(`${API}/items/${KNOWN_IDS[name]}`).catch(() => null);
       if (item) { hit = item; console.warn(`${name} is "${item.name}" in Forever (item ${item.item_id})`); }
     }
+    if (!hit) console.warn(`no exact hit for ${name}; search found: ${hits.slice(0, 3).map((h) => `${h.name} (${h.item_id})`).join(", ") || "nothing"}`);
     ids[name] = hit ? hit.item_id : null;
     fs.writeFileSync(idsFile, JSON.stringify(ids, null, 2) + "\n");
   }
   const id = ids[name];
   if (!id) { missing.push(name); console.warn(`no item ID: ${name}`); continue; }
+  if (IDS_ONLY) { console.log(`${name}: ${id}`); continue; }
 
   const file = path.join(OUT, `${id}.json`);
   // resumable: skip files that already hold true hourly data

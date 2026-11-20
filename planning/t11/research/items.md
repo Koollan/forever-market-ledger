@@ -154,3 +154,6 @@ Not catalogued, because vendors sell them: Mild Spices, Hot Spices, Soothing Spi
 1. Are any of these not worth listing, or are popular items missing?
 2. Is it fine that 84 of the 109 items rest on Classic names (`CL`), with the lookup and your coverage probe as the Forever check?
 3. Murloc Fin, Murloc Eye, Crawler Claw, clams, Meaty Bat Wing, Scorpid Stinger and spider legs are filed as `Meat`, so they get the weekend and midweek shifts. Is that fine?
+
+## Lookup result (step 3 task 01, Nov 19, 2026)
+`node scripts/backfill-forever-ah.mjs --ids-only --ids planning/t11/research/ids.json`: Forever AH `/v1/items/search`, 109 requests at 1.1 s spacing, no history requested, no 429s. **All 109 names matched exactly**, so none was resolved under another name and none was dropped. The IDs (in `ids.json`) are unique and don't clash with the 136 catalogued materials. Existence as an auction commodity is still to be checked by the coverage probe (task 03).
