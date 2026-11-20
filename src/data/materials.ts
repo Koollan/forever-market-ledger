@@ -2,7 +2,8 @@
 import { GATHER } from "./gathering";
 import { ZONES, STONE_OF, LEATHER_TIERS, SKIN_SPECIAL, type Zone } from "./zones";
 import { CONSUMABLES } from "./consumables";
-export type Material = { name: string; cat: string; tier: number; gather?: string; req?: number; lvl?: number };
+import { GOODS } from "./goods";
+export type Material = { name: string; cat: string; tier: number; gather?: string; req?: number; lvl?: number; profs?: string[] };
 
 export const LAUNCH: number = Date.parse("2026-11-04T00:00:00Z"); // WoW Forever launch
 export const tierOfLevel=(l: number)=>Math.max(1,Math.min(6,Math.floor(l/10)+1));
@@ -18,10 +19,11 @@ export const MATS: Material[] = (()=>{
   ([["Copper Bar",1],["Bronze Bar",2],["Tin Bar",2],["Silver Bar",2],["Iron Bar",3],["Gold Bar",3],["Steel Bar",3],["Mithril Bar",4],["Truesilver Bar",5],["Thorium Bar",5],["Dark Iron Bar",6],["Arcanite Bar",6]] as [string, number][]).forEach(([n,t])=>add(n,"Bar",t));
   ([["Strange Dust",1],["Lesser Magic Essence",1],["Greater Magic Essence",2],["Lesser Astral Essence",2],["Soul Dust",3],["Greater Astral Essence",3],["Vision Dust",4],["Lesser Mystic Essence",4],["Greater Mystic Essence",4],["Dream Dust",5],["Lesser Nether Essence",5],["Greater Nether Essence",5],["Illusion Dust",6],["Lesser Eternal Essence",6],["Greater Eternal Essence",6],["Small Brilliant Shard",6],["Large Brilliant Shard",6]] as [string, number][]).forEach(([n,t])=>add(n,"Enchanting",t));
   CONSUMABLES.forEach(([n,l])=>add(n,/Potion/.test(n)?"Potion":/Elixir/.test(n)?"Elixir":"Consumable",tierOfLevel(l),{lvl:l}));
+  GOODS.forEach(g=>add(g.name,g.cat,g.tier,g.profs?{profs:g.profs}:{})); // T11
   return m;
 })();
 export const MAT: Record<string, Material> = Object.fromEntries(MATS.map(x=>[x.name,x]));
-export const RAW: Set<string> = new Set(["Herb","Leather","Hide","Scale","Ore","Stone","Cloth"]);
+export const RAW: Set<string> = new Set(["Herb","Leather","Hide","Scale","Ore","Stone","Cloth","Meat","Fish","Egg"]); // Meat, Fish, Egg: T11
 export const CONSUME: Set<string> = new Set(["Potion","Elixir","Consumable"]);
 // Forever moved healing potions to First Aid, which puts steady extra demand on these herbs
 export const FA_HERBS: Set<string> = new Set(["Peacebloom","Silverleaf","Earthroot","Briarthorn","Bruiseweed","Kingsblood","Liferoot","Sungrass","Khadgar's Whisker","Golden Sansam","Mountain Silversage"]);

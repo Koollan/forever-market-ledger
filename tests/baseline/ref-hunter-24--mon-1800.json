@@ -1459,6 +1459,660 @@
     "mult": 1.1,
     "sell": 1.1330000000000002,
     "buy": 1.1
+   },
+   {
+    "name": "Chunk of Boar Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Stringy Wolf Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Meaty Bat Wing",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Scorpid Stinger",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Small Spider Leg",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Stringy Vulture Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Bear Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Strider Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Crawler Claw",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Boar Ribs",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Coyote Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Goretusk Liver",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Crawler Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Crisp Spider Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Kodo Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Lean Wolf Flank",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Lean Venison",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Murloc Fin",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Murloc Eye",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Crocolisk Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Clam Meat",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Lion Meat",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Tangy Clam Meat",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Turtle Meat",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Raptor Flesh",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Big Bear Meat",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Gooey Spider Leg",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Tender Crocolisk Meat",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Thunder Lizard Tail",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Red Wolf Meat",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Tiger Meat",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Heavy Kodo Meat",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "White Spider Meat",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Tender Wolf Meat",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Zesty Clam Meat",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Small Egg",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Raptor Egg",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Giant Egg",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Raw Brilliant Smallfish",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Raw Slitherskin Mackerel",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Raw Longjaw Mud Snapper",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Raw Rainbow Fin Albacore",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Raw Loch Frenzy",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Raw Sagefish",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Oily Blackmouth",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Deviate Fish",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Raw Bristle Whisker Catfish",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Firefin Snapper",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Raw Mithril Head Trout",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Raw Rockscale Cod",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Raw Greater Sagefish",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Raw Spotted Yellowtail",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Raw Redgill",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Raw Glossy Mightfish",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Raw Summer Bass",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Stonescale Eel",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Raw Nightfin Snapper",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Large Raw Mightfish",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Raw Sunscale Salmon",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Raw Whitescale Salmon",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Elemental Earth",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Elemental Fire",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Elemental Water",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Elemental Air",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Heart of Fire",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Core of Earth",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Globe of Water",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Breath of Wind",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Ichor of Undeath",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Heart of the Wild",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Essence of Fire",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Essence of Earth",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Essence of Water",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Essence of Air",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Essence of Undeath",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Living Essence",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Malachite",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Tigerseye",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Shadowgem",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Moss Agate",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Small Lustrous Pearl",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Lesser Moonstone",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Jade",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Iridescent Pearl",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Citrine",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Aquamarine",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Black Pearl",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Star Ruby",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Golden Pearl",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Blue Sapphire",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Large Opal",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Huge Emerald",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Azerothian Diamond",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Black Diamond",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Spider's Silk",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Thick Spider's Silk",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Shadow Silk",
+    "mult": 1.12,
+    "sell": 1.1536000000000002,
+    "buy": 1.12
+   },
+   {
+    "name": "Ironweb Spider Silk",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Blackmouth Oil",
+    "mult": 0.88,
+    "sell": 0.9064,
+    "buy": 0.88
+   },
+   {
+    "name": "Fire Oil",
+    "mult": 0.96,
+    "sell": 0.9888,
+    "buy": 0.96
+   },
+   {
+    "name": "Stonescale Oil",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Wildvine",
+    "mult": 1.06,
+    "sell": 1.0918,
+    "buy": 1.06
+   },
+   {
+    "name": "Deeprock Salt",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Righteous Orb",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Demonic Rune",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Larval Acid",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Blood of the Mountain",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Fiery Core",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
+   },
+   {
+    "name": "Lava Core",
+    "mult": 1.1,
+    "sell": 1.1330000000000002,
+    "buy": 1.1
    }
   ],
   "estimates": {

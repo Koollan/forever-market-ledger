@@ -1,6 +1,7 @@
 import { test, expect, describe } from "vitest";
 import { ctxAt, shiftAt, windows, frontLevel } from "../../src/engine/conditions";
 import { estimate } from "../../src/engine/estimate";
+import { MAT } from "../../src/data/materials";
 
 // All times are New York (tests pin TZ=America/New_York). Forever launched 2026-11-04 00:00 UTC.
 const ny = (local: string) => {
@@ -29,6 +30,9 @@ describe("weekend runs from Friday 17:00 through Sunday", () => {
     const sat = ny("2026-11-21T12:00:00");
     expect(ids(shiftAt(herb1, sat, {})).weekend).toBe(-7);
     expect(ids(shiftAt(bar3, sat, {})).weekend).toBeUndefined();
+    // T11: meat, fish and eggs are raw; elementals and gems are not
+    for (const name of ["Chunk of Boar Meat", "Raw Brilliant Smallfish", "Small Egg"]) expect(ids(shiftAt(MAT[name], sat, {})).weekend, name).toBe(-7);
+    for (const name of ["Elemental Fire", "Jade"]) expect(ids(shiftAt(MAT[name], sat, {})).weekend, name).toBeUndefined();
   });
 });
 

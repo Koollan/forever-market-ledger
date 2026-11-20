@@ -1,17 +1,19 @@
 import { test, expect } from "vitest";
 import { MATS, MAT } from "../../src/data/materials";
+import { GOODS } from "../../src/data/goods";
 import { ZONES, ZONE } from "../../src/data/zones";
 import { SKIN_SPOTS } from "../../src/data/skinSpots";
 import { GATHER } from "../../src/data/gathering";
 
-test("the catalog has the 136 materials the T0 backfill found on the auction house", () => {
-  expect(MATS).toHaveLength(136);
-  expect(Object.keys(MAT)).toHaveLength(136); // no duplicate names
+test("the catalog has the 136 materials the T0 backfill found on the auction house, plus the T11 goods", () => {
+  expect(GOODS).toHaveLength(109);
+  expect(MATS).toHaveLength(136 + 109);
+  expect(Object.keys(MAT)).toHaveLength(136 + 109); // no duplicate names
 });
 
 test("every material has a known category and a tier from 1 to 6", () => {
   const cats = new Set(["Herb", "Leather", "Hide", "Scale", "Ore", "Stone", "Gem", "Cloth", "Bar", "Enchanting",
-    "Potion", "Elixir", "Consumable"]);
+    "Potion", "Elixir", "Consumable", "Meat", "Fish", "Egg", "Elemental", "Trade good"]);
   for (const m of MATS) {
     expect(cats.has(m.cat), `${m.name}: ${m.cat}`).toBe(true);
     expect(Number.isInteger(m.tier) && m.tier >= 1 && m.tier <= 6, `${m.name}: tier ${m.tier}`).toBe(true);

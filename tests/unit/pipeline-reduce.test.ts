@@ -72,8 +72,10 @@ describe("listingsFrom", () => {
   it("finds tracked materials in the recorded commodities of house 110", () => {
     const ids = new Set(Object.values(JSON.parse(readFileSync("data/items.json", "utf8"))).filter((v) => typeof v === "number") as number[]);
     const found = listingsFrom(fixture("house-110-commodities"), ids);
-    expect(found.size).toBe(76); // the fixture keeps 400 tracked listings across 76 materials
-    expect([...found.values()].reduce((n, xs) => n + xs.length, 0)).toBe(400);
+    // the fixture keeps 400 listings across 76 materials tracked at T3, plus 10 untracked samples; one of those,
+    // Bear Meat (3173), joined the catalog in T11
+    expect(found.size).toBe(77);
+    expect([...found.values()].reduce((n, xs) => n + xs.length, 0)).toBe(401);
     expect(found.get(2447)?.[0]).toEqual({ unit: 7999, qty: 20 }); // Peacebloom, first listing in the file
   });
 });
