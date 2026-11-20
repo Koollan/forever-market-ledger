@@ -153,6 +153,18 @@ describe("Today's Process card", () => {
     const sell = [...s.filter((x) => x.kind === "Sell" || x.kind === "Hold").map((x) => x.body)].join(" ");
     expect(sell).not.toMatch(/Copper Ore|Tin Ore/);
   });
+  it("keeps a material on the List now / Hold cards when its route doesn't make the top two", async () => {
+    const { todaySuggestions } = await import("../../src/engine/suggestions");
+    // Three routes worth processing, best first: Bronze (5s 70c more), Iron Bar (3s 80c), Silver Bar (1s 90c)
+    const p3 = { "Copper Ore": 100, "Tin Ore": 100, "Iron Ore": 100, "Silver Ore": 100, "Bronze Bar": 400, "Iron Bar": 500, "Silver Bar": 300 };
+    const s = todaySuggestions(char([["Mining", 170]], 30), ctx(p3, held("Copper Ore", "Tin Ore", "Iron Ore", "Silver Ore")));
+    const card = s.find((x) => x.kind === "Process")!.body;
+    expect(card).toMatch(/Bronze Bar.*Iron Bar/);
+    expect(card).not.toMatch(/Silver/);
+    const sell = s.filter((x) => x.kind === "Sell" || x.kind === "Hold").map((x) => x.body).join(" ");
+    expect(sell).toMatch(/Silver Ore/); // not on the Process card, so it must stay here
+    expect(sell).not.toMatch(/Copper Ore|Tin Ore|Iron Ore/);
+  });
   it("is absent for the reference characters (no Mining, Alchemy or Leatherworking)", async () => {
     const { todaySuggestions } = await import("../../src/engine/suggestions");
     const { CHARACTERS, PRICES } = await import("../fixtures/reference");
