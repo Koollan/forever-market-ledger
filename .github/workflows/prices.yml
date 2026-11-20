@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "run (fetch prices), probe (read-only check), import (T0 backfill into us/all), squash"
+        description: "run (fetch prices), probe (read-only check), coverage (read-only: catalogued items missing from every house; T11), import (T0 backfill into us/all), squash"
         type: choice
-        options: [run, probe, import, squash]
+        options: [run, probe, coverage, import, squash]
         default: run
 permissions:
   contents: write
@@ -45,13 +45,15 @@ jobs:
           fi
 
       - name: Fetch prices
-        if: env.MODE == 'run' || env.MODE == 'probe'
+        if: env.MODE == 'run' || env.MODE == 'probe' || env.MODE == 'coverage'
         env:
           BNET_CLIENT_ID: ${{ secrets.BNET_CLIENT_ID }}
           BNET_CLIENT_SECRET: ${{ secrets.BNET_CLIENT_SECRET }}
         run: |
           if [ "$MODE" = probe ]; then
             node scripts/fetch-prices.ts --mode probe
+          elif [ "$MODE" = coverage ]; then
+            node scripts/fetch-prices.ts --mode probe --coverage # reads only; no step below writes in this mode
           else
             node scripts/fetch-prices.ts --mode run --out prices | tee summary.txt
           fi
