@@ -3,7 +3,7 @@
 ## Checklist
 
 - [x] Step 1: Coverage report in the probe
-- [ ] Step 2: Draft the item list (owner review)
+- [x] Step 2: Draft the item list (owner review)
 - [ ] Step 3: Look up IDs and add the goods to the catalog
 - [ ] Step 4: Cooking and Fishing relevance
 - [ ] Step 5: Docs and ship

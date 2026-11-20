@@ -2,6 +2,8 @@
 
 Drafted Nov 19, 2026 by reading public guide pages, nothing automated. **109 items.** Nothing is in the code yet. After you approve, step 3 looks up each name's ID through Forever AH (IDs only) and you run the coverage probe; any item with no ID or missing from every house is dropped and noted here.
 
+**Approved by the owner on Nov 19, 2026** ("Approve list"), with no edits.
+
 ## How tiers were set
 - Tier is the app's level-bracket rule, `floor(level/10)+1`, from 1 to 6.
 - **Cooking and Fishing items:** the guides give a skill bracket, not a drop level. As for herbs without a zone, level ≈ skill/5. So a bracket starting at 1 gives tier 1, at 50 tier 2, at 100 tier 3, at 150 tier 4, at 225 tier 5, and at 275 or above tier 6. Every tier from this proxy is `est`.
